@@ -25,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className={`${geistSans.variable} ${geistMono.variable} bg-orange-50 text-zinc-900`}>
+    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="bg-orange-50 text-zinc-900">
         <Header />
         <main className="min-h-[80vh] px-4">
           {children}
@@ -36,3 +36,4 @@ export default function RootLayout({
     </html>
   );
 }
+
