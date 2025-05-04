@@ -9,6 +9,7 @@ void main() {
 }
 `;
 export const fragmentShader = `
+precision mediump float;
 uniform float u_time;
 uniform vec2 u_mouse;
 uniform vec2 u_resolution;
@@ -32,7 +33,8 @@ const vec3 color2 = vec3(0.816, 0.357, 0.016);
 const vec3 color3 = vec3(0.969, 0.843, 0.749);
 
 void main() {
-  vec2 seed = v_uv * 1.0 * (u_mouse + 0.4 * (length(u_mouse) + 0.03));
+  vec2 seed = v_uv * 0.9 * (u_mouse + 0.2 * (length(u_mouse) + 0.1));
+    seed.x += u_time * 0.3;
   float n = cnoise21(seed) + length(u_mouse) * 0.5;
 
   float ml = pow(length(u_mouse), 2.5) * 0.15;
