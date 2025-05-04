@@ -1,15 +1,14 @@
 export default function Header() {
-    return (
-      <header className="py-4 px-6 border-b border-orange-300">
-        <nav className="flex justify-between items-center">
-          <h1 className="text-xl font-bold">Alej</h1>
-          <ul className="flex gap-4 text-sm">
-            <li><a href="#projects" className="hover:underline">Projets</a></li>
-            <li><a href="#skills" className="hover:underline">Compétences</a></li>
-            <li><a href="mailto:tonmail@mail.com" className="hover:underline">Contact</a></li>
-          </ul>
-        </nav>
-      </header>
-    );
-  }
-  
+  return (
+    <header className="absolute top-0 left-0 w-full z-20 bg-transparent px-6 py-4">
+      <nav className="flex justify-between items-center">
+        <h1 className="text-white font-bold text-xl">Agathe</h1>
+        <ul className="flex gap-6 text-white text-sm">
+          <li><a href="#projects" className="hover:underline">Projets</a></li>
+          <li><a href="#skills" className="hover:underline">Compétences</a></li>
+          <li><a href="#contact" className="hover:underline">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+  );
+}

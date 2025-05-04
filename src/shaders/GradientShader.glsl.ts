@@ -33,12 +33,13 @@ const vec3 color2 = vec3(0.816, 0.357, 0.016);
 const vec3 color3 = vec3(0.969, 0.843, 0.749);
 
 void main() {
-  vec2 seed = v_uv * 0.9 * (u_mouse + 0.2 * (length(u_mouse) + 0.1));
-    seed.x += u_time * 0.3;
-  float n = cnoise21(seed) + length(u_mouse) * 0.5;
+  vec2 seed = v_uv * 0.5 * (u_mouse + 0.5 * (length(u_mouse) + 0.5));
+    seed.x += u_time * 0.1;
+    seed.y += u_time * 0.1;
+  float n = cnoise21(seed) + length(u_mouse) * 0.3;
 
   float ml = pow(length(u_mouse), 2.5) * 0.15;
-  float n1 = smoothstep(0.0, 0.0 + 0.2, n);
+  float n1 = smoothstep(0.1, 0.1 + 0.5, n);
   vec3 color = mix(black, color1, n1);
   
   float n2 = smoothstep(0.1 + ml, 0.1 + ml + 0.2, n);
@@ -51,8 +52,8 @@ void main() {
   color = mix(color, black, n4);
 
   vec2 uvrandom = v_uv;
-  uvrandom.y *= random(vec2(uvrandom.y, 0.5));
-  color.rgb += random(uvrandom) * 0.1;
+  uvrandom.y *= random(vec2(uvrandom.y, 0.4));
+  color.rgb += random(uvrandom) * 0.07;
   vec2 st = gl_FragCoord.xy / u_resolution;
 
   gl_FragColor = vec4(color, 1.0);

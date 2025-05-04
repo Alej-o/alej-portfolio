@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="fr">
   <body className={`${geistSans.variable} ${geistMono.variable} bg-orange-50 text-zinc-900`}>
     <Header />
-    <main className="min-h-[80vh] px-4">
+    <main className="min-h-[80vh]">
       {children}
     </main>
     <Footer />

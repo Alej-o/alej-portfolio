@@ -31,7 +31,7 @@ export const HeroBackground = () => {
     uniforms.u_mouse.value.lerp(target, 0.1);
   
     uniforms.u_resolution.value.set(size.width, size.height);
-    console.log(mouse.x.toFixed(2), mouse.y.toFixed(2))
+    
   });
 
   return (

@@ -1,10 +1,9 @@
-
 export const cnoise21 = `
 //	Classic Perlin 2D Noise 
 //	by Stefan Gustavson
 //
 vec2 fade(vec2 t) {return t*t*t*(t*(t*6.0-15.0)+10.0);}
-vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+vec4 permute(vec4 x){return mod(((x*24.0)+10.0)*x, 289.0);}
 
 float cnoise21(vec2 P){
   vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
