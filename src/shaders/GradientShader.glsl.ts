@@ -34,7 +34,6 @@ const vec3 color3 = vec3(0.969, 0.843, 0.749);
 
 void main() {
   vec2 seed = v_uv * 0.4 * (u_mouse + 0.5 * (length(u_mouse) + 0.5));
-    seed.x += u_time * 0.1;
     seed.y += u_time * 0.1;
   float n = cnoise21(seed) + length(u_mouse) * 0.4;
 

@@ -3,7 +3,7 @@ export default function Projects() {
     return (
       <section className="py-10">
         <h2 className="text-3xl font-semibold">Projets</h2>
-        {/* Ici on affichera les projets plus tard */}
+        
       </section>
     );
   }

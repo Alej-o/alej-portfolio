@@ -4,7 +4,7 @@ import Skills from '../components/Skills';
 
 export default function Home() {
   return (
-    <main className="px-6">
+    <main >
       <Hero />
       <Projects />
       <Skills />

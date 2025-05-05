@@ -17,8 +17,8 @@ export default function Hero() {
         </Canvas>
       </div>
       <div className="relative z-10 pointer-events-none flex flex-col items-center justify-center h-full text-center">
-        <h1 className="text-5xl font-bold text-white mt-10">Bienvenue sur mon portfolio</h1>
-        <p className="mt-4 text-xl text-white">Je suis développeuse web et mobile</p>
+        <h1 className="text-7xl font-serif text-white mt-50">Agathe Lejour</h1>
+        <p className="mt-4 text-xl font-serif text-white">Développeuse web et mobile</p>
       </div>
     </section>
   );
