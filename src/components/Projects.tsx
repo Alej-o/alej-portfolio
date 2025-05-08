@@ -11,39 +11,43 @@ export default function ProjectSlider() {
   // 1) Ton jeu de base
   const images = [city1, city2, city3];
 
-  // 2) On duplique 7 fois (par exemple) pour créer une très longue rangée
+  // 2) On duplique 7x pour une longue rangée
   const REPEAT = 7;
-  const slides = Array(REPEAT)
-    .fill(images)
-    .flat(); // length = images.length * REPEAT
+  const slides = Array(REPEAT).fill(images).flat();
 
-  // 3) On démarre au « centre » de cette longue rangée
+  // 3) Démarrage au milieu
   const startIndex = images.length * Math.floor(REPEAT / 2);
   const [idx, setIdx] = useState(startIndex);
 
-  // 4) Dimensions en px
+  // 4) Dimensions
   const CARD_W = 500;
   const CARD_H = 400;
-  const GAP = 16;
+  const GAP    = 16;
 
-  // 5) Next/Prev (pas de blocage, on ne reset jamais)
+  // 5) Next / Prev
   const next = () => setIdx((i) => i + 1);
   const prev = () => setIdx((i) => i - 1);
 
-  // 6) Wrapper centré + perspective
-  const VISIBLE = 3;
-  const WRAP_W = VISIBLE * CARD_W + (VISIBLE - 1) * GAP;
-  // 7) Calcul translateX
-  const centerOffset = WRAP_W / 2 - (CARD_W + GAP) / 2;
-  const translateX = -idx * (CARD_W + GAP) + centerOffset;
+  // 6) Calcul du translateX pour centrer
+  const VISIBLE   = 3;
+  const WRAP_W    = VISIBLE * CARD_W + (VISIBLE - 1) * GAP;
+  const centerOff = WRAP_W / 2 - (CARD_W + GAP) / 2;
+  const translateX = -idx * (CARD_W + GAP) + centerOff;
 
   return (
     <section className="h-screen flex flex-col items-center justify-center overflow-hidden">
-      <h2 className="text-4xl text-white font-serif mb-8">Latest Projects</h2>
+      <h2 className="text-4xl text-white font-serif mb-8">
+        Latest Projects
+      </h2>
 
+      {/* wrapper centré + perspective */}
       <div
         className="overflow-hidden"
-        style={{ width: `${WRAP_W}px`, margin: "0 auto", perspective: 1000 }}
+        style={{
+          width: `${WRAP_W}px`,
+          margin: "0 auto",
+          perspective: 1000,
+        }}
       >
         <div
           className="flex"
@@ -53,49 +57,77 @@ export default function ProjectSlider() {
           }}
         >
           {slides.map((img, i) => {
-            // position relative au centre visible
             const offset = i - idx;
-            // const visible = Math.abs(offset) <= 1;
-            const angle = offset === -1 ? 30 : offset === 1 ? -30 : 0;
-            const scale = offset === 0 ? 1 : 0.8;
-            const z = offset === 0 ? 2 : 1;
-            const op = offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.5 : 0;
+
+            // 3D transforms
+            const angleY = offset === -1 ? 45 : offset === 1 ? -45 : 0;
+            const angleX = offset === 0 ? 0 : 1;
+            const scale  = offset === 0 ? 1 : 0.8;
+
+            const zIndex  = offset === 0 ? 2 : 1;
+            const opacity = offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.5 : 0;
 
             return (
               <div
-  key={i}
-  className="flex-shrink-0 relative overflow-hidden rounded-xl"
-  style={{
-    width: CARD_W,
-    height: CARD_H,
-    marginRight: GAP,
-    transform: `rotateY(${angle}deg) scale(${scale})`,
-    transformStyle: "preserve-3d",
-    backfaceVisibility: "hidden",
-    zIndex: z,
-    opacity: op,                         
-    transition: "transform 0.5s, opacity 0.5s",
-  }}
->
-  <Image
-    src={img}
-    alt=""
-    fill
-    className="object-cover"
-  />
-</div>
+                key={i}
+                className="flex-shrink-0 relative rounded-xl overflow-hidden"
+                style={{
+                  width: CARD_W,
+                  height: CARD_H,
+                  marginRight: GAP,
+                  transform: `
+                    rotateY(${angleY}deg)
+                    rotateX(${angleX}deg)
+                    scale(${scale})
+                  `,
+                  transformStyle:    "preserve-3d",
+                  backfaceVisibility:"hidden",
+                  zIndex,
+                  opacity,
+                  transition: "transform 0.5s, opacity 0.5s",
+                }}
+              >
+                {/* Ton image */}
+                <Image
+                  src={img}
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+
+                {/* ←→ flèches **seulement** sur la carte centrale */}
+                {offset === 0 && (
+                  <>
+                    <button
+                      onClick={prev}
+                      className="
+                        absolute left-4 top-1/2 transform -translate-y-1/2
+                        bg-white bg-opacity-70 hover:bg-opacity-100
+                        text-black p-2 rounded-full z-20
+                      "
+                    >
+                      ←
+                    </button>
+                    <button
+                      onClick={next}
+                      className="
+                        absolute right-4 top-1/2 transform -translate-y-1/2
+                        bg-white bg-opacity-70 hover:bg-opacity-100
+                        text-black p-2 rounded-full z-20
+                      "
+                    >
+                      →
+                    </button>
+                    <div>
+                      
+                    </div>
+                  </>
+                  
+                )}
+              </div>
             );
           })}
         </div>
-      </div>
-
-      <div className="mt-8 flex gap-4">
-        <button onClick={prev} className="bg-white text-black px-6 py-2 rounded-md">
-          ← Prev
-        </button>
-        <button onClick={next} className="bg-white text-black px-6 py-2 rounded-md">
-          Next →
-        </button>
       </div>
     </section>
   );
