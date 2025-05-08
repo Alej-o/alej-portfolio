@@ -41,10 +41,10 @@ export default function Projects() {
 
   return (
     <section
-      className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-deepBrown"
+      className="relative h-screen flex flex-col items-center justify-top overflow-hidden "
     >
       <h2 className="text-4xl text-white font-serif mb-8">
-        Latest Projects
+      Projects
       </h2>
 
       <div

@@ -37,7 +37,7 @@ export function Card({
     overflow:           "hidden",
     // Only apply transforms/opacity when in the visible window
     transform:          isVisible
-      ? `rotateY(${offset === -1 ? 45 : offset === 1 ? -45 : 0}deg)
+      ? `rotateY(${offset === -1 ? 1 : offset === 1 ? -1 : 0}deg)
          rotateX(${offset === 0 ? 0 : 5}deg)
          scale(${offset === 0 ? 1 : 0.8})`
       : "none",
@@ -57,20 +57,22 @@ export function Card({
         className="object-cover"
       />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-40" />
+     
 
       {/* Contenu */}
-      <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-        <h3 className="text-2xl font-bold">{title}</h3>
-        <p className="mt-2 text-sm">{description}</p>
-        <Link
-          href={href}
-          className="mt-4 inline-block bg-white bg-opacity-20 px-4 py-2 rounded hover:bg-opacity-40"
-        >
-          En savoir plus →
-        </Link>
-      </div>
+      <div className="absolute inset-0 flex flex-col items-center justify-end p-6">
+  {/* ← conteneur semi-transparent autour du texte */}
+  <div className="bg-white bg-opacity-70 backdrop-blur-sm px-4 py-2 rounded-lg text-center">
+    <h3 className="text-2xl font-bold text-gray-800">{title}</h3>
+    <p className="mt-2 text-sm text-gray-700">{description}</p>
+    <Link
+      href={href}
+      className="mt-4 inline-block text-blue-600 hover:underline"
+    >
+      En savoir plus →
+    </Link>
+  </div>
+</div>
 
       {/* Flèches sur la carte centrale */}
       {offset === 0 && (
