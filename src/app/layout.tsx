@@ -4,8 +4,8 @@ import Footer from '../components/Footer'
 import { Geist, Geist_Mono,Domine } from "next/font/google";
 import "./globals.css";
 import GlobalBackground from "../components/GlobalBackground";
-
-
+import { palmore } from "../fonts/palmore";
+import { milkHoney } from "../fonts/milkHoney";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-  <body className={`${geistSans.variable} ${geistMono.variable} ${domine.variable}`}>
+  <body className={`${geistSans.variable} ${geistMono.variable} ${domine.variable} ${palmore.variable} ${milkHoney.variable}`}>
   <GlobalBackground />
     <Header />
     <main>
