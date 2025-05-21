@@ -3,40 +3,68 @@
 
 import { Canvas } from "@react-three/fiber";
 import { HeroBackground } from "./HeroBackground";
+import { Github, Linkedin, Sparkles } from "lucide-react";
+import WavyText from "./WavyText";
+
 
 export default function Hero() {
   return (
     <section className="relative w-full h-screen overflow-hidden">
-     <div className=" absolute inset-0 z-0 pointer-events-auto">
-      <Canvas
-       gl={{ preserveDrawingBuffer: true }} 
-        orthographic
-        camera={{ position: [0, 0, 1], zoom: 1 }}
-        className=" w-full h-full"
-      >
-        <HeroBackground />
-      </Canvas>
+      {/* 🎨 Fond animé avec Three.js */}
+      <div className="absolute inset-0 z-0 pointer-events-auto">
+        <Canvas
+          gl={{ preserveDrawingBuffer: true }}
+          orthographic
+          camera={{ position: [0, 0, 1], zoom: 1 }}
+          className="w-full h-full"
+        >
+          <HeroBackground />
+        </Canvas>
       </div>
-     
-      <div className="relative z-10 pointer-events-none flex flex-col items-center justify-center h-full text-center">
-        <h1 className="text-7xl font-milk-honey text-white">
-          Agathe Lejour
-        </h1>
-        <p className="mt-4 text-xl font-milk-honey text-white">
-          Développeuse web et mobile
+
+      {/* 📝 Texte + boutons */}
+      <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-52 -translate-y-10">
+        <p className="flex items-center text-4xl font-milk-honey text-white mt-6">
+          Bienvenue sur mon portfolio <Sparkles size={40} className="ml-3" />
         </p>
-        <div>
-        <button className="mt-8 px-6 py-3 text-lg font-milk-honey text-dark bg-white rounded hover:bg-blue-600">
-          Github
-        </button>
-        <button className="mt-8 px-6 py-3 text-lg font-milk-honey text-dark bg-white rounded hover:bg-blue-600">
-          Github
-        </button>
-        </div>
+
+       <h1 className="text-white font-milk-honey mt-8">
+  <span className="text-5xl sm:text-5xl">Moi, c’est </span>
+  <WavyText />
+</h1>
+
+        <p className="text-4xl font-milk-honey text-white mt-6">
+          Développeuse fullstack web et mobile
+        </p>
+
+        <div className="flex space-x-6 items-left mt-10 pointer-events-auto">
+  {/* Bouton GitHub */}
+  <a
+    href="https://github.com/TonCompteGithub"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="px-6 py-3 text-white text-xl font-milk-honey rounded-full bg-amber hover:bg-amber transition duration-300 flex items-center gap-2"
+  >
+    <Github size={24} />
+    Github
+  </a>
+
+  {/* Bouton LinkedIn */}
+  <a
+    href="https://linkedin.com/in/TonCompteLinkedin"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="px-6 py-3 text-white text-xl font-milk-honey rounded-full bg-amber hover:bg-amber transition duration-300 flex items-center gap-2"
+  >
+    <Linkedin size={24} />
+    LinkedIn
+  </a>
+</div>
       </div>
     </section>
   );
 }
+
 // src/components/Hero.tsx
 // import { Canvas } from "@react-three/fiber";
 // import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
@@ -72,7 +100,7 @@ export default function Hero() {
 //         </h1>
 //       </div>
 //     </section>
-//   );
+//   ); 
 // }
 
 

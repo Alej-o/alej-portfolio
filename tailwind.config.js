@@ -8,9 +8,9 @@ module.exports = {
     extend: {
       colors: {
         sunset: "#FFF1E0",
-        amber: "#FF7F11",
+        amber: "#D05B04",
         burnt: "#D72638",
-        vintageRed: "red",
+        vintageRed: "#AC2801",
         deepBrown: "#2B2B2B",
       },
       fontFamily: {
