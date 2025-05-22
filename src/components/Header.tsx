@@ -14,7 +14,7 @@ export default function Header() {
   <li><FlipLink href="#about">À propos</FlipLink></li>
   <li>
     <FlipLink
-      href="mailto:agathe.lejour@email.com?subject=Contact%20depuis%20le%20portfolio"
+      href="mailto:agathe.lejour@email.com"
       // className="
       //   flex items-center justify-center text-4xl text-white font-milk-honey
       // "

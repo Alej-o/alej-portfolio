@@ -3,14 +3,14 @@
 
 import { Canvas } from "@react-three/fiber";
 import { HeroBackground } from "./HeroBackground";
-import { Github, Linkedin, Sparkles } from "lucide-react";
 import WavyText from "./WavyText";
+import SlideButton from "./SlideButton";
 
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-screen overflow-hidden">
-      {/* 🎨 Fond animé avec Three.js */}
+    <section className="relative  w-full h-screen overflow-hidden">
+      
       <div className="absolute inset-0 z-0 pointer-events-auto">
         <Canvas
           gl={{ preserveDrawingBuffer: true }}
@@ -22,10 +22,11 @@ export default function Hero() {
         </Canvas>
       </div>
 
-      {/* 📝 Texte + boutons */}
+      
       <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-52 -translate-y-10">
         <p className="flex items-center text-4xl font-milk-honey text-white mt-6">
-          Bienvenue sur mon portfolio <Sparkles size={40} className="ml-3" />
+           Bienvenue sur mon portfolio 
+          
         </p>
 
        <h1 className="text-white font-milk-honey mt-8">
@@ -38,27 +39,27 @@ export default function Hero() {
         </p>
 
         <div className="flex space-x-6 items-left mt-10 pointer-events-auto">
-  {/* Bouton GitHub */}
-  <a
+  
+  <SlideButton
     href="https://github.com/TonCompteGithub"
     target="_blank"
     rel="noopener noreferrer"
-    className="px-6 py-3 text-white text-xl font-milk-honey rounded-full bg-amber hover:bg-amber transition duration-300 flex items-center gap-2"
+    className="px-6 py-3 text-white text-xl font-milk-honey  border border-red-500 rounded-md  transition duration-300 flex items-center gap-2"
   >
-    <Github size={24} />
+    
     Github
-  </a>
+  </SlideButton>
 
-  {/* Bouton LinkedIn */}
-  <a
+  
+  <SlideButton
     href="https://linkedin.com/in/TonCompteLinkedin"
     target="_blank"
     rel="noopener noreferrer"
-    className="px-6 py-3 text-white text-xl font-milk-honey rounded-full bg-amber hover:bg-amber transition duration-300 flex items-center gap-2"
+    className="px-6 py-3 text-white text-xl font-milk-honey rounded-md transition duration-300 flex items-center gap-2"
   >
-    <Linkedin size={24} />
+    
     LinkedIn
-  </a>
+  </SlideButton>
 </div>
       </div>
     </section>
