@@ -12,6 +12,9 @@ module.exports = {
         burnt: "#D72638",
         vintageRed: "#AC2801",
         deepBrown: "#2B2B2B",
+        beige: "#FDE3CF",
+        black: "#260f0a",
+        yellow: "#F8A91F",
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "sans-serif"],

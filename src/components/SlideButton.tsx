@@ -15,7 +15,7 @@ export default function SlideButton({ children, className = "", ...props }: Slid
       animate="rest"
       whileTap={{ scale: 0.97 }}
       {...props}
-      className={`relative inline-block px-6 py-3 border border-red-600 text-red-600 font-semibold rounded-full overflow-hidden group transition-colors duration-300 ${className}`}
+      className={`relative inline-block px-6 py-3 border border-yellow text-yellow font-semibold rounded-full overflow-hidden group transition-colors duration-300 ${className}`}
       variants={{
         rest: { scale: 1 },
         hover: { scale: 1.05 },
@@ -34,15 +34,15 @@ export default function SlideButton({ children, className = "", ...props }: Slid
     },
   }}
   transition={{ duration: 0.5, ease: "easeInOut" }}
-  className="absolute inset-0 bg-red-600 z-0 rounded-md"
+  className="absolute inset-0 bg-yellow z-0 rounded-md"
   aria-hidden="true"
 />
 
 
       <motion.span
         variants={{
-          rest: { color: "#DC2626", borderColor: "#DC2626" }, // rouge
-          hover: { color: "#ffffff", borderColor: "#ffffff" }, // blanc
+          rest: { color: "#F8A91F", borderColor: "#F8A91F" }, // rouge
+          hover: { color: "#FDE3CF", borderColor: "#FDE3CF" }, // blanc
         }}
         transition={{ duration: 0.5 }}
         className="relative z-10"

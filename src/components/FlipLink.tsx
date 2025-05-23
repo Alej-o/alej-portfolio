@@ -13,7 +13,7 @@ export default function FlipLink({
   initial="initial"
   whileHover="hovered"
   href={href}
-  className="relative block overflow-hidden whitespace-nowrap text-white font-milk-honey text-4xl sm:text-5xl md:text-6xl py-4"
+  className="relative block overflow-hidden whitespace-nowrap text-beige font-milk-honey text-4xl sm:text-5xl md:text-6xl py-4"
 >
   <motion.div
     variants={{
@@ -26,7 +26,7 @@ export default function FlipLink({
   </motion.div>
 
   <motion.div
-    className="absolute inset-0 py-4"
+    className="absolute inset-0 py-4  text-yellow"
     variants={{
       initial: { y: "100%" },
       hovered: { y: 0 },

@@ -24,17 +24,17 @@ export default function Hero() {
 
       
       <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-52 -translate-y-10">
-        <p className="flex items-center text-4xl font-milk-honey text-white mt-6">
+        <p className="flex items-center text-4xl font-milk-honey text-beige mt-6">
            Bienvenue sur mon portfolio 
           
         </p>
 
-       <h1 className="text-white font-milk-honey mt-8">
+       <h1 className="text-beige font-milk-honey mt-8">
   <span className="text-5xl sm:text-5xl">Moi, c’est </span>
   <WavyText />
 </h1>
 
-        <p className="text-4xl font-milk-honey text-white mt-6">
+        <p className="text-4xl font-milk-honey text-beige mt-6">
           Développeuse fullstack web et mobile
         </p>
 
@@ -44,7 +44,7 @@ export default function Hero() {
     href="https://github.com/TonCompteGithub"
     target="_blank"
     rel="noopener noreferrer"
-    className="px-6 py-3 text-white text-xl font-milk-honey  border border-red-500 rounded-md  transition duration-300 flex items-center gap-2"
+    className="px-6 py-3 text-beige text-xl font-milk-honey  border border-red-500 rounded-md  transition duration-300 flex items-center gap-2"
   >
     
     Github
@@ -55,7 +55,7 @@ export default function Hero() {
     href="https://linkedin.com/in/TonCompteLinkedin"
     target="_blank"
     rel="noopener noreferrer"
-    className="px-6 py-3 text-white text-xl font-milk-honey rounded-md transition duration-300 flex items-center gap-2"
+    className="px-6 py-3 text-beige text-xl font-milk-honey rounded-md transition duration-300 flex items-center gap-2"
   >
     
     LinkedIn
