@@ -1,33 +1,45 @@
+"use client";
+
 import {
   useMotionValue,
   motion,
   useSpring,
   useTransform,
 } from "framer-motion";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import FlipLink from "./FlipLink";
 
 interface ProjectProps {
   heading: string;
-  imgSrc: string;
   subheading: string;
+  hoverHeading: string;
+  hoverSubheading: string;
+  imgSrc: string;
   href: string;
 }
 
-export const HoverLink = ({ heading, imgSrc, subheading, href }: ProjectProps) => {
-  const ref = useRef<HTMLAnchorElement | null>(null);
+export const HoverLink = ({
+  heading,
+  imgSrc,
+  subheading,
+  href,
+  hoverHeading,
+  hoverSubheading,
+}: ProjectProps) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
-
   const top = useTransform(mouseYSpring, [0.5, -0.5], ["40%", "60%"]);
   const left = useTransform(mouseXSpring, [0.5, -0.5], ["60%", "70%"]);
 
-  const handleMouseMove = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
-    const rect = ref.current!.getBoundingClientRect();
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
     const mouseX = e.clientX - rect.left;
@@ -39,68 +51,68 @@ export const HoverLink = ({ heading, imgSrc, subheading, href }: ProjectProps) =
   };
 
   return (
-    <motion.a
-      href={href}
+    <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
-      initial="initial"
-      whileHover="whileHover"
-      className="group relative flex w-full items-center justify-between border-b-2 border-beige py-4 transition-colors duration-500 hover:border-yellow md:py-8"
+      className={`relative group flex w-full items-center justify-between border-b-2 py-4 md:py-8 transition-colors duration-500 ${
+        isHovered ? "border-yellow" : "border-beige"
+      }`}
     >
-      <div>
-        <motion.span
-          variants={{
-            initial: { x: 0 },
-            whileHover: { x: -16 },
-          }}
-          transition={{
-            type: "spring",
-            staggerChildren: 0.075,
-            delayChildren: 0.25,
-          }}
-          className="relative z-10 block text-4xl  text-beige font-milk-honey transition-colors duration-500 group-hover:text-yellow md:text-6xl"
+      {/* ⬅️ Seul ce bloc déclenche le flip & le hover state */}
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="w-full"
+      >
+        <FlipLink
+          hovered={isHovered}
+          href={href}
+          className="text-left space-y-2 pointer-events-none w-full"
+          hoverChildren={
+            <>
+              <div className="text-4xl md:text-6xl font-milk-honey text-yellow">
+                {hoverHeading}
+              </div>
+              <div className="text-base font-milk-honey text-yellow">
+                {hoverSubheading}
+              </div>
+            </>
+          }
         >
-          {heading.split("").map((l, i) => (
-            <motion.span
-              variants={{
-                initial: { x: 0 },
-                whileHover: { x: 16 },
-              }}
-              transition={{ type: "spring" }}
-              className="inline-block"
-              key={i}
-            >
-              {l}
-            </motion.span>
-          ))}
-        </motion.span>
-        <span className="relative z-10 mt-2 block text-base  text-beige transition-colors duration-500 group-hover:text-yellow">
-          {subheading}
-        </span>
+          <div className="text-4xl md:text-6xl font-milk-honey text-beige">
+            {heading}
+          </div>
+          <div className="text-base font-milk-honey text-beige">
+            {subheading}
+          </div>
+        </FlipLink>
       </div>
 
-      <motion.img
-        style={{ top, left, translateX: "-50%", translateY: "-50%" }}
-        variants={{
-          initial: { scale: 0, rotate: "-12.5deg" },
-          whileHover: { scale: 1, rotate: "12.5deg" },
-        }}
-        transition={{ type: "spring" }}
-        src={imgSrc}
-        className="absolute z-0 h-24 w-32 rounded-lg object-cover md:h-48 md:w-64"
-        alt={`Image representing a link for ${heading}`}
-      />
+      {/* Image hover */}
+      {isHovered && (
+        <motion.img
+          style={{ top, left, translateX: "-50%", translateY: "-50%" }}
+          initial={{ scale: 0, rotate: "-12.5deg", opacity: 0 }}
+          animate={{ scale: 1, rotate: "12.5deg", opacity: 1 }}
+          transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          src={imgSrc}
+          className="absolute z-0 h-24 w-32 rounded-lg object-cover md:h-48 md:w-64"
+          alt={`Image representing a link for ${heading}`}
+        />
+      )}
 
+      {/* Flèche animée */}
       <motion.div
-        variants={{
-          initial: { x: "25%", opacity: 0 },
-          whileHover: { x: "0%", opacity: 1 },
-        }}
+        animate={
+          isHovered
+            ? { x: "0%", opacity: 1 }
+            : { x: "25%", opacity: 0 }
+        }
         transition={{ type: "spring" }}
         className="relative z-10 p-4"
       >
-        <ArrowRight className="text-5xl text-yellow" />
+        <ArrowRight className="text-5xl text-yellow" size={40} />
       </motion.div>
-    </motion.a>
+    </motion.div>
   );
 };

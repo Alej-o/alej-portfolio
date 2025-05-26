@@ -1,19 +1,24 @@
 "use client";
 import { motion } from "framer-motion";
+import type { ReactNode } from "react";
 
 export default function FlipLink({
+  hoverChildren,
   children,
   href,
 }: {
-  children: string;
+  children: ReactNode;
+  hoverChildren: ReactNode;
   href: string;
+  className?: string;
+   hovered?: boolean;
 }) {
   return (
     <motion.a
   initial="initial"
   whileHover="hovered"
   href={href}
-  className="relative block overflow-hidden whitespace-nowrap text-beige font-milk-honey text-4xl sm:text-5xl md:text-6xl py-4"
+  className="relative block w-full overflow-hidden whitespace-nowrap text-beige font-milk-honey text-4xl sm:text-5xl md:text-6xl py-4"
 >
   <motion.div
     variants={{
@@ -33,7 +38,7 @@ export default function FlipLink({
     }}
     transition={{ duration: 0.5, ease: "easeInOut" }}
   >
-    {children}
+    {hoverChildren}
   </motion.div>
 </motion.a>
 
