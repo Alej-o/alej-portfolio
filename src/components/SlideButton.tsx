@@ -44,7 +44,7 @@ export default function SlideButton({ children, className = "", ...props }: Slid
           rest: { color: "#F8A91F", borderColor: "#F8A91F" }, // rouge
           hover: { color: "#FDE3CF", borderColor: "#FDE3CF" }, // blanc
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.7 }}
         className="relative z-10"
       >
         {children}

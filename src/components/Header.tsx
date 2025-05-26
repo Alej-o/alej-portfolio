@@ -11,10 +11,10 @@ export default function Header() {
         <ul className="flex items-center gap-6 ml-auto">
           <li>
             <FlipLink
-              href="#skills"
-              hoverChildren={<span className="text-yellow">Technologies</span>}
+              href="#about"
+              hoverChildren={<span className="text-yellow">À propos</span>}
             >
-              <span className="text-beige">Technologies</span>
+              <span className="text-beige">À propos</span>
             </FlipLink>
           </li>
           <li>
@@ -23,14 +23,6 @@ export default function Header() {
               hoverChildren={<span className="text-yellow">Projets</span>}
             >
               <span className="text-beige">Projets</span>
-            </FlipLink>
-          </li>
-          <li>
-            <FlipLink
-              href="#about"
-              hoverChildren={<span className="text-yellow">À propos</span>}
-            >
-              <span className="text-beige">À propos</span>
             </FlipLink>
           </li>
           <li>
