@@ -14,7 +14,7 @@ module.exports = {
         deepBrown: "#2B2B2B",
         beige: "#FDE3CF",
         black: "#2C1510",
-        yellow: "#F8A91F",
+        yellow: "#FB8C01",
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "sans-serif"],

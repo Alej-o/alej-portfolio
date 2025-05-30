@@ -27,10 +27,10 @@ export default function SlideButton({ children, className = "", ...props }: Slid
       <motion.span
   variants={{
     rest: {
-      clipPath: "ellipse(0% 0% at 150% 150%)", // très petit, en bas à droite
+      clipPath: "ellipse(0% 0% at 150% 150%)", 
     },
     hover: {
-      clipPath: "ellipse(150% 150% at 100% 100%)", // couvre tout, mais moins rond qu’un cercle
+      clipPath: "ellipse(150% 150% at 100% 100%)", 
     },
   }}
   transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -41,7 +41,7 @@ export default function SlideButton({ children, className = "", ...props }: Slid
 
       <motion.span
         variants={{
-          rest: { color: "#F8A91F", borderColor: "#F8A91F" }, // rouge
+          rest: { color: "#FB8C01", borderColor: "#FB8C01" }, // rouge
           hover: { color: "#FDE3CF", borderColor: "#FDE3CF" }, // blanc
         }}
         transition={{ duration: 0.7 }}

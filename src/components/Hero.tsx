@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section className="relative  w-full h-screen overflow-hidden">
       
-      <div className="absolute inset-0 z-0 pointer-events-auto">
+      <div className="absolute inset-0 -z-0 pointer-events-auto">
         <Canvas
           gl={{ preserveDrawingBuffer: true }}
           orthographic
@@ -25,7 +25,7 @@ export default function Hero() {
       <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-20 -translate-y-10">
         <p className="flex items-center text-6xl font-milk-honey text-beige mt-6">
           DÉVELOPPEUSE WEB
-          <span className="ml-2 text-4xl ">&</span>
+          <span className="ml-4 text-4xl ">&</span>
         </p>
 
        <p className="text-beige font-milk-honey mt-4">
@@ -33,7 +33,7 @@ export default function Hero() {
   
 </p>
 
-        <p className="text-6xl font-milk-honey text-beige mt-4">
+        <p className="text-6xl font-milk-honey text-beige mt-4 ">
           FULLSTACK
         </p>
         {/* <p className="text-2xl font-milk-honey text-beige mt-4">
