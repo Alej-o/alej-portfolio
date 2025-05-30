@@ -18,7 +18,7 @@ export default function FlipLink({
   initial="initial"
   whileHover="hovered"
   href={href}
-  className="relative block w-full overflow-hidden whitespace-nowrap text-beige font-milk-honey text-4xl sm:text-5xl md:text-6xl py-4"
+  className="relative block w-full overflow-hidden whitespace-nowrap text-beige font-milk-honey text-2xl sm:text-2xl md:text-4xl py-4"
 >
   <motion.div
     variants={{

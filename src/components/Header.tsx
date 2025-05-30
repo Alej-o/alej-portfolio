@@ -4,11 +4,11 @@ import FlipLink from "./FlipLink";
 
 export default function Header() {
   return (
-    <header className="absolute top-8 w-full z-20 bg-transparent px-5 py-4">
+    <header className="absolute top-2 w-full z-20 bg-transparent px-3 py-2">
       <nav className="flex items-center h-full justify-between">
-        <div className="logo">…</div>
+        <div className="text-beige font-milk-honey text-1xl">Agathe Lejour</div>
 
-        <ul className="flex items-center gap-6 ml-auto">
+        <ul className="flex items-center gap-6 ml-auto ">
           <li>
             <FlipLink
               href="#about"

@@ -3,7 +3,6 @@
 
 import { Canvas } from "@react-three/fiber";
 import { HeroBackground } from "./HeroBackground";
-import WavyText from "./WavyText";
 import SlideButton from "./SlideButton";
 
 
@@ -23,28 +22,32 @@ export default function Hero() {
       </div>
 
       
-      <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-52 -translate-y-10">
-        <p className="flex items-center text-4xl font-milk-honey text-beige mt-6">
-           Bienvenue sur mon portfolio 
-          
+      <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-20 -translate-y-10">
+        <p className="flex items-center text-6xl font-milk-honey text-beige mt-6">
+          DÉVELOPPEUSE WEB
+          <span className="ml-2 text-4xl ">&</span>
         </p>
 
-       <h1 className="text-beige font-milk-honey mt-8">
-  <span className="text-5xl sm:text-5xl">Moi, c’est </span>
-  <WavyText />
-</h1>
+       <p className="text-beige font-milk-honey mt-4">
+  <span className="text-6xl ">MOBILE </span>
+  
+</p>
 
-        <p className="text-4xl font-milk-honey text-beige mt-6">
-          Développeuse fullstack web et mobile
+        <p className="text-6xl font-milk-honey text-beige mt-4">
+          FULLSTACK
         </p>
+        {/* <p className="text-2xl font-milk-honey text-beige mt-4">
+          Basée à Paris
+        </p> */}
 
-        <div className="flex space-x-6 items-left mt-10 pointer-events-auto">
+        <div className="flex space-x-6 items-left mt-4 pointer-events-auto">
   
   <SlideButton
     href="https://github.com/TonCompteGithub"
     target="_blank"
     rel="noopener noreferrer"
-    className="px-6 py-3 text-beige text-xl font-milk-honey  border border-red-500 rounded-md  transition duration-300 flex items-center gap-2"
+    className="px-6 py-3 text-beige text-xl font-milk-honey bg-white/10 backdrop-blur-sm rounded-md transition duration-300 flex items-center gap-2"
+
   >
     
     Github
@@ -55,7 +58,8 @@ export default function Hero() {
     href="https://linkedin.com/in/TonCompteLinkedin"
     target="_blank"
     rel="noopener noreferrer"
-    className="px-6 py-3 text-beige text-xl font-milk-honey rounded-md transition duration-300 flex items-center gap-2"
+    className="px-6 py-3 text-beige text-xl font-milk-honey bg-white/10 backdrop-blur-sm rounded-md transition duration-300 flex items-center gap-2"
+
   >
     
     LinkedIn

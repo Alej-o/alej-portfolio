@@ -35,7 +35,7 @@ export default function RootLayout({
   <body className={`${geistSans.variable} ${geistMono.variable} ${domine.variable} ${palmore.variable} ${milkHoney.variable}`}>
   {/* <GlobalBackground /> */}
     <Header />
-    <main>
+    <main >
       {children}
     </main>
     <Footer />

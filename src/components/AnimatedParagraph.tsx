@@ -17,7 +17,7 @@ export default function AnimatedParagraph({ text }: { text: string }) {
   return (
     <p
       ref={container}
-      className="flex flex-wrap text-[60px] leading-none px-10 py-10 max-w-[1280px] text-white"
+      className="flex flex-wrap text-[40px] leading-none px-10 py-10 max-w-[1280px] text-white"
     >
       {words.map((word, i) => {
         const start = i / words.length
@@ -74,7 +74,7 @@ const Char = ({
   return (
     <span className="relative inline-block">
       <span
-        className="absolute opacity-20 pointer-events-none text-orange-500 blur-sm"
+        className="absolute opacity-20 pointer-events-none text-yellow "
         aria-hidden="true"
       >
         {children}
