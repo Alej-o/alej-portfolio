@@ -72,7 +72,7 @@ export default function About() {
               initial="hidden"
               animate={controls}
               variants={tagVariants}
-              className="px-6 py-2 rounded-full border border-beige text-beige text-3xl hover:bg-beige hover:text-black transition duration-300"
+              className="px-6 py-2 rounded-full font-milk-honey border border-beige text-beige text-3xl hover:bg-beige hover:text-black transition duration-300"
             >
               {tech}
             </motion.span>

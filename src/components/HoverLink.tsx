@@ -12,7 +12,7 @@ import FlipLink from "./FlipLink";
 
 interface ProjectProps {
   heading: string;
-  subheading: string;
+  subheading: string[];
   hoverHeading: string;
   hoverSubheading: string;
   imgSrc: string;
@@ -58,7 +58,7 @@ export const HoverLink = ({
         isHovered ? "border-yellow" : "border-beige"
       }`}
     >
-      {/* ⬅️ Seul ce bloc déclenche le flip & le hover state */}
+     
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -73,7 +73,7 @@ export const HoverLink = ({
               <div className="text-4xl font-milk-honey text-yellow">
                 {hoverHeading}
               </div>
-              <div className="text-4xl font-milk-honey text-yellow">
+              <div className="text-4xl font-milk-honey text-yellow mt-4">
                 {hoverSubheading}
               </div>
             </>
@@ -82,13 +82,20 @@ export const HoverLink = ({
           <div className="text-4xl  font-milk-honey text-beige">
             {heading}
           </div>
-          <div className="text-4xl font-milk-honey text-beige">
-            {subheading}
-          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+  {subheading.map((tech, i) => (
+    <span
+      key={i}
+      className="px-4 py-1 rounded-full border border-beige text-beige text-sm md:text-lg"
+    >
+      {tech}
+    </span>
+  ))}
+</div>
         </FlipLink>
       </div>
 
-      {/* Image hover */}
+    
       {isHovered && (
         <motion.img
           style={{ top, left, translateX: "-50%", translateY: "-50%" }}
@@ -101,7 +108,6 @@ export const HoverLink = ({
         />
       )}
 
-      {/* Flèche animée */}
       <motion.div
         animate={
           isHovered
