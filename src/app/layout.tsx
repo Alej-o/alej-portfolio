@@ -32,10 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-  <body className={`${geistSans.variable} ${geistMono.variable} ${domine.variable} ${palmore.variable} ${milkHoney.variable}`}>
+  <body className={` flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable} ${domine.variable} ${palmore.variable} ${milkHoney.variable}`}>
   {/* <GlobalBackground /> */}
     <Header />
-    <main >
+    <main className="flex-1">
       {children}
     </main>
     <Footer />
