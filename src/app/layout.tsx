@@ -31,17 +31,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-  <body className={` flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable} ${domine.variable} ${palmore.variable} ${milkHoney.variable}`}>
-  {/* <GlobalBackground /> */}
-    <Header />
-    <main className="flex-1">
-      {children}
-    </main>
-    <Footer />
-  </body>
-</html>
-
+    <html lang="fr" className="h-full">
+      <body className={`h-full bg-pink-200 ${geistSans.variable} ${geistMono.variable} ${domine.variable} ${palmore.variable} ${milkHoney.variable}`}>
+        <div className="h-full flex flex-col">
+          <Header />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </div>
+      </body>
+    </html>
   );
 }
 

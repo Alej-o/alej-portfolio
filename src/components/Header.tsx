@@ -12,7 +12,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <header className={`fixed  w-full z-20 bg-transparent px-3 py-2 transition-all duration-300 ${scrolled ? "bg-black/30 backdrop-blur-md shadow-md" : "bg-transparent"}`} >
+    <header className={`fixed  w-full z-20 bg-transparent px-3 py-2 transition-all duration-300 border-4 border-black ${scrolled ? "bg-black/30 backdrop-blur-md shadow-md" : "bg-transparent"}`} >
   <nav className="flex items-center h-full justify-between">
     <div className="text-beige font-milk-honey text-2xl pl-6">Agathe Lejour</div>
 

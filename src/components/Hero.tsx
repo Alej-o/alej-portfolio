@@ -8,7 +8,7 @@ import SlideButton from "./SlideButton";
 
 export default function Hero() {
   return (
-    <section className="relative  w-full h-screen overflow-hidden">
+    <section className="relative  w-full h-screen overflow-hidden border-4 border-blue-500">
       
       <div className="absolute inset-0 -z-0 pointer-events-auto">
         <Canvas

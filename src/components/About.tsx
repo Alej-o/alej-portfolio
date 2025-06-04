@@ -45,7 +45,7 @@ export default function About() {
 
   return (
     <>
-      <p className="text-5xl text-center font-milk-honey text-beige">À propos</p>
+      <p className="text-5xl text-center font-milk-honey text-beige border-4 border-yellow">À propos</p>
       <div className="mx-auto px-10 py-10 flex flex-col md:flex-row justify-between gap-10 font-milk-honey">
         <div>
           <AnimatedParagraph text="Hello, moi c’est Agathe ! Développeuse web fullstack, passionnée par la créativité sous toutes ses formes — qu’il s’agisse d’animations front-end ou d’architectures back-end bien pensées. J’aime autant concevoir des interfaces vivantes que structurer ce qui les anime. Le code est mon terrain de jeu, l’émotion mon objectif." />
