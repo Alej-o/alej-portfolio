@@ -11,7 +11,7 @@ export default function PageContent() {
         <Hero />
       </section>
 
-      <section className="py-20 mb-20 border-4 border-yellow" id="about">
+      <section className="py-20 mb-20 " id="about">
   <About />
 </section>
 

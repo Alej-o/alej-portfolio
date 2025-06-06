@@ -3,12 +3,12 @@
 
 import { Canvas } from "@react-three/fiber";
 import { HeroBackground } from "./HeroBackground";
-import SlideButton from "./SlideButton";
+// import SlideButton from "./SlideButton";
 
 
 export default function Hero() {
   return (
-    <section className="relative  w-full h-screen overflow-hidden border-4 border-blue-500">
+    <section className="relative  w-full h-screen overflow-hidden ">
       
       <div className="absolute inset-0 -z-0 pointer-events-auto">
         <Canvas
@@ -22,24 +22,24 @@ export default function Hero() {
       </div>
 
       
-      <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-20 -translate-y-10">
+      {/* <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-20 -translate-y-10">
         <p className="flex items-center text-6xl font-milk-honey text-beige mt-6">
-          DÉVELOPPEUSE WEB
-          <span className="ml-4 text-4xl ">&</span>
+          DÉVELOPPEUSE 
+         
         </p>
 
        <p className="text-beige font-milk-honey mt-4">
-  <span className="text-6xl ">MOBILE </span>
+  <span className="text-6xl ">FRONT-END </span>
   
-</p>
+</p> */}
 
-        <p className="text-6xl font-milk-honey text-beige mt-4 ">
-          FULLSTACK
-        </p>
+        {/* <p className="text-6xl font-milk-honey text-beige mt-4 ">
+          WEB & MOBILE
+        </p> */}
         {/* <p className="text-2xl font-milk-honey text-beige mt-4">
           Basée à Paris
         </p> */}
-
+{/* 
         <div className="flex space-x-6 items-left mt-4 pointer-events-auto">
   
   <SlideButton
@@ -51,10 +51,10 @@ export default function Hero() {
   >
     
     Github
-  </SlideButton>
+  </SlideButton> */}
 
   
-  <SlideButton
+  {/* <SlideButton
     href="https://linkedin.com/in/TonCompteLinkedin"
     target="_blank"
     rel="noopener noreferrer"
@@ -63,9 +63,9 @@ export default function Hero() {
   >
     
     LinkedIn
-  </SlideButton>
-</div>
-      </div>
+  </SlideButton> */}
+{/* </div> */}
+      {/* </div> */}
     </section>
   );
 }
