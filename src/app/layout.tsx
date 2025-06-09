@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { Geist, Geist_Mono,Domine,Libre_Caslon_Display, Inter } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 // import GlobalBackground from "../components/GlobalBackground";
 import { palmore } from "../fonts/palmore";
 import { milkHoney } from "../fonts/milkHoney";
@@ -37,6 +38,7 @@ export default function RootLayout({
         <div className="h-full flex flex-col">
           <Header />
           <main className="flex-1">
+            <SmoothScroll />
             {children}
           </main>
           <Footer />

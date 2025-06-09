@@ -44,7 +44,10 @@ export default function About() {
   }
 
   return (
-    <>
+    <section
+  id="about"
+  className="mt-60 relative z-10 bg-black px-6 py-24"
+>
       <p className="text-5xl text-center font-milk-honey text-beige ">À propos</p>
       <div className="mx-auto px-10 py-10 flex flex-col md:flex-row justify-between gap-10 font-milk-honey">
         <div>
@@ -79,6 +82,6 @@ export default function About() {
           ))}
         </div>
       </div>
-    </>
+   </section>
   )
 }
