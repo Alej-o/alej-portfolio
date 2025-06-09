@@ -17,11 +17,12 @@ module.exports = {
         yellow: "#FB8C01",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"],
         serif: ['var(--font-domine)', 'serif'],
         palmore: ["var(--font-palmore)", "serif"],
         'milk-honey': ["var(--font-milk-honey)", "serif"],
+         sans: ['var(--font-inter)'],
+        title: ['var(--font-caslon)'],
       },
     },
   },

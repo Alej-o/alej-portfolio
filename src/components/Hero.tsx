@@ -22,23 +22,43 @@ export default function Hero() {
       </div>
 
       
-      {/* <div className="relative z-10 pointer-events-none flex flex-col items-start justify-center h-full text-left ml-20 -translate-y-10">
-        <p className="flex items-center text-6xl font-milk-honey text-beige mt-6">
-          DÉVELOPPEUSE 
-         
-        </p>
+      <div className="relative z-10 pointer-events-none flex flex-col items-start justify-end h-full text-left ml-12 -translate-y-10">
+        <p className="text-[190px] font-title text-beige leading-[0.8]">
+  DÉVELOPPEUSE<br />
+  <span>FRONT-END</span>
+</p>
 
-       <p className="text-beige font-milk-honey mt-4">
-  <span className="text-6xl ">FRONT-END </span>
-  
-</p> */}
+ </div> 
+    </section>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         {/* <p className="text-6xl font-milk-honey text-beige mt-4 ">
           WEB & MOBILE
         </p> */}
         {/* <p className="text-2xl font-milk-honey text-beige mt-4">
           Basée à Paris
-        </p> */}
+        </p>
 {/* 
         <div className="flex space-x-6 items-left mt-4 pointer-events-auto">
   
@@ -65,10 +85,7 @@ export default function Hero() {
     LinkedIn
   </SlideButton> */}
 {/* </div> */}
-      {/* </div> */}
-    </section>
-  );
-}
+     
 
 // src/components/Hero.tsx
 // import { Canvas } from "@react-three/fiber";

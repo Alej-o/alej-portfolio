@@ -14,9 +14,11 @@ export default function Header() {
   return (
     <header className={`fixed  w-full z-20 bg-transparent px-3 py-2 transition-all duration-300  ${scrolled ? "bg-black/30 backdrop-blur-md shadow-md" : "bg-transparent"}`} >
   <nav className="flex items-center h-full justify-between">
-    <div className="text-beige font-milk-honey text-2xl pl-6">Agathe Lejour</div>
-
-    <ul className="flex items-center gap-6 ml-auto">
+    <div className="text-beige font-title text-4xl pl-6 uppercase">Agathe Lejour</div>
+    <div className="absolute left-1/2 transform -translate-x-1/2 text-beige font-title text-4xl uppercase">
+    PORTFOLIO 2025
+  </div>
+    <ul className="flex items-center gap-8 ml-auto font-title mr-6 uppercase">
       <li>
         <FlipLink
           href="#about"
