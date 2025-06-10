@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Geist, Geist_Mono,Domine,Libre_Caslon_Display, Inter } from "next/font/google";
+import { Geist, Geist_Mono,Domine,Libre_Caslon_Display,Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 // import GlobalBackground from "../components/GlobalBackground";

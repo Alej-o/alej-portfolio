@@ -17,7 +17,7 @@ export default function AnimatedParagraph({ text }: { text: string }) {
   return (
     <p
       ref={container}
-      className="flex flex-wrap text-[40px] leading-none px-10 py-10 max-w-[1280px] text-white"
+      className="flex flex-wrap text-[50px] leading-none px-10 py-10 max-w-[1280px] text-white"
     >
       {words.map((word, i) => {
         const start = i / words.length
