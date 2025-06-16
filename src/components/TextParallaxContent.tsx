@@ -1,9 +1,15 @@
 'use client'
 
-import { ReactNode, useRef, useState } from 'react'
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
+import { ReactNode, useRef,useState, } from 'react'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+  MotionValue,
+  
+} from 'framer-motion'
 import Hero from './Hero'
-
 
 type Props = {
   children: ReactNode
@@ -18,8 +24,9 @@ export default function TextParallaxContent({ children }: Props) {
   })
 
   const canvasOpacity = useTransform(scrollYProgress, [0, 1], [1, 0])
-  const scaleMotion = useTransform(scrollYProgress, [0, 0.4], [1, 0.75])
+  const scaleMotion = useTransform(scrollYProgress, [0, 0.5], [1, 0.75])
 
+  // scaleValue (si Hero attend un number)
   const [scaleValue, setScaleValue] = useState(1)
   useMotionValueEvent(scaleMotion, 'change', (latest) => {
     setScaleValue(latest)
@@ -27,21 +34,20 @@ export default function TextParallaxContent({ children }: Props) {
 
   return (
     <div>
-      <div ref={ref} className="relative h-[150vh]">
-        {/* Canvas sans CSS scale */}
+      <div ref={ref} className="relative h-[100vh]">
+        {/* Canvas */}
         <motion.div
           style={{
             opacity: canvasOpacity,
             height: '100vh',
-            top: 0,
           }}
-          className="sticky z-0 overflow-hidden"
+          className="sticky top-0 z-0 overflow-hidden"
         >
           <Hero scale={scaleValue} />
         </motion.div>
 
-        {/* Texte en bas à gauche */}
-        <OverlayCopy />
+        {/* Texte qui monte au scroll */}
+        <OverlayCopy scrollYProgress={scrollYProgress} />
       </div>
 
       {children}
@@ -49,29 +55,23 @@ export default function TextParallaxContent({ children }: Props) {
   )
 }
 
-const OverlayCopy = () => {
-  const targetRef = useRef(null)
+type OverlayCopyProps = {
+  scrollYProgress: MotionValue<number>
+}
 
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ['start end', 'end start'],
-  })
-
-  const y = useTransform(scrollYProgress, [0, 1], [0, -50])
+const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
+  const y = useTransform(scrollYProgress, [0, 1], [0, -150])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   return (
     <motion.div
       style={{ y, opacity }}
-      ref={targetRef}
       className="absolute bottom-16 left-12 pointer-events-none z-20 text-left"
     >
-      <div>
-        <p className="text-[90px] md:text-[190px] font-title text-beige leading-[0.8] uppercase">
-          DÉVELOPPEUSE<br />
-          <span>FRONT-END</span>
-        </p>
-      </div>
+      <p className="text-[90px] md:text-[190px] font-title text-beige leading-[0.8] uppercase">
+        DÉVELOPPEUSE<br />
+        <span>FRONT-END</span>
+      </p>
     </motion.div>
   )
 }
