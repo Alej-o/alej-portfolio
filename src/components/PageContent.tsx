@@ -13,7 +13,7 @@ export default function PageContent() {
       </TextParallaxContent>
 
       {/* Le reste de la page */}
-      <section className="py-15" id="projects">
+      <section  id="projects">
         <Projects />
       </section>
     </main>

@@ -41,11 +41,8 @@ export default function About() {
   }
 
   return (
-    <section
-  id="about"
-  className="ml-12 mt-4 relative z-10 bg-black "
->
-      <p className="text-8xl text-left font-title text-beige uppercase ">À propos</p>
+   <section id="about" className="ml-12 mt-24 relative z-10 bg-blue-900">
+      <p className="text-6xl text-left font-title text-beige uppercase ">À propos</p>
       <div className="mx-auto px-10 py-10 flex flex-col md:flex-row justify-between gap-10 font-sans text-beige">
         <div>
           <AnimatedParagraph text="Hello, moi c’est Agathe ! Développeuse web fullstack, passionnée par la créativité sous toutes ses formes qu’il s’agisse d’animations front-end ou d’architectures back-end bien pensées. J’aime autant concevoir des interfaces vivantes que structurer ce qui les anime. Le code est mon terrain de jeu, l’émotion mon objectif." />
@@ -56,20 +53,24 @@ export default function About() {
 
       <div ref={ref} className="w-full mx-auto px-20 py-3">
         <p className="text-6xl ml-3 mb-5 font-title text-beige uppercase">Technologies</p>
-        <div className="flex flex-wrap gap-4">
-          {techList.map((tech, i) => (
-            <motion.span
-              key={tech}
-              custom={i}
-              initial="hidden"
-              animate={controls}
-              variants={tagVariants}
-              className="px-6 py-2  mt-3 font-sans text-beige text-4xl "
-            >
-              {tech}
-            </motion.span>
-          ))}
-        </div>
+       <div className="flex flex-wrap items-center gap-x-4 gap-y-4 text-4xl font-sans text-beige">
+  {techList.map((tech, i) => (
+    <motion.div
+      key={tech}
+      custom={i}
+      initial="hidden"
+      animate={controls}
+      variants={tagVariants}
+      className="flex items-center"
+    >
+      <span>{tech}</span>
+      {/* Ajoute un point sauf pour le dernier */}
+      {i !== techList.length - 1 && (
+        <span className="mx-2 text-3xl text-beige select-none">•</span>
+      )}
+    </motion.div>
+  ))}
+</div>
       </div>
    </section>
   )
