@@ -1,20 +1,18 @@
 'use client'
 
-import Hero from './Hero'
 import About from './About'
 import Projects from './Projects'
+import TextParallaxContent from './TextParallaxContent'
 
 export default function PageContent() {
   return (
     <main className="bg-black text-white">
-      <section className="h-screen" id="hero">
-        <Hero />
-      </section>
+      {/* Hero + Texte + About = intégré dans TextParallaxContent */}
+      <TextParallaxContent>
+        <About />
+      </TextParallaxContent>
 
-      <section className="py-20 mb-20 " id="about">
-  <About />
-</section>
-
+      {/* Le reste de la page */}
       <section className="py-15" id="projects">
         <Projects />
       </section>

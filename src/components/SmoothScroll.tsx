@@ -6,7 +6,11 @@ import Lenis from "@studio-freight/lenis";
 
 export default function SmoothScroll() {
   useEffect(() => {
-    const lenis = new Lenis();
+    const lenis = new Lenis({
+      lerp: 0.1, // Ajustez cette valeur pour un défilement plus fluide
+      smoothWheel: true,
+      // Utilisez uniquement les options valides pour Lenis
+    });
 
     function raf(time: number) {
       lenis.raf(time);
@@ -16,7 +20,6 @@ export default function SmoothScroll() {
     requestAnimationFrame(raf);
 
     return () => {
-      // (optionnel) si tu veux cleanup
       lenis.destroy();
     };
   }, []);

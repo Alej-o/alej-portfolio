@@ -1,53 +1,23 @@
-// src/components/Hero.tsx
+
+// components/Hero.tsx
 "use client";
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
-import { HeroBackground } from './HeroBackground'
+import HeroBackground from './HeroBackground'
 
-export default function Hero() {
- const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'],
-  })
-
-  
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92])
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100])
-
+export default function Hero({ scale }: { scale: number }) {
   return (
-    <section ref={ref} className="relative h-[150vh]">
-      {/* Canvas animé */}
-      <motion.div
-        style={{ opacity, scale }}
-        className="sticky top-0 h-screen w-full -z-0"
-      >
-        <Canvas
-          gl={{ preserveDrawingBuffer: true }}
-          orthographic
-          camera={{ position: [0, 0, 1], zoom: 1 }}
-          className="w-full h-full"
-        >
-          <HeroBackground />
-        </Canvas>
-      </motion.div>
-
-      {/* Texte principal animé */}
-      <motion.div
-        style={{ y, opacity }}
-        className="absolute top-0 z-10 flex h-screen flex-col justify-end ml-12 pointer-events-none"
-      >
-        <p className="text-[190px] font-title text-beige leading-[0.8]">
-          DÉVELOPPEUSE<br />
-          <span>FRONT-END</span>
-        </p>
-      </motion.div>
-    </section>
+    <Canvas
+      gl={{ preserveDrawingBuffer: true }}
+      orthographic
+      camera={{ position: [0, 0, 1], zoom: 1 }}
+      className="w-full h-full"
+    >
+      <HeroBackground scale={scale} />
+    </Canvas>
   )
 }
+
 
 
 
