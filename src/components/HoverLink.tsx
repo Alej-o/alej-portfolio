@@ -67,19 +67,19 @@ export const HoverLink = ({
         <FlipLink
           hovered={isHovered}
           href={href}
-          className="text-left space-y-2 pointer-events-none w-full"
+          className="text-left space-y-2 pointer-events-none w-full "
           hoverChildren={
             <>
-              <div className="text-4xl font-milk-honey text-yellow">
+              <div className="text-4xl font-title uppercase text-yellow">
                 {hoverHeading}
               </div>
-              <div className="text-4xl font-milk-honey text-yellow mt-4">
+              <div className="text-4xl font-title text-yellow mt-4">
                 {hoverSubheading}
               </div>
             </>
           }
         >
-          <div className="text-4xl  font-milk-honey text-beige">
+          <div className="text-4xl  font-title uppercase text-beige">
             {heading}
           </div>
           <div className="flex flex-wrap gap-3 mt-4">

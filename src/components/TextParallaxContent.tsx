@@ -60,7 +60,7 @@ type OverlayCopyProps = {
 }
 
 const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
-  const y = useTransform(scrollYProgress, [0, 1], [0, -150])
+  const y = useTransform(scrollYProgress, [0, 1], [0, -350])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   return (

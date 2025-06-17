@@ -2,15 +2,16 @@
 
 import { HoverLink } from "./HoverLink";
 import { projectsData } from "../data/projectsData"; 
+import RevealTextOnScroll from './RevealTextOnScroll'
 
 
 
 
 export default function Projects() {
   return (
-    <section className="bg-black p-6 " id="projects">
+    <section className="bg-black p-8 mt-20" id="projects">
   <div className="w-full ">
-    <p className="text-5xl text-center mt-6 mb-12 font-milk-honey text-beige">Projects</p>
+    <RevealTextOnScroll className="text-6xl pt-24 pb-5 text-left font-title text-beige uppercase">Projects</RevealTextOnScroll>
 
     {projectsData.map((p, index) => (
       <HoverLink key={index} {...p} />

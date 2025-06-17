@@ -3,6 +3,7 @@
 import { motion, useAnimation, useInView } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import AnimatedParagraph from './AnimatedParagraph'
+import RevealTextOnScroll from './RevealTextOnScroll'
 // import Image from 'next/image'
 
 const techList = [
@@ -41,19 +42,19 @@ export default function About() {
   }
 
   return (
-   <section id="about" className="ml-12 mt-24 relative z-10 bg-blue-900">
-      <p className="text-6xl text-left font-title text-beige uppercase ">À propos</p>
+   <section id="about" className="ml-12 mt-24 relative z-10 ">
+      <RevealTextOnScroll className="text-6xl pt-24 text-left font-title text-beige uppercase ">À propos</RevealTextOnScroll>
       <div className="mx-auto px-10 py-10 flex flex-col md:flex-row justify-between gap-10 font-sans text-beige">
         <div>
-          <AnimatedParagraph text="Hello, moi c’est Agathe ! Développeuse web fullstack, passionnée par la créativité sous toutes ses formes qu’il s’agisse d’animations front-end ou d’architectures back-end bien pensées. J’aime autant concevoir des interfaces vivantes que structurer ce qui les anime. Le code est mon terrain de jeu, l’émotion mon objectif." />
+          <AnimatedParagraph text="Hello, moi c’est Agathe ! Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles. Ce que j’aime, c’est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. J’accorde autant d’importance à ce qu’on ressent qu’à ce qu’on voit, en pensant toujours à l’utilisateur. Pour moi, le code, c’est un moyen d’exprimer des idées… et de toucher les gens." />
         </div>
 
         
       </div>
 
       <div ref={ref} className="w-full mx-auto px-20 py-3">
-        <p className="text-6xl ml-3 mb-5 font-title text-beige uppercase">Technologies</p>
-       <div className="flex flex-wrap items-center gap-x-4 gap-y-4 text-4xl font-sans text-beige">
+        <RevealTextOnScroll className="text-6xl mb-5 font-title text-beige uppercase">Technologies</RevealTextOnScroll>
+       <div className="flex flex-wrap items-center gap-x-4 gap-y-4 text-4xl pt-4 font-sans text-beige">
   {techList.map((tech, i) => (
     <motion.div
       key={tech}
