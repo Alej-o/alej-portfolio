@@ -6,7 +6,7 @@ import TextParallaxContent from './TextParallaxContent'
 
 export default function PageContent() {
   return (
-    <main className="bg-black text-white">
+    <main className="bg-beige text-black">
       {/* Hero + Texte + About = intégré dans TextParallaxContent */}
       <TextParallaxContent>
         <About />

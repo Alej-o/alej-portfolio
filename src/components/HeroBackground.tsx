@@ -6,7 +6,7 @@ import * as THREE from 'three'
 import { useRef } from 'react'
 import { vertexShader, fragmentShader } from '../shaders/GradientShader.glsl'
 
-export default function HeroBackground({ scale = 1 }: { scale: number }) {
+export default function HeroBackground() {
   const { viewport, size, mouse } = useThree()
   const materialRef = useRef<THREE.ShaderMaterial>(null)
 
@@ -33,7 +33,7 @@ export default function HeroBackground({ scale = 1 }: { scale: number }) {
   return (
     <Plane
       args={[viewport.width * 1.2, viewport.height * 1.2]}
-      scale={[scale, scale, 1]}
+      
     >
       <shaderMaterial
         ref={materialRef}

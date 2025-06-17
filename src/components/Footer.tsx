@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-black text-yellow w-full mt-auto">
+    <footer className="bg-beige text-black w-full mt-auto">
       <div className="w-full flex flex-col md:flex-row justify-between items-end gap-6 px-6 min-h-[300px]">
         {/* Colonne gauche : le titre */}
         <div className="flex items-end">
@@ -12,18 +12,18 @@ export default function Footer() {
         {/* Colonne droite : contenu bas aligné */}
         <div className="flex flex-col justify-end flex-1 font-milk-honey">
           <div className="flex flex-wrap justify-start gap-6">
-            <p className="text-beige text-3xl">Une idée, un projet ?</p>
+            <p className="text-black text-3xl">Une idée, un projet ?</p>
             <a
               href="mailto:agathe.lejour@email.com"
-              className="px-4 py-1 border border-yellow text-yellow rounded-md text-3xl hover:bg-yellow hover:text-black transition"
+              className="px-4 py-1 border border-black text-black rounded-md text-3xl hover:bg-yellow hover:text-black transition"
             >
               Contact
             </a>
           </div>
 
-          <hr className="w-full border-beige my-4" />
+          <hr className="w-full border-black my-4" />
 
-          <div className="flex max-w-2xl text-2xl justify-between items-center text-beige">
+          <div className="flex max-w-2xl text-2xl justify-between items-center text-black">
             <a href="#">LinkedIn</a>
             <a href="#">GitHub</a>
             <a href="#">Annexe</a>

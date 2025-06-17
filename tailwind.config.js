@@ -12,8 +12,8 @@ module.exports = {
         burnt: "#D72638",
         vintageRed: "#AC2801",
         deepBrown: "#2B2B2B",
-        beige: "#FDE3CF",
-        black: "#2c140B",
+        beige: "#FCF0D6",
+        black: "#5C1805",
         yellow: "#FB8C01",
       },
       fontFamily: {

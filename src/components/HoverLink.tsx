@@ -55,7 +55,7 @@ export const HoverLink = ({
       ref={ref}
       onMouseMove={handleMouseMove}
       className={`relative group flex w-full items-center justify-between border-b-2 py-4 transition-colors duration-500 ${
-        isHovered ? "border-yellow" : "border-beige"
+        isHovered ? "border-yellow" : "border-black"
       }`}
     >
      
@@ -79,14 +79,14 @@ export const HoverLink = ({
             </>
           }
         >
-          <div className="text-4xl  font-title uppercase text-beige">
+          <div className="text-4xl  font-title uppercase text-black">
             {heading}
           </div>
           <div className="flex flex-wrap gap-3 mt-4">
   {subheading.map((tech, i) => (
     <span
       key={i}
-      className="px-4 py-1 rounded-full border border-beige text-beige text-sm md:text-lg"
+      className="px-4 py-1 rounded-full border border-black text-black text-sm md:text-lg"
     >
       {tech}
     </span>

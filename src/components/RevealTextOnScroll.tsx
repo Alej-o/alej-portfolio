@@ -40,7 +40,7 @@ export default function RevealTextOnScroll({
             animate={controls}
             variants={{
               visible: {
-                y: '0%',
+                y: '3%',
                 transition: {
                   duration: 0.6,
                   ease: 'easeOut',

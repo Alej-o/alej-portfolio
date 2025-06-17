@@ -5,7 +5,7 @@
 import { Canvas } from '@react-three/fiber'
 import HeroBackground from './HeroBackground'
 
-export default function Hero({ scale }: { scale: number }) {
+export default function Hero() {
   return (
     <Canvas
       gl={{ preserveDrawingBuffer: true }}
@@ -13,7 +13,7 @@ export default function Hero({ scale }: { scale: number }) {
       camera={{ position: [0, 0, 1], zoom: 1 }}
       className="w-full h-full"
     >
-      <HeroBackground scale={scale} />
+      <HeroBackground  />
     </Canvas>
   )
 }

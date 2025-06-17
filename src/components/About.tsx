@@ -43,8 +43,8 @@ export default function About() {
 
   return (
    <section id="about" className="ml-12 mt-24 relative z-10 ">
-      <RevealTextOnScroll className="text-6xl pt-24 text-left font-title text-beige uppercase ">À propos</RevealTextOnScroll>
-      <div className="mx-auto px-10 py-10 flex flex-col md:flex-row justify-between gap-10 font-sans text-beige">
+      <RevealTextOnScroll className="text-6xl pt-24 text-left font-title text-black uppercase ">À propos</RevealTextOnScroll>
+      <div className="mx-auto px-10 py-10 flex flex-col md:flex-row justify-between gap-10 font-sans text-black">
         <div>
           <AnimatedParagraph text="Hello, moi c’est Agathe ! Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles. Ce que j’aime, c’est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. J’accorde autant d’importance à ce qu’on ressent qu’à ce qu’on voit, en pensant toujours à l’utilisateur. Pour moi, le code, c’est un moyen d’exprimer des idées… et de toucher les gens." />
         </div>
@@ -53,8 +53,8 @@ export default function About() {
       </div>
 
       <div ref={ref} className="w-full mx-auto px-20 py-3">
-        <RevealTextOnScroll className="text-6xl mb-5 font-title text-beige uppercase">Technologies</RevealTextOnScroll>
-       <div className="flex flex-wrap items-center gap-x-4 gap-y-4 text-4xl pt-4 font-sans text-beige">
+        <RevealTextOnScroll className="text-6xl mb-5 font-title text-black uppercase">Technologies</RevealTextOnScroll>
+       <div className="flex flex-wrap items-center gap-x-4 gap-y-4 text-4xl pt-4 font-sans text-black uppercase">
   {techList.map((tech, i) => (
     <motion.div
       key={tech}
@@ -67,7 +67,7 @@ export default function About() {
       <span>{tech}</span>
       {/* Ajoute un point sauf pour le dernier */}
       {i !== techList.length - 1 && (
-        <span className="mx-2 text-3xl text-beige select-none">•</span>
+        <span className="mx-2 text-3xl text-black select-none">•</span>
       )}
     </motion.div>
   ))}
