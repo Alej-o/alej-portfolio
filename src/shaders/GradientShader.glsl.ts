@@ -47,9 +47,9 @@ float fbm(vec2 p) {
 
 // --- Palette sunset vintage ---
 const vec3 black = vec3(0.147, 0.059, 0.039);
-const vec3 color1 = vec3(0.675, 0.157, 0.004);
-const vec3 color2 = vec3(0.816, 0.357, 0.016);
-const vec3 color3 = vec3(0.970, 0.89, 0.810);
+const vec3 color1 = vec3(0.45, 0.03, 0.05);
+const vec3 color2 = vec3(0.55, 0.03, 0.07);
+const vec3 color3 = vec3(0.99, 0.95, 0.86);
 
 void main() {
   vec2 st = v_uv * 3.0;

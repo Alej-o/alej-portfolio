@@ -22,7 +22,7 @@ export default function Header() {
       <li>
         <FlipLink
           href="#about"
-          hoverChildren={<span className="text-yellow">À propos</span>}
+          hoverChildren={<span className="text-[#260F0A]">À propos</span>}
         >
           <span className="text-beige">À propos</span>
         </FlipLink>
@@ -30,7 +30,7 @@ export default function Header() {
       <li>
         <FlipLink
           href="#projects"
-          hoverChildren={<span className="text-yellow">Projets</span>}
+          hoverChildren={<span className="text-[#260F0A]">Projets</span>}
         >
           <span className="text-beige">Projets</span>
         </FlipLink>
@@ -38,7 +38,7 @@ export default function Header() {
       <li>
         <FlipLink
           href="mailto:agathe.lejour@email.com"
-          hoverChildren={<span className="text-yellow">Contact</span>}
+          hoverChildren={<span className="text-[#260F0A]">Contact</span>}
         >
           <span className="text-beige">Contact</span>
         </FlipLink>

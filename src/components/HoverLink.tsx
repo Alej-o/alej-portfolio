@@ -54,8 +54,8 @@ export const HoverLink = ({
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
-      className={`relative group flex w-full items-center justify-between border-b-2 py-4 transition-colors duration-500 ${
-        isHovered ? "border-yellow" : "border-black"
+      className={`relative group flex w-full items-center justify-between border-b-2 py-4 transition-colors duration-500 px-6 ${
+        isHovered ? "border-beige bg-black" : "border-black bg-transparent"
       }`}
     >
      
@@ -67,19 +67,19 @@ export const HoverLink = ({
         <FlipLink
           hovered={isHovered}
           href={href}
-          className="text-left space-y-2 pointer-events-none w-full "
+          className="text-left space-y-2 pointer-events-none w-full px-6"
           hoverChildren={
             <>
-              <div className="text-4xl font-title uppercase text-yellow">
+              <div className="text-6xl font-title uppercase text-beige">
                 {hoverHeading}
               </div>
-              <div className="text-4xl font-title text-yellow mt-4">
+              <div className="text-6xl font-title text-beige mt-4">
                 {hoverSubheading}
               </div>
             </>
           }
         >
-          <div className="text-4xl  font-title uppercase text-black">
+          <div className="text-6xl  font-title uppercase text-black">
             {heading}
           </div>
           <div className="flex flex-wrap gap-3 mt-4">
@@ -117,7 +117,7 @@ export const HoverLink = ({
         transition={{ type: "spring" }}
         className="relative z-10 p-4"
       >
-        <ArrowRight className="text-5xl text-yellow" size={40} />
+        <ArrowRight className="text-5xl text-beige" size={40} />
       </motion.div>
     </motion.div>
   );

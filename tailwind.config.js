@@ -13,7 +13,7 @@ module.exports = {
         vintageRed: "#AC2801",
         deepBrown: "#2B2B2B",
         beige: "#FCF0D6",
-        black: "#5C1805",
+        black: "#74070D",
         yellow: "#FB8C01",
       },
       fontFamily: {
