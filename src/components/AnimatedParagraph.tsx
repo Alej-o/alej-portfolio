@@ -74,7 +74,7 @@ const Char = ({
   return (
     <span className="relative inline-block">
       <span
-        className="absolute opacity-20 pointer-events-none text-yellow "
+        className="absolute opacity-20 pointer-events-none text-black"
         aria-hidden="true"
       >
         {children}

@@ -1,3 +1,5 @@
+import SlideButton from "./SlideButton";
+import FlipLink from "./FlipLink";
 export default function Footer() {
   return (
     <footer className="bg-beige text-black w-full mt-auto">
@@ -11,22 +13,34 @@ export default function Footer() {
 
         {/* Colonne droite : contenu bas aligné */}
         <div className="flex flex-col justify-end flex-1 font-title">
-          <div className="flex flex-wrap justify-start gap-6">
-            <p className="text-black text-3xl">Une idée, un projet ?</p>
-            <a
+          <div className="flex flex-wrap items-center gap-6">
+            <p className="text-black text-4xl ">Une idée, un projet ?</p>
+            <SlideButton
               href="mailto:agathe.lejour@email.com"
-              className="px-4 py-1 border border-black text-black rounded-md text-3xl hover:bg-black hover:text-beige transition"
+              className="px-6 py-3 text-beige text-3xl font-milk-honey rounded-md transition duration-300 flex items-center gap-2 uppercase"
+              
             >
               Contact
-            </a>
+            </SlideButton>
           </div>
 
           <hr className="w-full border-black my-4" />
 
           <div className="flex max-w-2xl text-2xl justify-between items-center text-black">
-            <a href="#">LinkedIn</a>
-            <a href="#">GitHub</a>
-            <a href="#">Annexe</a>
+           <FlipLink
+  href="#"
+  hoverChildren={"LinkedIn"}
+>
+  LinkedIn
+</FlipLink>
+            <FlipLink
+  href="#"
+  hoverChildren={"GitHub"}
+>GitHub</FlipLink >
+            <FlipLink
+  href="#"
+  hoverChildren={"Annexe"}
+> Annexe</FlipLink >
           </div>
         </div>
       </div>
