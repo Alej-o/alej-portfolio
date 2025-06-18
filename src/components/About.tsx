@@ -43,18 +43,20 @@ export default function About() {
 
   return (
    <section id="about" className="ml-12 mt-24 relative z-10 ">
-      <RevealTextOnScroll className="text-6xl pt-24 text-left font-title text-black uppercase ">À propos</RevealTextOnScroll>
-      <div className="mx-auto px-10 py-10 flex flex-col md:flex-row justify-between gap-10 font-sans text-black">
-        <div>
-          <AnimatedParagraph text="Hello, moi c’est Agathe ! Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles. Ce que j’aime, c’est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. J’accorde autant d’importance à ce qu’on ressent qu’à ce qu’on voit, en pensant toujours à l’utilisateur. Pour moi, le code, c’est un moyen d’exprimer des idées… et de toucher les gens." />
-        </div>
+      <RevealTextOnScroll className="text-6xl pt-24 items-center font-title justify-center text-black uppercase ">À propos</RevealTextOnScroll>
+      <div className="mx-auto px-10 py-10 flex flex-col md:flex-row  justify-center gap-10 font-sans text-black">
+  
+<AnimatedParagraph>
+  {"Hello, moi c’est Agathe !\n Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles.Ce que j’aime, c’est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. Pour moi, le code, c’est un moyen d’exprimer des idées… et de toucher les gens."}
+</AnimatedParagraph>       
+
 
         
       </div>
 
       <div ref={ref} className="w-full mx-auto px-20 py-3">
-        <RevealTextOnScroll className="text-6xl mb-5 font-title text-black uppercase">Technologies</RevealTextOnScroll>
-       <div className="flex flex-wrap items-center gap-x-4 gap-y-4 text-4xl pt-4 font-sans text-black uppercase">
+        <RevealTextOnScroll className="text-6xl pb-14 font-title text-black uppercase items-center justify-center">Technologies</RevealTextOnScroll>
+       <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-4 text-4xl pt-4 font-sans text-black uppercase">
   {techList.map((tech, i) => (
     <motion.div
       key={tech}

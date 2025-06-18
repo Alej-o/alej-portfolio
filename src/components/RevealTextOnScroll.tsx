@@ -1,4 +1,3 @@
-
 'use client'
 
 import { motion, useAnimation } from 'framer-motion'
@@ -18,10 +17,10 @@ export default function RevealTextOnScroll({
 }: RevealTextOnScrollProps) {
   const controls = useAnimation()
   const [ref, inView] = useInView({
-  triggerOnce: true,
-  threshold: 0.2,
-  rootMargin: '-15% 0px',
-})
+    triggerOnce: true,
+    threshold: 0.3,
+    rootMargin: '-10% 0px',
+  })
 
   useEffect(() => {
     if (inView) {
@@ -34,13 +33,14 @@ export default function RevealTextOnScroll({
   return (
     <div ref={ref} className={`flex flex-col gap-2 ${className}`}>
       {lines.map((line, index) => (
-        <div key={index} className="overflow-hidden">
+        <div key={index} className="overflow-hidden"> {/* Le "mur" */}
           <motion.div
-            initial={{ y: '100%' }}
+            initial={{ y: '100%', opacity: 0 }}
             animate={controls}
             variants={{
               visible: {
-                y: '3%',
+                y: '0%',
+                opacity: 1,
                 transition: {
                   duration: 0.6,
                   ease: 'easeOut',

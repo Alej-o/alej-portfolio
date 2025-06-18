@@ -4,31 +4,38 @@
 import { useScroll, useTransform, motion, MotionValue } from 'framer-motion'
 import React, { useRef } from 'react'
 
-export default function AnimatedParagraph({ text }: { text: string }) {
-  const container = useRef(null)
+export default function AnimatedParagraph({ children }: { children: React.ReactNode }) {
+   const container = useRef(null)
 
+  const text = typeof children === 'string' ? children : ''
+  const paragraphs = text.split('\n') // <-- Gère les sauts de ligne
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ['start 0.9', 'start 0.25'],
   })
 
-  const words = (text ?? '').split(' ')
-
   return (
-    <p
+    <div
       ref={container}
-      className="flex flex-wrap text-[50px] leading-none px-10 py-10 max-w-[1280px] text-black "
+      className="px-10 py-10 max-w-[1280px] text-black"
     >
-      {words.map((word, i) => {
-        const start = i / words.length
-        const end = start + 1 / words.length
+      {paragraphs.map((paragraph, pi) => {
+        const words = paragraph.split(' ')
         return (
-          <Word key={i} progress={scrollYProgress} range={[start, end]}>
-            {word}
-          </Word>
+          <p key={pi} className="flex flex-wrap text-[50px] leading-none mb-8">
+            {words.map((word, wi) => {
+              const start = wi / words.length
+              const end = start + 1 / words.length
+              return (
+                <Word key={wi} progress={scrollYProgress} range={[start, end]}>
+                  {word}
+                </Word>
+              )
+            })}
+          </p>
         )
       })}
-    </p>
+    </div>
   )
 }
 
