@@ -52,48 +52,63 @@ export const HoverLink = ({
 
   return (
     <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      className={`relative group flex w-full items-center justify-between border-b-2 py-4 transition-colors duration-500 px-6 ${
-        isHovered ? "border-beige bg-black" : "border-black bg-transparent"
-      }`}
-    >
-     
-      <div
-        onMouseEnter={() => setIsHovered(true)}
+  ref={ref}
+  onMouseMove={handleMouseMove}
+  className="relative group flex w-full h-full items-center justify-between border-b-2  transition-colors duration-500  border-black"
+   onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="w-full"
-      >
-        <FlipLink
-          hovered={isHovered}
-          href={href}
-          className="text-left space-y-2 pointer-events-none w-full px-6"
-          hoverChildren={
-            <>
-              <div className="text-6xl font-title uppercase text-beige">
-                {hoverHeading}
-              </div>
-              <div className="text-6xl font-title text-beige mt-4">
-                {hoverSubheading}
-              </div>
-            </>
-          }
-        >
-          <div className="text-6xl  font-title uppercase text-black">
-            {heading}
-          </div>
-          <div className="flex flex-wrap gap-3 mt-4">
-  {subheading.map((tech, i) => (
-    <span
-      key={i}
-      className="px-4 py-1 rounded-full border border-black text-black text-sm md:text-lg"
-    >
-      {tech}
-    </span>
-  ))}
-</div>
-        </FlipLink>
+>
+    
+       <FlipLink
+  hovered={isHovered}
+  href={href}
+  className="pointer-events-none w-full h-full"
+  hoverBackground
+  hoverChildren={
+    <div className="h-full flex items-center justify-between px-6">
+      <div className="text-left flex flex-col justify-center gap-4">
+        <div className="text-6xl font-title uppercase text-beige">
+          {hoverHeading}
+        </div>
+        <div className="text-4xl font-title text-beige">
+          {hoverSubheading}
+        </div>
       </div>
+        <motion.div
+        animate={
+          isHovered
+            ? { x: "0%", opacity: 1 }
+            : { x: "25%", opacity: 0 }
+        }
+        transition={{ type: "spring", }}
+        
+        className="relative z-10 p-4"
+      > <ArrowRight className="text-5xl text-beige" size={40} /></motion.div>
+    </div>
+  }
+>
+  <div className="h-full flex items-center justify-between px-6">
+    <div className="text-left flex flex-col justify-center gap-4">
+      <div className="text-6xl font-title uppercase text-black">
+        {heading}
+      </div>
+      <div className="flex flex-wrap gap-3">
+        {subheading.map((tech, i) => (
+          <span
+            key={i}
+            className="px-4 py-1 rounded-full border border-black text-black text-sm md:text-lg"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </div>
+  
+    
+  </div>
+</FlipLink>
+
+
 
     
       {isHovered && (
@@ -108,17 +123,9 @@ export const HoverLink = ({
         />
       )}
 
-      <motion.div
-        animate={
-          isHovered
-            ? { x: "0%", opacity: 1 }
-            : { x: "25%", opacity: 0 }
-        }
-        transition={{ type: "spring" }}
-        className="relative z-10 p-4"
-      >
-        <ArrowRight className="text-5xl text-beige" size={40} />
-      </motion.div>
+      
+        
+     
     </motion.div>
   );
 };
