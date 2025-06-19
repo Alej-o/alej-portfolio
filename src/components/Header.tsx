@@ -35,7 +35,7 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
-  const textColorClass = isDarkBackground ? 'text-white' : 'text-black';
+  const textColorClass = isDarkBackground ? 'text-beige' : 'text-black';
 
   return (
     <header

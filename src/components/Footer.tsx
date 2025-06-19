@@ -1,9 +1,9 @@
 import SlideButton from "./SlideButton";
 import FlipLink from "./FlipLink";
-export default function Footer() {
+export default function Footer({ className = "" }) {
   return (
-    <footer className="bg-beige text-black w-full mt-auto">
-      <div className="w-full flex flex-col md:flex-row justify-between items-end gap-6 px-6 min-h-[300px]">
+    <footer className={`w-full text-black ${className}`}>
+      <div className="w-full flex flex-col md:flex-row justify-between items-end gap-6 px-6 min-h-[200px]">
         {/* Colonne gauche : le titre */}
         <div className="flex items-end">
           <h2 className="text-[60px] sm:text-[90px] md:text-[110px] leading-[0.85] font-title uppercase text-left">
@@ -17,7 +17,7 @@ export default function Footer() {
             <p className="text-black text-4xl ">Une idée, un projet ?</p>
             <SlideButton
               href="mailto:agathe.lejour@email.com"
-              className="px-6 py-3 text-beige text-3xl font-milk-honey rounded-md transition duration-300 flex items-center gap-2 uppercase"
+              className="px-6 py-3 text-beige text-3xl font-title rounded-md transition duration-300 flex items-center gap-2 uppercase"
               
             >
               Contact
