@@ -24,13 +24,6 @@ export default function TextParallaxContent({ children }: Props) {
   })
 
   const canvasOpacity = useTransform(scrollYProgress, [0, 1], [1, 0])
-  // const scaleMotion = useTransform(scrollYProgress, [0, 0.5], [1, 0.75])
-
-  // scaleValue (si Hero attend un number)
-  // const [scaleValue, setScaleValue] = useState(1)
-  // useMotionValueEvent(scaleMotion, 'change', (latest) => {
-  //   setScaleValue(latest)
-  // })
 
   return (
     <div>
@@ -46,7 +39,6 @@ export default function TextParallaxContent({ children }: Props) {
           <Hero />
         </motion.div>
 
-        {/* Texte qui monte au scroll */}
         <OverlayCopy scrollYProgress={scrollYProgress} />
       </div>
 

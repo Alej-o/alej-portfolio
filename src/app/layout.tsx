@@ -37,7 +37,7 @@ export default function RootLayout({
       <body className={`h-full bg-pink-200 ${geistSans.variable} ${geistMono.variable} ${domine.variable} ${palmore.variable} ${milkHoney.variable}${inter.variable} ${caslon.variable}`}>
         <div className="">
           <Header />
-          <main className="flex-1">
+          <main className="flex-1 bg-beige">
             <SmoothScroll />
             {children}
           </main>

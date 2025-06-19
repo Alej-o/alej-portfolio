@@ -7,11 +7,13 @@ import HeroBackground from './HeroBackground'
 
 export default function Hero() {
   return (
+ 
     <Canvas
       gl={{ preserveDrawingBuffer: true }}
       orthographic
       camera={{ position: [0, 0, 1], zoom: 1 }}
       className="w-full h-full"
+      id="hero"
     >
       <HeroBackground  />
     </Canvas>

@@ -8,7 +8,7 @@ export default function AnimatedParagraph({ children }: { children: React.ReactN
    const container = useRef(null)
 
   const text = typeof children === 'string' ? children : ''
-  const paragraphs = text.split('\n') // <-- Gère les sauts de ligne
+  const paragraphs = text.split('\n') 
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ['start 0.9', 'start 0.25'],
@@ -22,7 +22,7 @@ export default function AnimatedParagraph({ children }: { children: React.ReactN
       {paragraphs.map((paragraph, pi) => {
         const words = paragraph.split(' ')
         return (
-          <p key={pi} className="flex flex-wrap text-[50px] leading-none mb-8">
+          <p key={pi} className="flex flex-wrap text-[50px] leading-none mb-8 ">
             {words.map((word, wi) => {
               const start = wi / words.length
               const end = start + 1 / words.length
@@ -52,7 +52,7 @@ const Word = ({
   const step = amount / children.length
 
   return (
-    <span className="relative mr-3 mt-3 inline-flex">
+    <span className="relative mr-3 mt-3 inline-flex ">
       {children.split('').map((char, i) => {
         const start = range[0] + i * step
         const end = range[0] + (i + 1) * step
@@ -81,12 +81,12 @@ const Char = ({
   return (
     <span className="relative inline-block">
       <span
-        className="absolute opacity-20 pointer-events-none text-black"
+        className="absolute opacity-20 pointer-events-none text-black "
         aria-hidden="true"
       >
         {children}
       </span>
-      <motion.span style={{ opacity, y }} className="inline-block">
+      <motion.span style={{ opacity, y }} className="inline-block ">
         {children}
       </motion.span>
     </span>

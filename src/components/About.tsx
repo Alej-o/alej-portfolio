@@ -42,9 +42,9 @@ export default function About() {
   }
 
   return (
-   <section id="about" className="ml-12 mt-24 relative z-10 ">
+   <section id="about" className="ml-12 mt-24 relative z-10 b bg-beige ">
       <RevealTextOnScroll className="text-6xl pt-24 items-center font-title justify-center text-black uppercase ">À propos</RevealTextOnScroll>
-      <div className="mx-auto px-10 py-10 flex flex-col md:flex-row  justify-center gap-10 font-sans text-black">
+      <div className=" px-10 py-10 flex flex-col md:flex-row  justify-center gap-10 font-sans text-black ">
   
 <AnimatedParagraph>
   {"Hello, moi c’est Agathe !\n Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles.Ce que j’aime, c’est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. Pour moi, le code, c’est un moyen d’exprimer des idées… et de toucher les gens."}
@@ -69,7 +69,7 @@ export default function About() {
       <span>{tech}</span>
       {/* Ajoute un point sauf pour le dernier */}
       {i !== techList.length - 1 && (
-        <span className="mx-2 text-3xl text-black select-none">•</span>
+        <span className="mx-2 text-3xl font-sans text-black select-none">•</span>
       )}
     </motion.div>
   ))}
