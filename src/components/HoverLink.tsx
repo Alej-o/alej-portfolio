@@ -64,7 +64,7 @@ export const HoverLink = ({
         if (isFirst && node) inViewRef(node);
       }}
       onMouseMove={handleMouseMove}
-      className="relative group flex w-full h-full items-center justify-between border-b-2 transition-colors duration-500 border-black"
+      className="relative group flex w-full h-full items-center justify-between border-b-2 transition-colors duration-500  border-black"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
