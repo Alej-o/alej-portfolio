@@ -12,14 +12,14 @@ export default function AnimatedParagraph({ children }: { children: React.ReactN
   const ref = useRef(null)
 
   const text = typeof children === 'string' ? children : ''
-  const words = text.split(/(\s+|\n)/) // conserve les espaces ET les sauts de ligne
+  const words = text.split(/(\s+|\n)/)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start 0.9', 'start 0.35'],
   })
 
   return (
-    <div ref={ref} className="px-10 py-10 max-w-[80ch] text-black text-[50px] leading-tight flex flex-wrap justify-center">
+    <div ref={ref} className="px-10 py-10 max-w-[80ch]  text-[50px] leading-tight flex flex-wrap text-justify justify-center font-eb-garamond">
       {words.map((word, i) => {
         if (word === '\n') {
           return <br key={`br-${i}`} />
@@ -51,7 +51,7 @@ function Word({
   const step = amount / children.length
 
   return (
-    <span className="relative mr-3 mt-3 inline-flex">
+    <span className="relative mr-3 mt-3 inline-flex font-eb-garamond">
       {children.split('').map((char, i) => {
         const start = range[0] + i * step
         const end = range[0] + (i + 1) * step
@@ -78,14 +78,14 @@ function Char({
   const y = useTransform(progress, range, [10, 0])
 
   return (
-    <span className="relative inline-block">
+    <span className="relative inline-block font-eb-garamond">
       <span
-        className="absolute opacity-20 pointer-events-none text-black"
+        className="absolute opacity-20 pointer-events-none  font-eb-garamond"
         aria-hidden="true"
       >
         {children}
       </span>
-      <motion.span style={{ opacity, y }} className="inline-block">
+      <motion.span style={{ opacity, y }} className="inline-block font-eb-garamond">
         {children}
       </motion.span>
     </span>

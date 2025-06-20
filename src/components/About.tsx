@@ -42,50 +42,45 @@ export default function About() {
   }
 
   return (
-   <section id="about" className="relative z-10 bg-beige min-h-screen flex flex-col justify-center">
-      <RevealTextOnScroll className="text-6xl pt-14 items-center font-title justify-center text-black uppercase ">À propos</RevealTextOnScroll>
-      <div className=" px-10 py-10 flex flex-col md:flex-row  justify-center gap-10 font-sans text-black ">
-  
-<AnimatedParagraph>
-  {"Hello, moi c’est Agathe !\n Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles. Ce que j’aime, c’est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. Pour moi, le code, c’est un moyen d’exprimer des idées… et de toucher les gens."}
-</AnimatedParagraph>       
+ <section id="about" className="relative z-10 bg-beige min-h-screen w-full flex flex-col justify-center">
+  <RevealTextOnScroll className="text-6xl pt-14 font-title text-center text-black uppercase">
+    À propos
+  </RevealTextOnScroll>
 
+  {/* ✅ Bloc de centrage horizontal */}
+  <div className="w-full flex justify-center ">
+    <div className=" font-eb-garamond ">
+      <AnimatedParagraph>
+        {"Hello, moi c’est Agathe !\n Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles. Ce que j’aime, c’est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. Pour moi, le code, c’est un moyen d’exprimer des idées… et de toucher les gens."}
+      </AnimatedParagraph>
+    </div>
+  </div>
 
-        
-      </div>
+  <div ref={ref} className="w-full mx-auto px-20 py-3">
+    <RevealTextOnScroll className="text-6xl pt-14 font-title text-black uppercase text-center">
+      Technologies
+    </RevealTextOnScroll>
 
-      <div ref={ref} className="w-full mx-auto px-20 py-3">
-        <RevealTextOnScroll className="text-6xl pt-20 font-title text-black uppercase items-center justify-center">Technologies</RevealTextOnScroll>
-       <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-4 text-4xl  pt-20 font-sans text-black uppercase">
-  {techList.map((tech, i) => (
-    <motion.div
-      key={tech}
-      custom={i}
-      initial="hidden"
-      animate={controls}
-      variants={tagVariants}
-      className="flex items-center"
-    >
-      <span>{tech}</span>
-      {/* Ajoute un point sauf pour le dernier */}
-      {i !== techList.length - 1 && (
-        <span className="mx-2 text-3xl font-sans text-black select-none">•</span>
-      )}
-    </motion.div>
-  ))}
-</div>
-      </div>
-   </section>
+    <RevealTextOnScroll className="flex flex-wrap items-center justify-center gap-x-4 gap-y-4 text-4xl pt-14 font-eb-garamond text-black uppercase">
+      {techList.map((tech, i) => (
+        <motion.div
+          key={tech}
+          custom={i}
+          initial="hidden"
+          animate={controls} 
+          variants={tagVariants}
+          className="flex items-center font-eb-garamond"
+        >
+          <span>{tech}</span>
+          {i !== techList.length - 1 && (
+            <span className="mx-2 text-3xl font-eb-garamond text-black select-none">•</span>
+          )}
+        </motion.div>
+      ))}
+    </RevealTextOnScroll>
+  </div>
+</section>
+
   )
 }
 
-
-{/* <div className="flex justify-center">
-          <Image
-            src="/image/image4.jpg"
-            alt="Portrait d'Agathe"
-            width={400}
-            height={400}
-            className="rounded-2xl object-cover"
-          />
-        </div> */}

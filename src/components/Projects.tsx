@@ -20,7 +20,7 @@ export default function Projects() {
       </div>
 
       {projectsData.map((p, index) => (
-        <HoverLink key={index} {...p} />
+        <HoverLink key={index} {...p} isFirst={index === 0}/>
       ))}
     </section>
   )

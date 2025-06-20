@@ -3,23 +3,21 @@
 import { motion, useAnimation } from 'framer-motion'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { ReactNode } from 'react'
 
 type RevealTextOnScrollProps = {
-  children: string
+  children: ReactNode
   className?: string
-  lineClassName?: string
 }
 
 export default function RevealTextOnScroll({
   children,
   className = '',
-  lineClassName = '',
 }: RevealTextOnScrollProps) {
   const controls = useAnimation()
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.3,
-    rootMargin: '-10% 0px',
+    threshold: 0.5,
   })
 
   useEffect(() => {
@@ -28,32 +26,25 @@ export default function RevealTextOnScroll({
     }
   }, [inView, controls])
 
-  const lines = children.split('\n')
-
   return (
-    <div ref={ref} className={`flex flex-col gap-2 ${className}`}>
-      {lines.map((line, index) => (
-        <div key={index} className="overflow-hidden"> {/* Le "mur" */}
-          <motion.div
-            initial={{ y: '100%', opacity: 0 }}
-            animate={controls}
-            variants={{
-              visible: {
-                y: '0%',
-                opacity: 1,
-                transition: {
-                  duration: 0.6,
-                  ease: 'easeOut',
-                  delay: index * 0.15,
-                },
-              },
-            }}
-            className={lineClassName}
-          >
-            {line}
-          </motion.div>
-        </div>
-      ))}
+    <div ref={ref} className="relative h-[100px] overflow-hidden flex items-center justify-center">
+      {/* Masque autour */}
+      <motion.div
+        initial={{ y: '100%' }}
+        animate={controls}
+        variants={{
+          visible: {
+            y: '0%',
+            transition: {
+              duration: 0.6,
+              ease: [0.25, 1, 0.5, 1], 
+            },
+          },
+        }}
+        className={className}
+      >
+        {children}
+      </motion.div>
     </div>
   )
 }

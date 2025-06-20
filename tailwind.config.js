@@ -21,8 +21,9 @@ module.exports = {
         serif: ['var(--font-domine)', 'serif'],
         palmore: ["var(--font-palmore)", "serif"],
         'milk-honey': ["var(--font-milk-honey)", "serif"],
-         sans: ['var(--font-inter)'],
+        sans: ['var(--font-inter)'],
         title: ['var(--font-caslon)'],
+        'eb-garamond': ['var(--font-eb-garamond)']
       },
     },
   },
