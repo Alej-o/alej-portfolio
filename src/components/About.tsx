@@ -62,21 +62,21 @@ export default function About() {
     </RevealTextOnScroll>
 
     <RevealTextOnScroll className="flex flex-wrap items-center justify-center gap-x-4 gap-y-4 text-4xl pt-14 font-eb-garamond text-black uppercase">
-      {techList.map((tech, i) => (
-        <motion.div
-          key={tech}
-          custom={i}
-          initial="hidden"
-          animate={controls} 
-          variants={tagVariants}
-          className="flex items-center font-eb-garamond"
-        >
-          <span>{tech}</span>
-          {i !== techList.length - 1 && (
-            <span className="mx-2 text-3xl font-eb-garamond text-black select-none">•</span>
-          )}
-        </motion.div>
-      ))}
+     {techList.map((tech, i) => (
+  <motion.div
+    key={tech}
+    custom={i}
+    initial="hidden"
+    animate={controls} 
+    variants={tagVariants}
+    className="flex items-center font-eb-garamond"
+  >
+    <span>{tech}</span>
+    {i !== techList.length - 1 && (
+      <span className="ml-4 text-2xl align-middle select-none" aria-hidden="true">•</span>
+    )}
+  </motion.div>
+))}
     </RevealTextOnScroll>
   </div>
 </section>
