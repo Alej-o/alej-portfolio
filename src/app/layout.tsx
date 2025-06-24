@@ -1,8 +1,8 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
+import Footer from "../components/layout/Footer";
+import SmoothScroll from "@/components/animations/SmoothScroll";
 import "./globals.css";
 
 import { Geist, Geist_Mono, Domine, Libre_Caslon_Display, Inter,EB_Garamond } from "next/font/google";

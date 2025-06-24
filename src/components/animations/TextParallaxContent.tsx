@@ -9,7 +9,7 @@ import {
   MotionValue,
   
 } from 'framer-motion'
-import Hero from './Hero'
+import Hero from '../sections/Hero'
 
 type Props = {
   children: ReactNode

@@ -2,7 +2,7 @@
 
 import About from './About'
 import Projects from './Projects'
-import TextParallaxContent from './TextParallaxContent'
+import TextParallaxContent from '../animations/TextParallaxContent'
 
 export default function PageContent() {
   return (

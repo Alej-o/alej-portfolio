@@ -2,8 +2,8 @@
 
 import { motion, useAnimation, useInView } from 'framer-motion'
 import { useEffect, useRef } from 'react'
-import AnimatedParagraph from './AnimatedParagraph'
-import RevealTextOnScroll from './RevealTextOnScroll'
+import AnimatedParagraph from '../animations/AnimatedParagraph'
+import RevealTextOnScroll from '../animations/RevealTextOnScroll'
 // import Image from 'next/image'
 
 const techList = [

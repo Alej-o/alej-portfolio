@@ -132,7 +132,7 @@ export const HoverLink = ({
       {subheading.map((tech, i) => (
         <span
           key={i}
-          className="px-4 py-1 rounded-full border border-black text-black text-sm md:text-lg"
+          className="px-4 py-1 rounded-md font-eb-garamond border border-black text-black text-sm md:text-lg"
         >
           {tech}
         </span>
@@ -144,7 +144,7 @@ export const HoverLink = ({
     {subheading.map((tech, i) => (
       <span
         key={i}
-        className="px-4 py-1 rounded-full border border-black text-black text-sm md:text-lg"
+        className="px-4 py-1 font-eb-garamond rounded-md border border-black text-black text-sm md:text-lg"
       >
         {tech}
       </span>

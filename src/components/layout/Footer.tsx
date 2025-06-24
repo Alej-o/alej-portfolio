@@ -1,5 +1,5 @@
-import SlideButton from "./SlideButton";
-import FlipLink from "./FlipLink";
+import SlideButton from "../animations/SlideButton";
+import FlipLink from "../animations/FlipLink";
 
 export default function Footer({ className = "" }) {
   return (
@@ -34,7 +34,7 @@ export default function Footer({ className = "" }) {
         {/* Ligne 2 droite - ligne + liens alignés à CONNECTÉS */}
         <div className="flex flex-col justify-start">
           <hr className="w-full border-black mb-1" />
-          <div className="flex gap-10 text-2xl font-title text-black">
+          <div className="flex gap-10 text-2xl font-title mt-6 text-black">
             <FlipLink href="#" hoverChildren="LinkedIn">LinkedIn</FlipLink>
             <FlipLink href="#" hoverChildren="GitHub">GitHub</FlipLink>
             <FlipLink href="#" hoverChildren="Annexe">Annexe</FlipLink>

@@ -1,8 +1,8 @@
 "use client"
 
-import { HoverLink } from "./HoverLink";
-import { projectsData } from "../data/projectsData"; 
-import RevealTextOnScroll from './RevealTextOnScroll'
+import { HoverLink } from "../animations/HoverLink";
+import { projectsData } from "../../data/projectsData"; 
+import RevealTextOnScroll from '../animations/RevealTextOnScroll'
 
 
 

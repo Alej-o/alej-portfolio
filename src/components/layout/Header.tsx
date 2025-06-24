@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import FlipLink from './FlipLink';
+import FlipLink from './animations/FlipLink';
 
 export default function Header() {
   const headerRef = useRef<HTMLDivElement>(null);
@@ -44,12 +44,12 @@ export default function Header() {
         scrolled ? 'bg-black/10 backdrop-blur-md shadow-md' : 'bg-transparent'
       }`}
     >
-      <nav className="flex items-center justify-between px-8 py-2">
+      <nav className="flex items-center justify-between px-8 py-3">
         <div className={`font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}>
           Agathe Lejour
         </div>
 
-        <div className={`absolute left-1/2 transform -translate-x-1/2 font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}>
+        <div className={`absolute left-1/2 transform -translate-x-1/2 font-title text-4xl  uppercase transition-colors duration-500 ${textColorClass}`}>
           PORTFOLIO 2025
         </div>
 
