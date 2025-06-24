@@ -44,7 +44,7 @@ export default function Header() {
         scrolled ? 'bg-black/10 backdrop-blur-md shadow-md' : 'bg-transparent'
       }`}
     >
-      <nav className="flex items-center justify-between px-6 py-2">
+      <nav className="flex items-center justify-between px-8 py-2">
         <div className={`font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}>
           Agathe Lejour
         </div>

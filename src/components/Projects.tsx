@@ -11,7 +11,7 @@ export default function Projects() {
   return (
    <section
       id="projects"
-      className="min-h-screen flex flex-col justify-center px-8 "
+      className=" flex flex-col justify-center pt-10 px-8 pb-60 "
     >
       <div className=" flex items-center pl-8 justify-center pb-20 border-b-2 border-black">
         <RevealTextOnScroll className="text-6xl  font-title text-black uppercase leading-[1.8]">

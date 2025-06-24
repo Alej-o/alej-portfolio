@@ -21,9 +21,9 @@ export default function AnimatedParagraph({ children }: { children: React.ReactN
   return (
     <div ref={ref} className="px-10 py-10 max-w-[80ch]  text-[50px] leading-tight flex flex-wrap text-justify justify-center font-eb-garamond">
       {words.map((word, i) => {
-        if (word === '\n') {
-          return <br key={`br-${i}`} />
-        }
+       if (word === '\n') {
+  return <span key={`br-${i}`} className="block w-full h-0 mb-2" />
+}
 
         const start = i / words.length
         const end = start + 1 / words.length
