@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import FlipLink from './animations/FlipLink';
+import FlipLink from '../animations/FlipLink';
 
 export default function Header() {
   const headerRef = useRef<HTMLDivElement>(null);

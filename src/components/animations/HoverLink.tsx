@@ -10,14 +10,15 @@ import React, { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import FlipLink from "./FlipLink";
+import Link from "next/link";
 
 interface ProjectProps {
+  slug: string;
   heading: string;
   subheading: string[];
   hoverHeading: string;
   hoverSubheading: string;
   imgSrc: string;
-  href: string;
   isFirst?: boolean;
 }
 
@@ -25,7 +26,7 @@ export const HoverLink = ({
   heading,
   imgSrc,
   subheading,
-  href,
+  slug,
   hoverHeading,
   hoverSubheading,
   isFirst,
@@ -68,9 +69,10 @@ export const HoverLink = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      <Link href={`/projects/${slug}`} className="w-full h-full block">
       <FlipLink
         hovered={isHovered}
-        href={href}
+        href={`/projects/${slug}`}
         className="pointer-events-none w-full h-full"
         hoverBackground
         hoverChildren={
@@ -95,6 +97,7 @@ export const HoverLink = ({
           </div>
         }
       >
+
         <div className="h-full flex items-center justify-between px-6">
           <div className="text-left flex flex-col justify-center gap-4">
             {isFirst ? (
@@ -155,7 +158,7 @@ export const HoverLink = ({
           </div>
         </div>
       </FlipLink>
-
+</Link>
       {isHovered && (
         <motion.img
           style={{

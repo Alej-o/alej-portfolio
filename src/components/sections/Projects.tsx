@@ -1,26 +1,23 @@
 "use client"
 
+import Link from "next/link";
 import { HoverLink } from "../animations/HoverLink";
 import { projectsData } from "../../data/projectsData"; 
 import RevealTextOnScroll from '../animations/RevealTextOnScroll'
 
-
-
-
 export default function Projects() {
   return (
-   <section
-      id="projects"
-      className=" flex flex-col justify-center pt-10 px-8 pb-60 "
-    >
-      <div className=" flex items-center pl-8 justify-center pb-20 border-b-2 border-black">
-        <RevealTextOnScroll className="text-6xl  font-title text-black uppercase leading-[1.8]">
+    <section id="projects" className="flex flex-col justify-center pt-10 px-8 pb-60">
+      <div className="flex items-center pl-8 justify-center pb-20 border-b-2 border-black">
+        <RevealTextOnScroll className="text-6xl font-title text-black uppercase leading-[1.8]">
           Projects
         </RevealTextOnScroll>
       </div>
 
       {projectsData.map((p, index) => (
-        <HoverLink key={index} {...p} isFirst={index === 0}/>
+        <Link key={p.slug} href={`/projects/${p.slug}`} className="block">
+          <HoverLink {...p} isFirst={index === 0} />
+        </Link>
       ))}
     </section>
   )

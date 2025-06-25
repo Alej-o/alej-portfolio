@@ -1,6 +1,6 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import Header from "../components/Header";
+import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import "./globals.css";
