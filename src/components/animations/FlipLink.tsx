@@ -11,18 +11,20 @@ interface FlipLinkProps {
   className?: string;
   hovered?: boolean;
   hoverBackground?: boolean;
+  label?: string;
 }
 
 export default function FlipLink({
   children,
   hoverChildren,
   href,
+  label,
   className = "",
   hovered = false,
   hoverBackground = false,
 }: FlipLinkProps) {
   return (
-    <TransitionLink href={href} className="block w-full h-full">
+    <TransitionLink href={href} label={label} className="block w-full h-full">
       <motion.div
         initial="initial"
         whileHover="hovered"

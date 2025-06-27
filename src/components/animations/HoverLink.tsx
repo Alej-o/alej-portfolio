@@ -20,6 +20,7 @@ interface ProjectProps {
   hoverSubheading: string;
   imgSrc: string;
   isFirst?: boolean;
+  transitionLabel?: string;
 }
 
 export const HoverLink = ({
@@ -30,6 +31,7 @@ export const HoverLink = ({
   hoverHeading,
   hoverSubheading,
   isFirst,
+  transitionLabel 
 }: ProjectProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -71,6 +73,7 @@ export const HoverLink = ({
     >
      
       <FlipLink
+      label={transitionLabel}
         hovered={isHovered}
         href={`/projects/${slug}`}
         className="pointer-events-none w-full h-full"

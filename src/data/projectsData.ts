@@ -7,9 +7,9 @@ export type ProjectData = {
   hoverHeading: string;
   hoverSubheading: string;
   imgSrc: string;
-  
   title: string;
   description: string;
+  transitionLabel?: string;
 };
 
 export const projectsData: ProjectData[] = [
@@ -22,6 +22,7 @@ export const projectsData: ProjectData[] = [
     imgSrc: "/image/image1.jpg",
     title: "Trollen - Application mobile",
     description: "Une application mobile innovante pour la gestion de projets.",
+    transitionLabel: "Trollen",
   },
   {
     slug: "portfolio",
@@ -32,6 +33,7 @@ export const projectsData: ProjectData[] = [
     imgSrc: "/image/image2.jpg",
     title: "Mon Portfolio",
     description: "Un portfolio interactif mettant en avant mes projets et compétences.",
+    transitionLabel: "Mon Portfolio",
   },
   {
     slug: "site-web",
@@ -42,5 +44,6 @@ export const projectsData: ProjectData[] = [
     imgSrc: "/image/image3.jpg",
     title: "Site Web",
     description: "Un site web dynamique et interactif construit avec les dernières technologies.",
+    transitionLabel: "Mon Site Web",
   },
 ];
