@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import SmoothScroll from "@/components/animations/SmoothScroll";
+import PageTransition from "@/components/animations/PageTransition"
 import "./globals.css";
 
 import { Geist, Geist_Mono, Domine, Libre_Caslon_Display, Inter,EB_Garamond } from "next/font/google";
@@ -37,12 +38,16 @@ export default function RootLayout({
         ${geistSans.variable} ${geistMono.variable} ${domine.variable} 
         ${palmore.variable} ${milkHoney.variable} ${inter.variable} ${caslon.variable} ${ebGaramond.variable}`}
       >
+        <PageTransition >
         <Header />
-        <main className="flex-1">
-          <SmoothScroll />
-          {children}
-        </main>
+       <main className="flex-1">
+  <SmoothScroll />
+  
+    {children}
+  
+</main>
         <Footer />
+        </PageTransition>
       </body>
     </html>
   );

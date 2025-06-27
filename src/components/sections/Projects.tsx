@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link";
 import { HoverLink } from "../animations/HoverLink";
 import { projectsData } from "../../data/projectsData"; 
 import RevealTextOnScroll from '../animations/RevealTextOnScroll'
@@ -15,10 +14,9 @@ export default function Projects() {
       </div>
 
       {projectsData.map((p, index) => (
-        <Link key={p.slug} href={`/projects/${p.slug}`} className="block">
-          <HoverLink {...p} isFirst={index === 0} />
-        </Link>
-      ))}
+  <HoverLink key={p.slug} {...p} isFirst={index === 0} />
+))}
     </section>
   )
 }
+ 

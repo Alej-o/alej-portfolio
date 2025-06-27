@@ -10,7 +10,7 @@ import React, { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import FlipLink from "./FlipLink";
-import Link from "next/link";
+
 
 interface ProjectProps {
   slug: string;
@@ -69,7 +69,7 @@ export const HoverLink = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link href={`/projects/${slug}`} className="w-full h-full block">
+     
       <FlipLink
         hovered={isHovered}
         href={`/projects/${slug}`}
@@ -158,7 +158,7 @@ export const HoverLink = ({
           </div>
         </div>
       </FlipLink>
-</Link>
+
       {isHovered && (
         <motion.img
           style={{

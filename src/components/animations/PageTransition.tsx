@@ -1,35 +1,51 @@
+// components/PageTransition.tsx
 "use client"
 
-import { motion, AnimatePresence } from "framer-motion"
-import { usePathname } from "next/navigation"
-import { ReactNode } from "react"
+import { createContext, useContext, useState } from "react"
+import { useRouter } from "next/navigation"
+import { AnimatePresence, motion } from "framer-motion"
 
-export default function PageTransition({ children }: { children: ReactNode }) {
-  const pathname = usePathname()
+type Phase = "idle" | "covering" | "revealing"
+
+const PageTransitionContext = createContext<{ startTransition: (url: string) => void }>({
+  startTransition: () => {},
+})
+
+export const usePageTransition = () => useContext(PageTransitionContext)
+
+export default function PageTransition({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const [phase, setPhase] = useState<Phase>("idle")
+
+  const startTransition = (url: string) => {
+    setPhase("covering")
+
+    setTimeout(() => {
+      router.push(url)
+      setPhase("revealing")
+    }, 800)
+
+    setTimeout(() => {
+      setPhase("idle")
+    }, 1600)
+  }
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div key={pathname}>
-        {/* Slide In */}
-      <motion.div
-  className="absolute top-0 left-0 w-full h-screen bg-[#0f0f0f] origin-bottom z-50"
-  initial={{ scaleY: 0 }}
-  animate={{ scaleY: 0 }}
-  exit={{ scaleY: 1 }}
-  transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-/>
-        {/* Slide Out */}
-        <motion.div
-  className="absolute top-0 left-0 w-full h-screen bg-[#0f0f0f] origin-top z-50"
-  initial={{ scaleY: 1 }}
-  animate={{ scaleY: 0 }}
-  exit={{ scaleY: 0 }}
-  transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-/>
-        {/* Contenu réel de la page */}
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <PageTransitionContext.Provider value={{ startTransition }}>
+      {children}
+
+      <AnimatePresence>
+        {phase !== "idle" && (
+          <motion.div
+            key={phase}
+            className="fixed top-0 left-0 w-full h-full bg-black z-[9999]"
+            initial={{ y: "100%" }}
+            animate={{ y: phase === "covering" ? "0%" : "-100%" }}
+            exit={{ y: "-100%" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          />
+        )}
+      </AnimatePresence>
+    </PageTransitionContext.Provider>
   )
 }
- 
