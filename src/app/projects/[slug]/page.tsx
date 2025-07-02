@@ -1,36 +1,87 @@
-
-import { notFound } from "next/navigation"
+// app/projects/[slug]/page.tsx
 import { projectsData } from "@/data/projectsData"
+import { notFound } from "next/navigation"
+import Image from "next/image"
+import { HoverLink } from "../../../components/animations/HoverLink"
+import SlideButton from "../../../components/animations/SlideButton";
 
-
-export async function generateStaticParams() {
-  return projectsData.map((project) => ({ slug: project.slug }))
-}
-
-export default function ProjectPage({ params }: { params: { slug: string } }) {
-  const project = projectsData.find((p) => p.slug === params.slug)
-
+export default  function ProjectPage({ params }: { params: { slug: string } }) {
+  const project = projectsData.find(p => p.slug === params.slug)
   if (!project) return notFound()
+    
+  const otherProjects = projectsData.filter(p => p.slug !== params.slug)
 
   return (
-   
-    <main className="p-10">
-      <h1 className="text-5xl font-title uppercase">{project.title}</h1>
-      <p className="mt-6 text-xl">{project.description}</p>
+    <>
+    <main className="bg-beige text-black  flex flex-col md:flex-row px-10 pt-40 gap-12 borber-b border-black">
+      
+     
+      <div className="flex-1 flex flex-col gap-10 max-w-6xl  ">
+        <h2 className="text-8xl font-title leading-tight uppercase tracking-wider border-b border-black pb-4">
+          {project.title}
+        </h2>
+        <p className="text-xl font-eb-garamond ">(DESCRIPTION)</p>
+        <p className="text-4xl  font-eb-garamond">{project.description}</p>
 
-      <div className="mt-6 flex flex-wrap gap-3">
-        {project.subheading.map((tag) => (
-          <span
-            key={tag}
-            className="px-4 py-1 rounded-full border border-black text-black text-sm md:text-lg"
-          >
-            {tag}
-          </span>
-        ))}
+        <div className="border-t border-black pt-10 text-4xl space-y-8">
+          <DetailRow label="(TYPE)" value={project.type} />
+          <DetailRow label="(TECHNOLOGIES)" value={project.subheading.join(", ")} />
+          <DetailRow label="(STATUS)" value={project.status} />
+          <DetailRow label="(ANNEE)" value={project.annee} /> 
+          
+        </div>
+{project.link ? (
+  <DetailRow label="(LIEN)" value="">
+    <SlideButton
+      href={project.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="uppercase flex justify-center items-center"
+    >
+      {project.link.includes("github.com")
+        ? "Voir le code sur GitHub"
+        : "Visiter le site"}
+    </SlideButton>
+  </DetailRow>
+) : (
+  <DetailRow label="(LIEN)" value="Non disponible" />
+)}
       </div>
 
-      {/* <img src={project.imgSrc} alt={project.title} className="mt-10 w-full max-w-4xl" /> */}
+     
+   <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 justify-center items-center ">
+        <Image
+          src={project.imgSrc}
+          alt={project.title}
+          width={300}
+          height={200}
+          className="object-cover rounded-lg"></Image>
+ 
+</div> 
+
     </main>
-    
+     <section className="flex flex-col justify-center px-10 pt-20 pb-10">
+        <h3 className="font-title uppercase mb-10 text-6xl text-black tracking-wider">Autres projets</h3>
+        <div className="flex flex-col font-title text-2xl">
+          {otherProjects.map((p, index) => (
+            <HoverLink key={p.slug} {...p} isFirst={index === 0}  variant="compact"/>
+          ))}
+        </div>
+      </section>
+      </>
   )
 }
+
+function DetailRow({ label, value, children }: { label: string; value: string; children?: React.ReactNode }) {
+  return (
+    <div className="flex justify-between border-b border-black pb-2">
+      <span className="text-sm uppercase tracking-wider">{label}</span>
+      {children ? (
+        <span className="font-title">{children}</span>
+      ) : (
+        <span className="font-title">{value}</span>
+      )}
+    </div>
+  )
+}
+

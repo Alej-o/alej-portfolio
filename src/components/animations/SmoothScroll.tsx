@@ -7,9 +7,9 @@ import Lenis from "@studio-freight/lenis";
 export default function SmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
-      lerp: 0.1, // Ajustez cette valeur pour un défilement plus fluide
+      lerp: 0.1, 
       smoothWheel: true,
-      // Utilisez uniquement les options valides pour Lenis
+  
     });
 
     function raf(time: number) {

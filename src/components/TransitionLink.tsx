@@ -10,11 +10,11 @@ interface Props {
 }
 
 export default function TransitionLink({ href, children, className, label }: Props) {
-  const { startTransition, setLabel } = usePageTransition() // 👈 assure-toi que c’est bien exposé
+  const { startTransition, setLabel } = usePageTransition() 
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    if (label) setLabel(label) // 👈 définir le texte à afficher dans le rideau
+    if (label) setLabel(label)
     startTransition(href)
   }
 

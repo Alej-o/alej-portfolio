@@ -47,7 +47,7 @@ export default function About() {
     À propos
   </RevealTextOnScroll>
 
-  {/* ✅ Bloc de centrage horizontal */}
+
   <div className="w-full flex justify-center">
     <div className="font-eb-garamond">
       <AnimatedParagraph>
@@ -57,13 +57,13 @@ Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes
     </div>
   </div>
 
-  {/* ✅ Bloc Technologies plus bas */}
+
   <div ref={ref} className="w-full mx-auto mt-20">
     <RevealTextOnScroll className="text-6xl font-title text-black uppercase text-center">
       Technologies
     </RevealTextOnScroll>
 
-    {/* ✅ Liste espacée du titre */}
+   
     <RevealTextOnScroll className="flex flex-wrap items-center justify-center gap-x-4 mt-8 text-4xl font-eb-garamond text-black uppercase">
       {techList.map((tech, i) => (
         <motion.div

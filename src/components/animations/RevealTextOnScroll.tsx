@@ -28,7 +28,7 @@ export default function RevealTextOnScroll({
 
   return (
     <div ref={ref} className="relative h-[100px] overflow-hidden flex items-center justify-center">
-      {/* Masque autour */}
+     
       <motion.div
         initial={{ y: '100%' }}
         animate={controls}

@@ -10,7 +10,7 @@ interface CardProps {
   title: string;
   description: string;
   href: string;
-  offset: number;         // –∞ … +∞ mais on ne stylise qu’entre –1 et +1
+  offset: number;        
   onPrev: () => void;
   onNext: () => void;
 }
@@ -26,7 +26,7 @@ export function Card({
 }: CardProps) {
   const isVisible = Math.abs(offset) <= 1;
 
-  // Typage explicite pour ESLint
+ 
   const cardStyle: React.CSSProperties = {
     width:              500,
     height:             400,
@@ -35,7 +35,7 @@ export function Card({
     backfaceVisibility: "hidden",
     transition:         "transform 0.5s, opacity 0.5s",
     overflow:           "hidden",
-    // Only apply transforms/opacity when in the visible window
+   
     transform:          isVisible
       ? `rotateY(${offset === -1 ? 1 : offset === 1 ? -1 : 0}deg)
          rotateX(${offset === 0 ? 0 : 5}deg)
@@ -48,7 +48,7 @@ export function Card({
 
   return (
     <div className="flex-shrink-0 relative rounded-xl" style={cardStyle}>
-      {/* Image de fond */}
+     
       <Image
         src={img}
         alt={title}
@@ -59,9 +59,9 @@ export function Card({
 
      
 
-      {/* Contenu */}
+      
       <div className="absolute inset-0 flex flex-col items-center justify-end p-6">
-  {/* ← conteneur semi-transparent autour du texte */}
+ 
   <div className="bg-white bg-opacity-70 backdrop-blur-sm px-4 py-2 rounded-lg text-center">
     <h3 className="text-2xl font-bold text-gray-800">{title}</h3>
     <p className="mt-2 text-sm text-gray-700">{description}</p>
@@ -74,7 +74,7 @@ export function Card({
   </div>
 </div>
 
-      {/* Flèches sur la carte centrale */}
+    
       {offset === 0 && (
         <>
           <button

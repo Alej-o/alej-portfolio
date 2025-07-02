@@ -10,6 +10,7 @@ type SlideButtonProps = {
 export default function SlideButton({ children, className = "", ...props }: SlideButtonProps) {
   return (
     <motion.a
+     role="link"
       initial="rest"
       whileHover="hover"
       animate="rest"

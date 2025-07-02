@@ -57,7 +57,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   }}
   exit={{ y: "-100%" }}
   transition={{
-    duration: phase === "covering" ? 1.5 : 1.5, // ⏳ ralentir montée
+    duration: phase === "covering" ? 1.5 : 1.5, 
     ease: [0.22, 1, 0.36, 1],
   }}
 >
@@ -68,7 +68,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     exit={{ opacity: 0, y: -20 }}
     transition={{
       duration: 0.7,
-      delay: 0.6, // 🕓 apparait un peu après le début de la montée
+      delay: 0.6, 
       ease: [0.22, 1, 0.36, 1],
     }}
     className="text-beige text-6xl font-title uppercase"

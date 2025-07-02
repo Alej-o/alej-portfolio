@@ -10,6 +10,10 @@ export type ProjectData = {
   title: string;
   description: string;
   transitionLabel?: string;
+  status: string;
+  type: string;
+  annee: string
+  link?: string // Optional field for project type
 };
 
 export const projectsData: ProjectData[] = [
@@ -20,30 +24,40 @@ export const projectsData: ProjectData[] = [
     hoverHeading: "Trollen",
     hoverSubheading: "Découvrir le projet",
     imgSrc: "/image/image1.jpg",
-    title: "Trollen - Application mobile",
-    description: "Une application mobile innovante pour la gestion de projets.",
+    title: "Trollen",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu diam vitae dolor viverra scelerisque. Curabitur dignissim aliquam pretium. Vestibulum nisi massa, auctor ac iaculis sed, feugiat non eros. ",
     transitionLabel: "Trollen",
+    status: "Terminée",
+    type: "Application mobile",
+    annee: "2025",
   },
   {
     slug: "portfolio",
     heading: "Portfolio",
     subheading: ["TypeScript", "Next", "Three.js", "Tailwind", "Framer Motion"],
-    hoverHeading: "Voir le site",
+    hoverHeading: "voir le portfolio",
     hoverSubheading: "Explorer la démo",
     imgSrc: "/image/image2.jpg",
     title: "Mon Portfolio",
     description: "Un portfolio interactif mettant en avant mes projets et compétences.",
     transitionLabel: "Mon Portfolio",
+    status: "Terminée",
+    type: "Site web",
+    annee: "2025",
+    link: "https://mon-portfolio.com", // Optional link for portfolio project
   },
   {
     slug: "site-web",
     heading: "Site web",
     subheading: ["Next.js", "Three.js", "Framer Motion"],
-    hoverHeading: "Mon Portfolio",
+    hoverHeading: "Site Web",
     hoverSubheading: "Plongez dans l’univers",
     imgSrc: "/image/image3.jpg",
     title: "Site Web",
     description: "Un site web dynamique et interactif construit avec les dernières technologies.",
     transitionLabel: "Mon Site Web",
+    status: "En cours",
+    type: "Site web",
+    annee: "2025",
   },
 ];

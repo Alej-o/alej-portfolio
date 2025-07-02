@@ -28,7 +28,7 @@ export default function TextParallaxContent({ children }: Props) {
   return (
     <div>
       <div ref={ref} className="relative h-[100vh]">
-        {/* Canvas */}
+      
         <motion.div
           style={{
             opacity: canvasOpacity,
@@ -60,7 +60,7 @@ const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
       style={{ y, opacity }}
       className="absolute bottom-16 left-12 pointer-events-none z-20 text-left "
     >
-      <p className="text-[90px] md:text-[190px] font-title text-beige leading-[0.8] uppercase">
+      <p className=" text-[220px] font-title text-beige leading-[0.8] uppercase">
         DÉVELOPPEUSE<br />
         <span>FRONT-END</span>
       </p>
