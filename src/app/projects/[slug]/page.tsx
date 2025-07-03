@@ -1,4 +1,4 @@
-// app/projects/[slug]/page.tsx
+
 import { projectsData } from "@/data/projectsData"
 import { notFound } from "next/navigation"
 import Image from "next/image"

@@ -1,4 +1,4 @@
-// src/components/WavyText.tsx
+
 "use client";
 
 import { animate, stagger } from "motion";

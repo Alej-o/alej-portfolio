@@ -31,7 +31,7 @@ export default function FlipLink({
         animate={hovered ? "hovered" : "initial"}
         className={`relative block overflow-hidden font-title text-3xl sm:text-2xl md:text-4xl ${hoverBackground ? 'py-8' : 'py-1'} ${className}`}
       >
-        {/* --- Fond animé si activé --- */}
+    
         {hoverBackground && (
           <>
             <motion.div
@@ -57,7 +57,7 @@ export default function FlipLink({
           </>
         )}
 
-        {/* Texte normal */}
+   
         <motion.div
           className="h-full flex flex-col justify-center relative z-10"
           variants={{
@@ -69,7 +69,7 @@ export default function FlipLink({
           {children}
         </motion.div>
 
-        {/* Texte hover */}
+
         <motion.div
           className="absolute inset-0 h-full flex flex-col justify-center z-10"
           variants={{

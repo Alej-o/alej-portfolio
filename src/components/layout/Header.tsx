@@ -1,12 +1,18 @@
 'use client';
 
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import FlipLink from '../animations/FlipLink';
+import { usePageTransition } from '../animations/PageTransition'; 
 
 export default function Header() {
   const headerRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [isDarkBackground, setIsDarkBackground] = useState(true); // white by default
+  const [isDarkBackground, setIsDarkBackground] = useState(true);
+  const pathname = usePathname();
+  const { startTransition } = usePageTransition(); 
+  const isHome = pathname === '/';
 
   useEffect(() => {
     const onScroll = () => {
@@ -18,7 +24,11 @@ export default function Header() {
 
   useEffect(() => {
     const hero = document.querySelector('#hero');
-    if (!hero || !headerRef.current) return;
+
+    if (!hero || pathname !== '/') {
+      setIsDarkBackground(false);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -33,9 +43,16 @@ export default function Header() {
 
     observer.observe(hero);
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   const textColorClass = isDarkBackground ? 'text-beige' : 'text-black';
+
+  const scrollToHash = (hash: string) => {
+    const el = document.querySelector(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <header
@@ -45,25 +62,65 @@ export default function Header() {
       }`}
     >
       <nav className="flex items-center justify-between px-8 py-3">
-        <div className={`font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}>
-          Agathe Lejour
-        </div>
+        {isHome ? (
+          <span
+            className={`font-title text-4xl uppercase transition-colors duration-500 ${textColorClass} cursor-default`}
+          >
+            Agathe Lejour
+          </span>
+        ) : (
+          <Link href="/" scroll={false}>
+            <span
+              className={`cursor-pointer font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}
+            >
+              Agathe Lejour
+            </span>
+          </Link>
+        )}
 
-        <div className={`absolute left-1/2 transform -translate-x-1/2 font-title text-4xl  uppercase transition-colors duration-500 ${textColorClass}`}>
+        <div
+          className={`absolute left-1/2 transform -translate-x-1/2 font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}
+        >
           PORTFOLIO 2025
         </div>
 
         <ul className="flex items-center gap-8 ml-auto font-title uppercase">
-          {['#about', '#projects', 'mailto:agathe.lejour@email.com'].map((href, i) => {
-            const label = ['À propos', 'Projets', 'Contact'][i];
+          {[
+            { href: '#about', label: 'À propos' },
+            { href: '#projects', label: 'Projets' },
+            { href: 'mailto:agathe.lejour@email.com', label: 'Contact' },
+          ].map(({ href, label }) => {
+            const isHash = href.startsWith('#');
+
+            const handleClick = (e: React.MouseEvent) => {
+              e.preventDefault();
+              if (isHash) {
+                if (isHome) {
+                  scrollToHash(href);
+                } else {
+                  startTransition('/' + href); 
+                }
+              } else {
+                window.location.href = href;
+              }
+            };
+
             return (
               <li key={href}>
-                <FlipLink
-                  href={href}
-                  hoverChildren={<span className={`transition-colors duration-500 ${textColorClass}`}>{label}</span>}
-                >
-                  <span className={`transition-colors duration-500 ${textColorClass}`}>{label}</span>
-                </FlipLink>
+                <button onClick={handleClick}>
+                  <FlipLink
+                    href={href}
+                    hoverChildren={
+                      <span className={` uppercase transition-colors duration-500 ${textColorClass}`}>
+                        {label}
+                      </span>
+                    }
+                  >
+                    <span className={`uppercase transition-colors duration-500 ${textColorClass}`}>
+                      {label}
+                    </span>
+                  </FlipLink>
+                </button>
               </li>
             );
           })}
@@ -72,4 +129,3 @@ export default function Header() {
     </header>
   );
 }
-

@@ -28,19 +28,25 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const [phase, setPhase] = useState<Phase>("idle")
   const [label, setLabel] = useState<string | null>(null)
 
-  const startTransition = (url: string) => {
-    setPhase("covering")
-
-    setTimeout(() => {
-      router.push(url)
-      setPhase("revealing")
-    }, 800)
-
-    setTimeout(() => {
-      setPhase("idle")
-      setLabel(null) 
-    }, 1600)
+const startTransition = (url: string) => {
+  
+  if (url.startsWith("#") || url.startsWith("mailto:")) {
+    router.push(url) 
+    return
   }
+
+  setPhase("covering")
+
+  setTimeout(() => {
+    router.push(url)
+    setPhase("revealing")
+  }, 800)
+
+  setTimeout(() => {
+    setPhase("idle")
+    setLabel(null)
+  }, 1600)
+}
 
   return (
     <PageTransitionContext.Provider value={{ startTransition, setLabel }}>
