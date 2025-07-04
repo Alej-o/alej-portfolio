@@ -14,7 +14,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <main className="bg-beige text-black flex flex-col md:flex-row px-10 pt-40 gap-12 border-b border-black">
+      <main className="bg-beige text-black flex flex-col md:flex-row px-10 pt-40 gap-12  ">
         <div className="flex-1 flex flex-col gap-10 max-w-6xl">
           <h2 className="text-8xl font-title leading-tight uppercase tracking-wider border-b border-black pb-4">
             {project.title}

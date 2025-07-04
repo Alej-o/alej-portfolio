@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import FlipLink from '../animations/FlipLink';
@@ -11,8 +10,9 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isDarkBackground, setIsDarkBackground] = useState(true);
   const pathname = usePathname();
-  const { startTransition } = usePageTransition(); 
+  const { startTransition} = usePageTransition(); 
   const isHome = pathname === '/';
+  
 
   useEffect(() => {
     const onScroll = () => {
@@ -63,20 +63,23 @@ export default function Header() {
     >
       <nav className="flex items-center justify-between px-8 py-3">
         {isHome ? (
-          <span
-            className={`font-title text-4xl uppercase transition-colors duration-500 ${textColorClass} cursor-default`}
-          >
-            Agathe Lejour
-          </span>
-        ) : (
-          <Link href="/" scroll={false}>
-            <span
-              className={`cursor-pointer font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}
-            >
-              Agathe Lejour
-            </span>
-          </Link>
-        )}
+  <span
+    className={`font-title text-4xl uppercase transition-colors duration-500 ${textColorClass} cursor-default`}
+  >
+    Agathe Lejour
+  </span>
+) : (
+  <button
+    onClick={() => {
+     startTransition("/", "ACCUEIL");
+      
+    }}
+     
+    className={`cursor-pointer font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}
+  >
+    Agathe Lejour
+  </button>
+)}
 
         <div
           className={`absolute left-1/2 transform -translate-x-1/2 font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}
@@ -88,17 +91,18 @@ export default function Header() {
           {[
             { href: '#about', label: 'À propos' },
             { href: '#projects', label: 'Projets' },
-            { href: 'mailto:agathe.lejour@email.com', label: 'Contact' },
+            { href: 'mailto:lejour.agathe@outlook.fr', label: 'Contact' },
           ].map(({ href, label }) => {
             const isHash = href.startsWith('#');
 
             const handleClick = (e: React.MouseEvent) => {
               e.preventDefault();
               if (isHash) {
+              
                 if (isHome) {
                   scrollToHash(href);
                 } else {
-                  startTransition('/' + href); 
+                 startTransition('/' + href, label.toUpperCase());
                 }
               } else {
                 window.location.href = href;
