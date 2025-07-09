@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import TransitionLink from "@/components/TransitionLink"
+import TransitionLink from "@/components/TransitionLink";
 
 interface FlipLinkProps {
   children: ReactNode;
@@ -12,6 +12,8 @@ interface FlipLinkProps {
   hovered?: boolean;
   hoverBackground?: boolean;
   label?: string;
+  skipTransition?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export default function FlipLink({
@@ -19,19 +21,26 @@ export default function FlipLink({
   hoverChildren,
   href,
   label,
+  skipTransition = false,
   className = "",
   hovered = false,
   hoverBackground = false,
+  onClick,
 }: FlipLinkProps) {
   return (
-    <TransitionLink href={href} label={label} className="block w-full h-full">
+    <TransitionLink
+      href={href}
+      label={label}
+      skipTransition={skipTransition}
+      onClick={onClick}
+      className="block w-full h-full"
+    >
       <motion.div
         initial="initial"
         whileHover="hovered"
         animate={hovered ? "hovered" : "initial"}
         className={`relative block overflow-hidden font-title text-3xl sm:text-2xl md:text-4xl ${hoverBackground ? 'py-8' : 'py-1'} ${className}`}
       >
-    
         {hoverBackground && (
           <>
             <motion.div
@@ -57,7 +66,6 @@ export default function FlipLink({
           </>
         )}
 
-   
         <motion.div
           className="h-full flex flex-col justify-center relative z-10"
           variants={{
@@ -68,7 +76,6 @@ export default function FlipLink({
         >
           {children}
         </motion.div>
-
 
         <motion.div
           className="absolute inset-0 h-full flex flex-col justify-center z-10"

@@ -3,13 +3,16 @@
 import {
   createContext,
   useContext,
-  useState,
-  type ReactNode,
   useEffect,
   useRef,
+  useState,
+  type ReactNode,
+  useCallback,
 } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { AnimatePresence, motion } from "framer-motion"
+
+// Types
 
 type Phase = "idle" | "covering" | "revealing"
 
@@ -17,36 +20,70 @@ type PendingTransition = {
   url: string
   label?: string
   id: number
+  timestamp: number
 }
 
-type PageTransitionContextType = {
+interface PageTransitionContextType {
   startTransition: (url: string, label?: string) => void
   setLabel: (label: string | null) => void
+  phase: Phase
+  isTransitioning: boolean
 }
 
 const PageTransitionContext = createContext<PageTransitionContextType>({
   startTransition: () => {},
   setLabel: () => {},
+  phase: "idle",
+  isTransitioning: false,
 })
 
 export const usePageTransition = () => useContext(PageTransitionContext)
 
-export default function PageTransition({ children }: { children: ReactNode }) {
+interface PageTransitionProps {
+  children: ReactNode
+  overlayColor?: string
+  duration?: number
+  easingCurve?: number[]
+  debounceMs?: number
+}
+
+export default function PageTransition({
+  children,
+  overlayColor = "bg-black",
+  duration = 1.3,
+  easingCurve = [0.22, 1, 0.36, 1],
+  debounceMs = 100,
+}: PageTransitionProps) {
   const router = useRouter()
+  const pathname = usePathname()
   const [phase, setPhase] = useState<Phase>("idle")
   const [label, setLabel] = useState<string | null>(null)
+  const [showChildren, setShowChildren] = useState(true)
   const [currentTransition, setCurrentTransition] = useState<PendingTransition | null>(null)
-  const [nextTransition, setNextTransition] = useState<PendingTransition | null>(null)
+  const [transitionQueue, setTransitionQueue] = useState<PendingTransition[]>([])
   const transitionIdRef = useRef<number | null>(null)
-  const timersRef = useRef<NodeJS.Timeout[]>([])
+  const lastTransitionTimeRef = useRef<number>(0)
+  const animationCompleteTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const isTransitioning = phase !== "idle"
 
-  const clearAllTimers = () => {
-    timersRef.current.forEach(timer => clearTimeout(timer))
-    timersRef.current = []
-  }
+  const processNextTransition = useCallback(() => {
+    setTransitionQueue(queue => {
+      if (queue.length === 0) return queue
+      const nextTransition = queue[0]
+      const remainingQueue = queue.slice(1)
+      transitionIdRef.current = nextTransition.id
+      setCurrentTransition(nextTransition)
+      setLabel(nextTransition.label || null)
+      setPhase("covering")
+      return remainingQueue
+    })
+  }, [])
 
-  const startTransition = (url: string, labelText?: string) => {
-    const isExternal = url.startsWith("#") || url.startsWith("mailto:")
+  const startTransition = useCallback((url: string, labelText?: string) => {
+    const now = Date.now()
+    if (url === pathname || now - lastTransitionTimeRef.current < debounceMs) return
+
+    const isExternal = url.startsWith("http") || url.startsWith("#") || url.startsWith("mailto:") || url.startsWith("tel:")
     if (isExternal) {
       router.push(url)
       return
@@ -55,86 +92,111 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     const newTransition: PendingTransition = {
       url,
       label: labelText,
-      id: Date.now(),
+      id: now,
+      timestamp: now,
     }
 
-    transitionIdRef.current = newTransition.id
+    lastTransitionTimeRef.current = now
 
     if (phase === "idle") {
+      transitionIdRef.current = newTransition.id
       setCurrentTransition(newTransition)
       setLabel(labelText || null)
       setPhase("covering")
-    } else if (phase === "covering") {
-     
-      clearAllTimers()
-      setCurrentTransition(newTransition)
-      setLabel(labelText || null)
-     
-    } else if (phase === "revealing") {
-     
-      setNextTransition(newTransition)
+    } else {
+      setTransitionQueue(queue => {
+        if (phase === "covering") {
+          transitionIdRef.current = newTransition.id
+          setCurrentTransition(newTransition)
+          setLabel(labelText || null)
+          return queue
+        }
+        const filteredQueue = queue.filter(t => t.url !== newTransition.url)
+        return [...filteredQueue, newTransition]
+      })
     }
-  }
+  }, [phase, router, pathname, debounceMs])
 
-  const handleAnimationComplete = () => {
-    if (phase === "covering" && currentTransition) {
-      router.push(currentTransition.url)
-      setPhase("revealing")
-    } else if (phase === "revealing") {
-      if (nextTransition) {
-        transitionIdRef.current = nextTransition.id
-        setCurrentTransition(nextTransition)
-        setLabel(nextTransition.label || null)
-        setNextTransition(null)
-        setPhase("covering")
-      } else {
-        transitionIdRef.current = null
-        setPhase("idle")
-        setLabel(null)
-        setCurrentTransition(null)
+  const handleAnimationComplete = useCallback(() => {
+    if (animationCompleteTimeoutRef.current) clearTimeout(animationCompleteTimeoutRef.current)
+
+    animationCompleteTimeoutRef.current = setTimeout(() => {
+      if (phase === "covering" && currentTransition) {
+        setShowChildren(false)
+        router.push(currentTransition.url)
+      } else if (phase === "revealing") {
+        if (transitionQueue.length > 0) {
+          processNextTransition()
+        } else {
+          transitionIdRef.current = null
+          setPhase("idle")
+          setLabel(null)
+          setCurrentTransition(null)
+        }
       }
+    }, 50)
+  }, [phase, currentTransition, transitionQueue, processNextTransition, router])
+
+  // Détection du changement de page
+  useEffect(() => {
+    if (phase === "covering" && currentTransition?.url === pathname) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setShowChildren(true)
+          setPhase("revealing")
+        })
+      })
     }
-  }
+  }, [pathname, phase, currentTransition])
 
   useEffect(() => {
     return () => {
-      clearAllTimers()
+      if (animationCompleteTimeoutRef.current) clearTimeout(animationCompleteTimeoutRef.current)
+      if (transitionIdRef.current) {
+        setPhase("idle")
+        setLabel(null)
+        setCurrentTransition(null)
+        setTransitionQueue([])
+      }
     }
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = isTransitioning ? "hidden" : "unset"
+    return () => {
+      document.body.style.overflow = "unset"
+    }
+  }, [isTransitioning])
+
   return (
-    <PageTransitionContext.Provider value={{ startTransition, setLabel }}>
-      {children}
+    <PageTransitionContext.Provider value={{ startTransition, setLabel, phase, isTransitioning }}>
+      {showChildren && children}
 
       <AnimatePresence mode="wait">
-        {phase !== "idle" && (
+        {phase !== "idle" && currentTransition && (
           <motion.div
-            key={`transition-${currentTransition?.id || 'default'}`}
-            className="fixed top-0 left-0 w-full h-full bg-black z-[9999] flex items-center justify-center"
+            key={`transition-${currentTransition.id}`}
+            className={`fixed top-0 left-0 w-full h-full ${overlayColor} z-[9999] flex items-center justify-center`}
             initial={{ y: "100%" }}
             animate={{ y: phase === "covering" ? "0%" : "-100%" }}
             exit={{ y: "-100%" }}
-            transition={{
-              duration: 1.2,
-              ease: [0.22, 1, 0.36, 1],
-            }}
+            transition={{ duration, ease: easingCurve }}
             onAnimationComplete={handleAnimationComplete}
           >
-            {label && (
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{
-                  duration: 0.7,
-                  delay: 0.6,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="text-beige text-6xl font-title uppercase"
-              >
-                {label}
-              </motion.span>
-            )}
+            <AnimatePresence mode="wait">
+              {label && (
+                <motion.span
+                  key={`label-${currentTransition.id}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.7, delay: 0.6, ease: easingCurve }}
+                  className="text-beige text-6xl font-title uppercase pointer-events-none"
+                >
+                  {label}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

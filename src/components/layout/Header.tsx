@@ -1,58 +1,51 @@
-'use client';
-
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
-import FlipLink from '../animations/FlipLink';
-import { usePageTransition } from '../animations/PageTransition'; 
+'use client'
+import { usePathname } from 'next/navigation'
+import React, { useEffect, useRef, useState } from 'react'
+import FlipLink from '../animations/FlipLink'
+import { usePageTransition } from '../animations/PageTransition'
 
 export default function Header() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const [scrolled, setScrolled] = useState(false);
-  const [isDarkBackground, setIsDarkBackground] = useState(true);
-  const pathname = usePathname();
-  const { startTransition} = usePageTransition(); 
-  const isHome = pathname === '/';
-  
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const [isDarkBackground, setIsDarkBackground] = useState(true)
+  const pathname = usePathname()
+  const { startTransition } = usePageTransition()
+  const isHome = pathname === '/'
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+      setScrolled(window.scrollY > 10)
+    }
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
-    const hero = document.querySelector('#hero');
-
-    if (!hero || pathname !== '/') {
-      setIsDarkBackground(false);
-      return;
+    const hero = document.querySelector('#hero')
+    if (!hero || !isHome) {
+      setIsDarkBackground(false)
+      return
     }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsDarkBackground(entry.isIntersecting);
+        setIsDarkBackground(entry.isIntersecting)
       },
       {
-        root: null,
         threshold: 0.01,
         rootMargin: '-64px 0px 0px 0px',
       }
-    );
+    )
+    observer.observe(hero)
+    return () => observer.disconnect()
+  }, [isHome])
 
-    observer.observe(hero);
-    return () => observer.disconnect();
-  }, [pathname]);
+  const textColorClass = isDarkBackground ? 'text-beige' : 'text-black'
 
-  const textColorClass = isDarkBackground ? 'text-beige' : 'text-black';
-
-  const scrollToHash = (hash: string) => {
-    const el = document.querySelector(hash);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const links = [
+    { scrollTo: 'about', label: 'À propos' },
+    { scrollTo: 'projects', label: 'Projets' },
+    { href: 'mailto:lejour.agathe@outlook.fr', label: 'Contact' },
+  ]
 
   return (
     <header
@@ -63,73 +56,74 @@ export default function Header() {
     >
       <nav className="flex items-center justify-between px-8 py-3">
         {isHome ? (
-  <span
-    className={`font-title text-4xl uppercase transition-colors duration-500 ${textColorClass} cursor-default`}
-  >
-    Agathe Lejour
-  </span>
-) : (
   <button
     onClick={() => {
-     startTransition("/", "ACCUEIL");
-      
+      const hero = document.getElementById('hero')
+      if (hero) {
+        hero.scrollIntoView({ behavior: 'smooth' })
+      }
     }}
-     
-    className={`cursor-pointer font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}
+    className={`font-title text-4xl uppercase ${textColorClass} cursor-pointer`}
+  >
+    Agathe Lejour
+  </button>
+) : (
+  <button
+    onClick={() => startTransition('/', 'ACCUEIL')}
+    className={`font-title text-4xl uppercase ${textColorClass}`}
   >
     Agathe Lejour
   </button>
 )}
 
         <div
-          className={`absolute left-1/2 transform -translate-x-1/2 font-title text-4xl uppercase transition-colors duration-500 ${textColorClass}`}
+          className={`absolute left-1/2 transform -translate-x-1/2 font-title text-4xl uppercase ${textColorClass}`}
         >
           PORTFOLIO 2025
         </div>
 
         <ul className="flex items-center gap-8 ml-auto font-title uppercase">
-          {[
-            { href: '#about', label: 'À propos' },
-            { href: '#projects', label: 'Projets' },
-            { href: 'mailto:lejour.agathe@outlook.fr', label: 'Contact' },
-          ].map(({ href, label }) => {
-            const isHash = href.startsWith('#');
+          {links.map(({ scrollTo, href, label }) => {
+            const isExternal = href?.startsWith('mailto:')
+            const isAnchor = isHome && scrollTo
+
+            const fullHref = isAnchor
+              ? `#${scrollTo}` 
+              : scrollTo
+                ? '/' 
+                : href!
 
             const handleClick = (e: React.MouseEvent) => {
-              e.preventDefault();
-              if (isHash) {
-              
+              if (scrollTo) {
+                e.preventDefault()
                 if (isHome) {
-                  scrollToHash(href);
+                  const el = document.getElementById(scrollTo)
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
                 } else {
-                 startTransition('/' + href, label.toUpperCase());
+                  sessionStorage.setItem('scrollTo', scrollTo)
+                  startTransition('/', label.toUpperCase())
                 }
-              } else {
-                window.location.href = href;
               }
-            };
+            }
 
             return (
-              <li key={href}>
-                <button onClick={handleClick}>
-                  <FlipLink
-                    href={href}
-                    hoverChildren={
-                      <span className={` uppercase transition-colors duration-500 ${textColorClass}`}>
-                        {label}
-                      </span>
-                    }
-                  >
-                    <span className={`uppercase transition-colors duration-500 ${textColorClass}`}>
-                      {label}
-                    </span>
-                  </FlipLink>
-                </button>
+              <li key={label}>
+                <FlipLink
+                  href={fullHref}
+                  label={label.toUpperCase()}
+                  skipTransition={Boolean(isAnchor || isExternal)}
+                  onClick={scrollTo ? handleClick : undefined}
+                  hoverChildren={
+                    <span className={`transition-colors ${textColorClass}`}>{label}</span>
+                  }
+                >
+                  <span className={`transition-colors ${textColorClass}`}>{label}</span>
+                </FlipLink>
               </li>
-            );
+            )
           })}
         </ul>
       </nav>
     </header>
-  );
+  )
 }

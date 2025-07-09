@@ -2,8 +2,8 @@
 import type { Metadata } from "next";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
-import SmoothScroll from "@/components/animations/SmoothScroll";
-import PageTransition from "@/components/animations/PageTransition"
+// import SmoothScroll from "@/components/animations/SmoothScroll";
+import PageTransitionProvider from "@/components/animations/PageTransition"
 import "./globals.css";
 
 import { Geist, Geist_Mono, Domine, Libre_Caslon_Display, Inter,EB_Garamond } from "next/font/google";
@@ -33,22 +33,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="h-full ">
+          
       <body
         className={`min-h-screen flex flex-col bg-beige 
         ${geistSans.variable} ${geistMono.variable} ${domine.variable} 
         ${palmore.variable} ${milkHoney.variable} ${inter.variable} ${caslon.variable} ${ebGaramond.variable}`}
       >
-        <PageTransition >
+    <PageTransitionProvider>
         <Header />
        <main className="flex-1">
-  <SmoothScroll />
-  
-    {children}
+
+
+            
+              {children}
+           
+          
   
 </main>
         <Footer />
-        </PageTransition>
+        </PageTransitionProvider>
       </body>
+       
     </html>
   );
 }
