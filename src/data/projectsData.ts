@@ -27,7 +27,7 @@ export const projectsData: ProjectData[] = [
     title: "Trollen",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu diam vitae dolor viverra scelerisque. Curabitur dignissim aliquam pretium. Vestibulum nisi massa, auctor ac iaculis sed, feugiat non eros. ",
     transitionLabel: "Trollen",
-    status: "Terminée",
+    status: "Terminé",
     type: "Application mobile",
     annee: "2025",
   },
@@ -41,7 +41,7 @@ export const projectsData: ProjectData[] = [
     title: "Mon Portfolio",
     description: "Un portfolio interactif mettant en avant mes projets et compétences.",
     transitionLabel: "Mon Portfolio",
-    status: "Terminée",
+    status: "Terminé",
     type: "Site web",
     annee: "2025",
     link: "https://mon-portfolio.com", // Optional link for portfolio project

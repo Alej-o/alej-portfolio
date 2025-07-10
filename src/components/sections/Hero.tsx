@@ -1,7 +1,8 @@
 "use client";
 
 import { Canvas } from '@react-three/fiber'
-import HeroBackground from './HeroBackground'
+// import HeroBackground from './HeroBackground'
+import HeroBackgroundFluid from './HeroBackgroundFluid'
 
 export default function Hero() {
   return (
@@ -10,10 +11,12 @@ export default function Hero() {
       gl={{ preserveDrawingBuffer: true }}
       orthographic
       camera={{ position: [0, 0, 1], zoom: 1 }}
-      className="w-full h-full"
+      style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh' }}
       id="hero"
     >
-      <HeroBackground  />
+    
+        <HeroBackgroundFluid />
+     
     </Canvas>
   )
 }
