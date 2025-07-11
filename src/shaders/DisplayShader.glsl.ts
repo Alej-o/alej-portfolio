@@ -160,10 +160,10 @@ void main() {
   float n = fbm(st + r * 1.5);
 
   // --- dégradé
-  float n1 = smoothstep(0.0, 0.5, n);
-  float n2 = smoothstep(0.5, 0.7, n);
-  float n3 = smoothstep(0.7, 0.85, n);
-  float n4 = smoothstep(0.85, 1.0, n);
+  float n1 = smoothstep(0.0, 0.4, n);
+  float n2 = smoothstep(0.4, 0.6, n);
+  float n3 = smoothstep(0.6, 0.7, n);
+  float n4 = smoothstep(0.7, 0.9, n);
 
   vec3 color = mix(black, color1, n1);
   color = mix(color, color2, n2);

@@ -13,7 +13,7 @@ export type ProjectData = {
   status: string;
   type: string;
   annee: string
-  link?: string // Optional field for project type
+  link?: string  
 };
 
 export const projectsData: ProjectData[] = [
@@ -44,7 +44,7 @@ export const projectsData: ProjectData[] = [
     status: "Terminé",
     type: "Site web",
     annee: "2025",
-    link: "https://mon-portfolio.com", // Optional link for portfolio project
+    link: "https://mon-portfolio.com",
   },
   {
     slug: "site-web",

@@ -3,7 +3,7 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
-import { fluidShader, vertexShader, displayShader } from "../../shaders/FluidShader.glsl";
+import { fluidShader, vertexShader, gradientShader } from "../../shaders/FluidShader.glsl";
 
 export default function HeroBackgroundFluid() {
   const { gl, size, camera, scene } = useThree();
@@ -28,29 +28,29 @@ export default function HeroBackgroundFluid() {
       iMouse: { value: new THREE.Vector4(0, 0, 0, 0) },
       iFrame: { value: 0 },
       iPreviousFrame: { value: null },
-      uBrushSize: { value: 10 },
-      uBrushStrength: { value: 1.0 },
-      uFluidDecay: { value: 0.985 },
-      uTrailLength: { value: 0.99 },
-      uStopDecay: { value: 0.96 },
+     uBrushSize: { value: 0.5}, 
+uBrushStrength: { value: 1 }, 
+uFluidDecay: { value: 0.92 }, 
+uTrailLength: { value: 0.95 },
+uStopDecay: { value: 0.75 }, 
       uLastInteractionTime: { value: 0.0 },
     },
   }), [size]);
 
   const displayMaterial = useMemo(() => new THREE.ShaderMaterial({
     vertexShader,
-    fragmentShader: displayShader,
+    fragmentShader: gradientShader,
     uniforms: {
       iTime: { value: 0 },
       iResolution: { value: new THREE.Vector2(size.width, size.height) },
       iFluid: { value: null },
-      uDistortionAmount: { value: 1.0 },
-      uColor1: { value: new THREE.Color("#8b0a10") },
-      uColor2: { value: new THREE.Color("#a30b12") },
-      uColor3: { value: new THREE.Color("#FCE8DB") },
-      uColor4: { value: new THREE.Color("#2b0305") },
-      uColorIntensity: { value: 1 },
-      uSoftness: { value: 0.5 },
+      uDistortionAmount: { value: 0.8 },
+    uColor1: { value: new THREE.Color("#73080D") },
+uColor2: { value: new THREE.Color("#8C0812") },
+uColor3: { value: new THREE.Color("#FCE8DB") },
+uColor4: { value: new THREE.Color("#25100A") },
+uColorIntensity: { value: 1.5 },
+      uSoftness: { value: 1 },
     },
   }), [size]);
 
@@ -90,7 +90,7 @@ export default function HeroBackgroundFluid() {
     const time = performance.now() * 0.001;
     const frame = frameCount.current++;
 
-
+  
     fluidMaterial.uniforms.iTime.value = time;
     fluidMaterial.uniforms.iFrame.value = frame;
     fluidMaterial.uniforms.iPreviousFrame.value = previousRT.current.texture;
