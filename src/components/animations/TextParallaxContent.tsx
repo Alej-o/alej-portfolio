@@ -58,9 +58,9 @@ const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
   return (
     <motion.div
       style={{ y, opacity }}
-      className="absolute bottom-16 left-12 pointer-events-none z-20 text-left "
+      className="absolute bottom-8 left-4 sm:left-12 pointer-events-none z-20 text-center sm:text-left"
     >
-      <p className=" text-[220px] font-title text-beige leading-[0.8] uppercase">
+      <p className="font-title text-beige leading-[0.8] uppercase text-[48px] sm:text-[80px] md:text-[120px] lg:text-[180px] xl:text-[220px]">
         DÉVELOPPEUSE<br />
         <span>FRONT-END</span>
       </p>

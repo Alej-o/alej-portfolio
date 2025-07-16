@@ -54,35 +54,62 @@ uColorIntensity: { value: 1.5 },
     },
   }), [size]);
 
-  useEffect(() => {
-    const geometry = new THREE.PlaneGeometry(size.width, size.height);
-    const fluid = new THREE.Mesh(geometry, fluidMaterial);
-    const display = new THREE.Mesh(geometry, displayMaterial);
-    fluidPlane.current = fluid;
-    displayPlane.current = display;
-    scene.add(display);
+ useEffect(() => {
 
-    const updateMouse = (e: MouseEvent) => {
+  const geometry = new THREE.PlaneGeometry(2, 2);
+  const fluid = new THREE.Mesh(geometry, fluidMaterial);
+  const display = new THREE.Mesh(geometry, displayMaterial);
+  fluidPlane.current = fluid;
+  displayPlane.current = display;
+  scene.add(display);
+
+  const updateMouse = (x: number, y: number) => {
+    if (mouse.current.x !== x || mouse.current.y !== y) {
+      mouse.current.px = mouse.current.x;
+      mouse.current.py = mouse.current.y;
+      mouse.current.x = x;
+      mouse.current.y = y;
+      lastInteractionTime.current = performance.now() * 0.001;
+    }
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    const rect = gl.domElement.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = rect.height - (e.clientY - rect.top);
+    updateMouse(x, y);
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (e.touches.length > 0) {
       const rect = gl.domElement.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = rect.height - (e.clientY - rect.top);
+      const x = e.touches[0].clientX - rect.left;
+      const y = rect.height - (e.touches[0].clientY - rect.top);
+      updateMouse(x, y);
+    }
+  };
 
-      if (mouse.current.x !== x || mouse.current.y !== y) {
-        mouse.current.px = mouse.current.x;
-        mouse.current.py = mouse.current.y;
-        mouse.current.x = x;
-        mouse.current.y = y;
-        lastInteractionTime.current = performance.now() * 0.001;
-      }
-    };
+  const handleTouchStart = (e: TouchEvent) => {
+    if (e.touches.length > 0) {
+      const rect = gl.domElement.getBoundingClientRect();
+      const x = e.touches[0].clientX - rect.left;
+      const y = rect.height - (e.touches[0].clientY - rect.top);
+      updateMouse(x, y);
+    }
+  };
 
-    window.addEventListener("mousemove", updateMouse);
-    return () => {
-      window.removeEventListener("mousemove", updateMouse);
-      rt1.dispose();
-      rt2.dispose();
-    };
-  }, [gl, fluidMaterial, displayMaterial, rt1, rt2, scene, size]);
+  window.addEventListener("mousemove", handleMouseMove);
+  window.addEventListener("touchmove", handleTouchMove);
+  window.addEventListener("touchstart", handleTouchStart);
+
+  return () => {
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("touchmove", handleTouchMove);
+    window.removeEventListener("touchstart", handleTouchStart);
+    rt1.dispose();
+    rt2.dispose();
+  };
+}, [gl, fluidMaterial, displayMaterial, rt1, rt2, scene, size]);
 
   useFrame(() => {
     if (!fluidPlane.current || !displayPlane.current) return;
