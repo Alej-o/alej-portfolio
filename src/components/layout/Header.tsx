@@ -46,30 +46,32 @@ export default function Header() {
     <header
       ref={headerRef}
       className={`fixed top-0 w-full min-h-[64px] transition-all duration-500 ${
-        isOpen ? 'z-[10000]' : 'z-30'
+        isOpen ? 'z-[10000]' : 'z-[10000]'
       } ${scrolled ? 'bg-black/10 backdrop-blur-md shadow-md' : 'bg-transparent'}`}
     >
-      {/* Header mobile */}
+      
       <div className="flex justify-between items-center w-full px-4 sm:px-6 py-4 lg:hidden">
-        <div className={`text-xs sm:text-sm font-title uppercase ${textColorClass} transition-colors duration-500`}>
+        <div className={`sm:text-sm font-title uppercase ${textColorClass} transition-colors duration-500`}>
           Agathe Lejour
         </div>
-        <div className={`text-xs sm:text-sm font-title uppercase ${textColorClass} transition-colors duration-500 hidden xs:block`}>
+
+        <div className={` sm:text-sm font-title uppercase ${textColorClass} transition-colors duration-500`}>
           Portfolio 2025
         </div>
+
         <button
           onClick={toggleMenu}
           aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           aria-expanded={isOpen}
-          className={`uppercase font-title text-xs sm:text-sm md:text-2xl ${textColorClass} transition-colors duration-500 hover:opacity-70`}
+          className={`uppercase font-title  sm:text-sm md:text-base ${textColorClass} transition-colors duration-500 hover:opacity-70`}
         >
           {isOpen ? 'Fermer' : 'Menu'}
         </button>
       </div>
 
-      {/* Header desktop */}
-      <nav className="hidden lg:grid grid-cols-3 items-center px-6 xl:px-8 py-3">
-        {/* Colonne gauche : logo */}
+    
+      <nav className="hidden lg:grid grid-cols-3 items-center  px-6 xl:px-8 py-4">
+       
         <div className="flex justify-start">
           {isHome ? (
             <button
@@ -77,26 +79,28 @@ export default function Header() {
                 const hero = document.getElementById('hero')
                 if (hero) hero.scrollIntoView({ behavior: 'smooth' })
               }}
-              className={`font-title text-2xl xl:text-3xl 2xl:text-4xl uppercase ${textColorClass} cursor-pointer transition-colors duration-500 hover:opacity-70`}
+              className={`font-title text-lg lg:text-xl xl:text-2xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500 hover:opacity-70`}
             >
               Agathe Lejour
             </button>
           ) : (
             <button
               onClick={() => startTransition('/', 'ACCUEIL')}
-              className={`font-title text-2xl xl:text-3xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500 hover:opacity-70`}
+              className={`font-title text-lg lg:text-xl xl:text-2xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500 hover:opacity-70`}
             >
               Agathe Lejour
             </button>
           )}
         </div>
 
-        {/* Colonne centre : titre */}
-        <div className={`text-center font-title text-xl xl:text-2xl 2xl:text-3xl uppercase ${textColorClass} transition-colors duration-500 hidden xl:block`}>
-          PORTFOLIO 2025
+     
+        <div
+          className={`text-center font-title text-lg lg:text-xl xl:text-2xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500`}
+        >
+          Portfolio 2025
         </div>
 
-        {/* Colonne droite : liens */}
+  
         <ul className="flex justify-end items-center gap-4 xl:gap-6 2xl:gap-8 font-title uppercase">
           {links.map(({ scrollTo, href, label }) => {
             const isExternal = href?.startsWith('mailto:')
@@ -122,9 +126,15 @@ export default function Header() {
                   label={label.toUpperCase()}
                   skipTransition={Boolean(isAnchor || isExternal)}
                   onClick={scrollTo ? handleClick : undefined}
-                  hoverChildren={<span className={`transition-colors duration-500 text-sm xl:text-base ${textColorClass}`}>{label}</span>}
+                  hoverChildren={
+                    <span className={`transition-colors duration-500 text-lg lg:text-xl xl:text-2xl 2xl:text-4xl  ${textColorClass}`}>
+                      {label}
+                    </span>
+                  }
                 >
-                  <span className={`transition-colors duration-500 text-sm xl:text-base ${textColorClass}`}>{label}</span>
+                  <span className={`transition-colors duration-500 text-lg lg:text-xl xl:text-2xl 2xl:text-4xl  ${textColorClass}`}>
+                    {label}
+                  </span>
                 </FlipLink>
               </li>
             )
@@ -132,7 +142,6 @@ export default function Header() {
         </ul>
       </nav>
 
-      {/* Overlay menu mobile */}
       <MobileMenuOverlay isDarkBackground={isDarkBackground} scrolled={scrolled} />
     </header>
   )

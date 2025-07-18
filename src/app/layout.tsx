@@ -20,10 +20,13 @@ const ebGaramond = EB_Garamond({
   variable: "--font-eb-garamond",
   weight: ["400"], 
 });
-
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 export const metadata: Metadata = {
   title: "Agathe Lejour – Portfolio",
-  description: "Développeuse Web & Mobile Fullstack",
+  description: "Développeuse front-end",
 };
 
 export default function RootLayout({
@@ -33,7 +36,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="h-full ">
-          
       <body
         className={`min-h-screen flex flex-col bg-beige 
         ${geistSans.variable} ${geistMono.variable} ${domine.variable} 
@@ -42,14 +44,8 @@ export default function RootLayout({
     <PageTransitionProvider>
         <Header />
        <main className="flex-1">
-
-
-            
               {children}
-           
-          
-  
-</main>
+        </main>
         <Footer />
         </PageTransitionProvider>
       </body>
