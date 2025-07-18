@@ -111,7 +111,9 @@ export default function MobileMenuOverlay({
     <AnimatePresence mode="wait">
       {isOpen && (
 <motion.div
-  className="fixed inset-0 z-50 bg-beige text-black flex flex-col justify-between"
+  className="fixed inset-0 z-[10000] bg-beige text-black flex flex-col min-h-screen"
+  role="dialog"
+  aria-modal="true"
   variants={overlayVariants}
   initial="hidden"
   animate="visible"
@@ -127,7 +129,7 @@ export default function MobileMenuOverlay({
   </button>
 
 
-  <div className="flex-1 w-full pt-44 px-4">
+  <div className="grow w-full pt-44 px-4">
     <p className="font-eb-garamond pb-4 text-base">(Menu)</p>
     <ul className="flex flex-col w-full">
       {menuLinks.map(({ label, scrollTo, href }, i) => {
@@ -165,7 +167,7 @@ export default function MobileMenuOverlay({
   </div>
 
  
-  <div className="w-full px-4 py-2  text-black">
+  <div className="w-full px-4 py-2 text-black shrink-0">
   
   <div className="flex items-center gap-6 text-lg ">
     <span className="text-2xl font-title uppercase ">Agathe</span>
