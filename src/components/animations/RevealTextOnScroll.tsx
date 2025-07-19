@@ -27,7 +27,7 @@ export default function RevealTextOnScroll({
   }, [inView, controls])
 
   return (
-    <div ref={ref} className="relative h-[100px] overflow-hidden flex items-center justify-center">
+    <div ref={ref} className="relative h-[100px] overflow-hidden flex justify-left items-center xl:justify-center">
      
       <motion.div
         initial={{ y: '100%' }}

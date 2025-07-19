@@ -38,7 +38,7 @@ export const projectsData: ProjectData[] = [
     hoverHeading: "voir le portfolio",
     hoverSubheading: "Explorer la démo",
     imgSrc: "/image/image2.jpg",
-    title: "Mon Portfolio",
+    title: "Portfolio 2025",
     description: "Un portfolio interactif mettant en avant mes projets et compétences.",
     transitionLabel: "Mon Portfolio",
     status: "Terminé",

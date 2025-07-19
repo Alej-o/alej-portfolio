@@ -37,13 +37,13 @@ export default function RootLayout({
   return (
     <html lang="fr" className="h-full ">
       <body
-        className={`min-h-screen flex flex-col bg-beige 
+        className={`min-h-screen flex flex-col  bg-beige 
         ${geistSans.variable} ${geistMono.variable} ${domine.variable} 
         ${palmore.variable} ${milkHoney.variable} ${inter.variable} ${caslon.variable} ${ebGaramond.variable}`}
       >
     <PageTransitionProvider>
         <Header />
-       <main className="flex-1">
+       <main className="flex-1 w-full  relative">
               {children}
         </main>
         <Footer />

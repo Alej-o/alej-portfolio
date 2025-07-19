@@ -6,9 +6,9 @@ import RevealTextOnScroll from '../animations/RevealTextOnScroll'
 
 export default function Projects() {
   return (
-    <section id="projects" className="flex flex-col justify-center pt-10 px-8 pb-60">
-      <div className="flex items-center pl-8 justify-center pb-20 border-b border-black">
-        <RevealTextOnScroll className="text-6xl font-title text-black uppercase leading-[1.8]">
+    <section id="projects" className="flex flex-col xl:justify-center pt-10  pb-60">
+      <div className="flex items-center justify-left xl:justify-center border-b border-black">
+        <RevealTextOnScroll className=" px-8 xl:text-6xl text-3xl font-title text-black uppercase leading-[1.8]">
           Projects
         </RevealTextOnScroll>
       </div>

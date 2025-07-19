@@ -13,7 +13,7 @@ export default function AnimatedParagraph({ children }: { children: React.ReactN
   const ref = useRef(null)
 
   const text = typeof children === 'string' ? children : ''
-  const words = text.split(/(\s+|\n)/)
+  const words = text.trim().split(/\s+/)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start 0.9', 'start 0.35'],
@@ -22,11 +22,11 @@ export default function AnimatedParagraph({ children }: { children: React.ReactN
   return (
    <div
   ref={ref}
-  className="px-4 sm:px-10 py-6 sm:py-10 max-w-[80ch] text-2xl sm:text-[50px] leading-snug sm:leading-tight flex flex-wrap text-justify justify-center font-eb-garamond"
+  className=" py-2  max-w-[80ch] text-2xl xl:text-4xl  leading-snug  flex flex-wrap text-left md:text-justify lg:text-justify xl:text-justify justify-left md:justify-center lg:justify-center xl:justify-center  font-eb-garamond"
 >
   {words.map((word, i) => {
     if (word === '\n') {
-      return <span key={`br-${i}`} className="block w-full h-0 mb-2" />
+      return <span key={`br-${i}`} className="block w-full h-0" />
     }
 
     const start = i / words.length
@@ -55,8 +55,9 @@ function Word({
   const step = amount / children.length
 
   return (
-    <span className="relative mr-3 mt-3 inline-flex font-eb-garamond">
+    <span className="relative mr-3 inline-flex font-eb-garamond">
       {children.split('').map((char, i) => {
+      
         const start = range[0] + i * step
         const end = range[0] + (i + 1) * step
         return (

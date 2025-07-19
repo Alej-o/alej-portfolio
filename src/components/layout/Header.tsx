@@ -6,6 +6,7 @@ import FlipLink from '../animations/FlipLink'
 import { usePageTransition } from '../animations/PageTransition'
 import MobileMenuOverlay from '../animations/MobileMenuOverlay'
 import { useMenuStore } from '../../app/lib/menuStore'
+import Image from 'next/image'
 
 export default function Header() {
   const headerRef = useRef<HTMLDivElement>(null)
@@ -50,24 +51,36 @@ export default function Header() {
       } ${scrolled ? 'bg-black/10 backdrop-blur-md shadow-md' : 'bg-transparent'}`}
     >
       
-      <div className="flex justify-between items-center w-full px-4 sm:px-6 py-4 lg:hidden">
-        <div className={`sm:text-sm font-title uppercase ${textColorClass} transition-colors duration-500`}>
-          Agathe Lejour
-        </div>
+      <div className="relative flex items-center w-full px-4  py-2 lg:hidden">
 
-        <div className={` sm:text-sm font-title uppercase ${textColorClass} transition-colors duration-500`}>
-          Portfolio 2025
-        </div>
+  
+  <div className="w-10 h-10 relative">
+    <Image
+       src={isDarkBackground ? '/image/logo_white.png' :'/image/logo_white.png' }
+      alt="Logo AL"
+      fill
+      priority
+      className={`object-contain absolute transition-opacity duration-500`}
+    />
+  </div>
 
-        <button
-          onClick={toggleMenu}
-          aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-          aria-expanded={isOpen}
-          className={`uppercase font-title  sm:text-sm md:text-base ${textColorClass} transition-colors duration-500 hover:opacity-70`}
-        >
-          {isOpen ? 'Fermer' : 'Menu'}
-        </button>
-      </div>
+  
+  <div
+    className={`absolute left-1/2 -translate-x-1/2 font-title text-lg  uppercase ${textColorClass} transition-colors duration-500`}
+  >
+    Portfolio 2025
+  </div>
+
+ 
+  <button
+    onClick={toggleMenu}
+    aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+    aria-expanded={isOpen}
+    className={`ml-auto uppercase font-title text-lg  ${textColorClass} transition-colors duration-500 hover:opacity-70`}
+  >
+    {isOpen ? 'Fermer' : 'Menu'}
+  </button>
+</div>
 
     
       <nav className="hidden lg:grid grid-cols-3 items-center  px-6 xl:px-8 py-4">
@@ -79,14 +92,14 @@ export default function Header() {
                 const hero = document.getElementById('hero')
                 if (hero) hero.scrollIntoView({ behavior: 'smooth' })
               }}
-              className={`font-title text-lg lg:text-xl xl:text-2xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500 hover:opacity-70`}
+              className={`font-title  lg:text-xl xl:text-2xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500 hover:opacity-70`}
             >
               Agathe Lejour
             </button>
           ) : (
             <button
               onClick={() => startTransition('/', 'ACCUEIL')}
-              className={`font-title text-lg lg:text-xl xl:text-2xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500 hover:opacity-70`}
+              className={`font-title  lg:text-xl xl:text-2xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500 hover:opacity-70`}
             >
               Agathe Lejour
             </button>
@@ -95,7 +108,7 @@ export default function Header() {
 
      
         <div
-          className={`text-center font-title text-lg lg:text-xl xl:text-2xl 2xl:text-4xl uppercase ${textColorClass} transition-colors duration-500`}
+          className={`text-center font-title text-lg lg:text-xl xl:text-2xl 2xl:text-4xl  uppercase ${textColorClass} transition-colors duration-500`}
         >
           Portfolio 2025
         </div>
