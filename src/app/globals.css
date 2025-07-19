@@ -15,9 +15,5 @@ body {
  
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
 
 /* Ajoute dans votre global CSS */

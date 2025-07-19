@@ -4,7 +4,8 @@ import FlipLink from "../animations/FlipLink";
 export default function Footer({ className = "" }) {
   return (
     <footer className={`w-full text-black ${className}`}>
-      <div className="w-full grid grid-cols-[auto_1fr] gap-x-4 xl:gap-x-10 px-4 xl:px-8 xl:min-h-[300px] ">
+      <div className="w-full grid grid-cols-1 xl:grid-cols-[auto_1fr] gap-x-4 xl:gap-x-10 px-4 xl:px-8 xl:min-h-[300px]">
+
         
        
         <div className="flex items-end">
