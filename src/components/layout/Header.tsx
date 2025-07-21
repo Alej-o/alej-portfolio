@@ -51,32 +51,37 @@ export default function Header() {
       } ${scrolled ? 'bg-black/10 backdrop-blur-md shadow-md' : 'bg-transparent'}`}
     >
       
-      <div className="relative flex items-center w-full px-4  py-2 lg:hidden">
-
-  
-  <div className="w-10 h-10 relative">
+  <div className="relative flex items-center w-full min-w-0 px-2 py-2 lg:hidden overflow-hidden">
+  <div className="w-10 h-10 relative flex-shrink-0">
     <Image
-       src={isDarkBackground ? '/image/logo_white.png' :'/image/logo_white.png' }
+      src="/image/logo_white.png"
       alt="Logo AL"
       fill
       priority
-      className={`object-contain absolute transition-opacity duration-500`}
+      className="object-contain absolute transition-opacity duration-500"
     />
   </div>
 
-  
   <div
-    className={`absolute left-1/2 -translate-x-1/2 font-title text-lg  uppercase ${textColorClass} transition-colors duration-500`}
+    className={`
+      absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+      font-title text-base xs:text-lg uppercase
+      ${textColorClass} transition-colors duration-500
+      max-w-[60vw] truncate text-center pointer-events-none
+    `}
+    style={{ lineHeight: 1.1 }}
   >
     Portfolio 2025
   </div>
 
- 
   <button
     onClick={toggleMenu}
     aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
     aria-expanded={isOpen}
-    className={`ml-auto uppercase font-title text-lg  ${textColorClass} transition-colors duration-500 hover:opacity-70`}
+    className={`
+      ml-auto uppercase font-title text-base xs:text-lg ${textColorClass}
+      transition-colors duration-500 hover:opacity-70 flex-shrink-0
+    `}
   >
     {isOpen ? 'Fermer' : 'Menu'}
   </button>

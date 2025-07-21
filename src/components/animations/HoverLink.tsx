@@ -88,12 +88,12 @@ export const HoverLink = ({
   };
 
 
-  const headingSize = variant === "compact" ? "text-4xl" : "text-2xl xl:text-6xl";
+  const headingSize = variant === "compact" ? "text-4xl" : "text-3xl xl:text-6xl";
   const subheadingSize = variant === "compact" ? "text-lg" : "text-4xl";
-  const tagSize = variant === "compact" ? "text-xs md:text-sm" : "text-xs xl:text-lg md:text-lg";
-  const spacing = variant === "compact" ? "gap-2" : "gap-4";
+  const tagSize = variant === "compact" ? "text-xs md:text-sm" : "text-sm xl:text-lg md:text-lg";
+  const spacing = variant === "compact" ? "gap-2" : "gap-2 md:gap-4 xl:gap-4";
   const px = variant === "compact" ? "px-2" : "px-8 xl:px-4";
-  const iconSize = variant === "compact" ? 24 : 40;
+  // const iconSize = variant === "compact" ? 24 : 40;
 
  
   return (
@@ -119,7 +119,7 @@ export const HoverLink = ({
        
         hoverChildren={
           !isMobile && (
-            <div className={`h-full flex items-center justify-between ${px}`}>
+            <div className={`h-full flex items-center justify-between  ${px}`}>
               <div className={`text-left flex flex-col justify-center ${spacing}`}>
                 <div className={`font-title uppercase text-beige ${headingSize}`}>
                   {hoverHeading}
@@ -128,24 +128,30 @@ export const HoverLink = ({
                   {hoverSubheading}
                 </div>
               </div>
-              {/* Petite flèche animée à droite */}
+            
               <motion.div
                 animate={isHovered ? { x: "0%", opacity: 1 } : { x: "25%", opacity: 0 }}
                 transition={{ type: "spring" }}
                 className="relative z-10 p-2"
               >
-                <ArrowRight className="text-beige" size={iconSize} />
+                <ArrowRight
+  className={
+    variant === "compact"
+      ? "w-5 h-5 sm:w-6 sm:h-6 text-beige"
+      : "w-7 h-7 xl:w-10 xl:h-10 text-beige"
+  }
+/>
               </motion.div>
             </div>
           )
         }
       >
 
-        {/* ----------- CONTENU TOUJOURS VISIBLE ----------- */}
+     
         <div className={`h-full flex items-center justify-between ${px}`}>
-          <div className={`text-left flex flex-col justify-center ${spacing}`}>
+          <div className={`text-left flex flex-col justify-center py-4 md:py-0 xl:py-0 ${spacing}`}>
 
-            {/* Titre principal avec animation si 1er élément */}
+        
             {isFirst ? (
   <div className="overflow-hidden">
     <motion.div
@@ -164,7 +170,7 @@ export const HoverLink = ({
 )}
 
 
-            {/* Liste des sous-éléments (ex: stack technique) */}
+            
             {isFirst ? (
               <div className="overflow-hidden">
                 <motion.div
@@ -196,10 +202,16 @@ export const HoverLink = ({
               </div>
             )}
           </div>
+          {isMobile && (
+      <ArrowRight
+  className={ "w-6 h-6 flex-shrink-0 text-black"
+  }
+/>
+    )}
         </div>
       </FlipLink>
 
-      {/* ----------- IMAGE FLOTTANTE SUR HOVER (desktop only) ----------- */}
+      
       {!isMobile && isHovered && variant !== "compact" && (
         <motion.img
           style={{

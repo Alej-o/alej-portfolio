@@ -57,13 +57,26 @@ const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
 
   return (
     <motion.div
-      style={{ y, opacity }}
-      className="absolute bottom-8 left-2  pointer-events-none z-20 text-center"
-    >
-      <p className="font-title text-beige text-left leading-[0.8] uppercase text-[52px] sm:text-[50px] md:text-[120px] lg:text-[180px] xl:text-[220px]">
-        DÉVELOPPEUSE<br />
-        FRONT-END
-      </p>
-    </motion.div>
+  style={{ y, opacity }}
+  className="absolute bottom-8 left-2 pointer-events-none z-20 "
+>
+  <p
+    className="
+        font-title text-beige
+    leading-[0.8] uppercase
+    break-words
+    text-[clamp(2.2rem,12vw,4rem)]  /* base = GROS sur mobile */
+    sm:text-[clamp(3rem,16vw,6rem)] /* dès 640px, encore + gros */
+    md:text-[clamp(5rem,16vw,10rem)]
+    xl:text-[clamp(8rem,18vw,14rem)]
+    text-left sm:text-left
+    px-2
+      
+    "
+  >
+    DÉVELOPPEUSE<br />
+    FRONT-END
+  </p>
+</motion.div>
   )
 }
