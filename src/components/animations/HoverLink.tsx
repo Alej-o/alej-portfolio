@@ -88,11 +88,11 @@ export const HoverLink = ({
   };
 
 
-  const headingSize = variant === "compact" ? "text-4xl" : "text-3xl xl:text-6xl";
+  const headingSize = variant === "compact" ? "text-3xl xl:text-4xl" : "text-3xl xl:text-6xl";
   const subheadingSize = variant === "compact" ? "text-lg" : "text-4xl";
   const tagSize = variant === "compact" ? "text-xs md:text-sm" : "text-sm xl:text-lg md:text-lg";
   const spacing = variant === "compact" ? "gap-2" : "gap-2 md:gap-4 xl:gap-4";
-  const px = variant === "compact" ? "px-2" : "px-8 xl:px-4";
+  const px = variant === "compact" ? "px-2" : "px-6 xl:px-4";
   // const iconSize = variant === "compact" ? 24 : 40;
 
  
@@ -168,9 +168,6 @@ export const HoverLink = ({
     {isMobile ? title : heading}
   </div>
 )}
-
-
-            
             {isFirst ? (
               <div className="overflow-hidden">
                 <motion.div
@@ -191,7 +188,7 @@ export const HoverLink = ({
               </div>
             ) : (
               <div className="flex flex-wrap gap-2">
-                {subheading.map((tech, i) => (
+                {subheading.map((tech, i) => ( 
                   <span
                     key={i}
                     className={`px-3 py-1 font-eb-garamond rounded-md border border-black text-black ${tagSize}`}

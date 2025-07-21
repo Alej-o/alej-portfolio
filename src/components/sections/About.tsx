@@ -43,9 +43,9 @@ export default function About() {
   return (
     <section
   id="about"
-  className="relative z-10 bg-beige w-full min-h-screen px-6 pt-16 "
+  className="relative z-10 bg-beige w-full  py-16 px-6 "
 >
-  <RevealTextOnScroll className="text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-title text-black uppercase pb-8 text-center">
+  <RevealTextOnScroll className="text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-title text-black uppercase ">
     À propos
   </RevealTextOnScroll>
 
@@ -56,8 +56,8 @@ Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes
     </AnimatedParagraph>
   </div>
 
-  <div ref={ref} className="max-w-5xl mx-auto mt-16">
-    <RevealTextOnScroll className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-title text-black uppercase pb-8  text-center">
+  <div ref={ref} className="max-w-5xl mx-auto mt-10 xl:mt-16">
+    <RevealTextOnScroll className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-title text-black uppercase mt-10 mb-8 ">
       Technologies
     </RevealTextOnScroll>
 

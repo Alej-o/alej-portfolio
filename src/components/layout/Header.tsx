@@ -51,7 +51,7 @@ export default function Header() {
       } ${scrolled ? 'bg-black/10 backdrop-blur-md shadow-md' : 'bg-transparent'}`}
     >
       
-  <div className="relative flex items-center w-full min-w-0 px-2 py-2 lg:hidden overflow-hidden">
+  <div className="relative flex items-center w-full min-w-0 px-4  py-2 lg:hidden overflow-hidden">
   <div className="w-10 h-10 relative flex-shrink-0">
     <Image
       src="/image/logo_white.png"
@@ -65,7 +65,7 @@ export default function Header() {
   <div
     className={`
       absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-      font-title text-base xs:text-lg uppercase
+      font-title text-xl uppercase
       ${textColorClass} transition-colors duration-500
       max-w-[60vw] truncate text-center pointer-events-none
     `}
@@ -79,7 +79,7 @@ export default function Header() {
     aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
     aria-expanded={isOpen}
     className={`
-      ml-auto uppercase font-title text-base xs:text-lg ${textColorClass}
+      ml-auto uppercase font-title text-xl ${textColorClass}
       transition-colors duration-500 hover:opacity-70 flex-shrink-0
     `}
   >

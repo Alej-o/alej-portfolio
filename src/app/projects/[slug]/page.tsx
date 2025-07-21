@@ -18,15 +18,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <>
-      <main className="bg-beige text-black flex flex-col md:flex-row px-10 pt-40 gap-12">
+      <main className="bg-beige text-black flex flex-col md:flex-row px-4 md:px-10 xl:px-10 pt-28 xl:pt-40 gap-12">
         <div className="flex-1 flex flex-col gap-10 max-w-6xl">
-          <h2 className="text-8xl font-title leading-tight uppercase tracking-wider border-b border-black pb-4">
+          <h2 className="text-6xl xl:text-8xl font-title leading-tight uppercase tracking-wider border-b border-black pb-4">
             {project.title}
           </h2>
           <p className="text-xl font-eb-garamond">(DESCRIPTION)</p>
-          <p className="text-4xl font-eb-garamond">{project.description}</p>
+          <p className="text-3xl xl:text-4xl font-eb-garamond">{project.description}</p>
 
-          <div className="border-t border-black pt-10 text-4xl space-y-8">
+          <div className="border-t border-black pt-10 text-2xl xl:text-4xl space-y-8">
             <DetailRow label="(TYPE)" value={project.type} />
             <DetailRow label="(TECHNOLOGIES)" value={project.subheading.join(", ")} />
             <DetailRow label="(STATUS)" value={project.status} />
@@ -60,11 +60,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </div>
       </main>
 
-      <section className="flex flex-col justify-center px-10 pt-20 pb-10">
-        <h3 className="font-title uppercase mb-10 text-6xl text-black tracking-wider">
-          Autres projets
+      <section className="flex flex-col justify-center px-4 md:px-10 xl:px-10 pt-20 pb-10">
+        <h3 className="font-title uppercase mb-10 text-4xl xl:text-6xl  text-black tracking-wider">
+        autres projets
         </h3>
-        <div className="flex flex-col font-title text-2xl">
+        <div className="flex flex-col  border-t border-black">
           {otherProjects.map((p, index) => (
             <HoverLink key={p.slug} {...p} isFirst={index === 0} variant="compact" />
           ))}
@@ -87,9 +87,9 @@ function DetailRow({
     <div className="flex justify-between border-b border-black pb-2">
       <span className="text-sm uppercase tracking-wider">{label}</span>
       {children ? (
-        <span className="font-title">{children}</span>
+        <span className="font-title items-center justify-center">{children}</span>
       ) : (
-        <span className="font-title">{value}</span>
+        <span className="font-title text-right">{value}</span>
       )}
     </div>
   );
