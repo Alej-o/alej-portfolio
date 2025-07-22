@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   createContext,
@@ -8,26 +8,37 @@ import {
   useState,
   type ReactNode,
   useCallback,
-} from "react"
-import { useRouter, usePathname } from "next/navigation"
-import { AnimatePresence, motion } from "framer-motion"
+} from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 
-// Types
 
-type Phase = "idle" | "covering" | "revealing"
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false);
 
-type PendingTransition = {
-  url: string
-  label?: string
-  id: number
-  timestamp: number
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsTouch(window.matchMedia("(pointer:coarse)").matches);
+    }
+  }, []);
+
+  return isTouch;
 }
 
+type Phase = "idle" | "covering" | "revealing";
+
+type PendingTransition = {
+  url: string;
+  label?: string;
+  id: number;
+  timestamp: number;
+};
+
 interface PageTransitionContextType {
-  startTransition: (url: string, label?: string) => void
-  setLabel: (label: string | null) => void
-  phase: Phase
-  isTransitioning: boolean
+  startTransition: (url: string, label?: string) => void;
+  setLabel: (label: string | null) => void;
+  phase: Phase;
+  isTransitioning: boolean;
 }
 
 const PageTransitionContext = createContext<PageTransitionContextType>({
@@ -35,16 +46,16 @@ const PageTransitionContext = createContext<PageTransitionContextType>({
   setLabel: () => {},
   phase: "idle",
   isTransitioning: false,
-})
+});
 
-export const usePageTransition = () => useContext(PageTransitionContext)
+export const usePageTransition = () => useContext(PageTransitionContext);
 
 interface PageTransitionProps {
-  children: ReactNode
-  overlayColor?: string
-  duration?: number
-  easingCurve?: number[]
-  debounceMs?: number
+  children: ReactNode;
+  overlayColor?: string;
+  duration?: number;
+  easingCurve?: number[];
+  debounceMs?: number;
 }
 
 export default function PageTransition({
@@ -54,120 +65,135 @@ export default function PageTransition({
   easingCurve = [0.22, 1, 0.36, 1],
   debounceMs = 100,
 }: PageTransitionProps) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const [phase, setPhase] = useState<Phase>("idle")
-  const [label, setLabel] = useState<string | null>(null)
-  const [showChildren, setShowChildren] = useState(true)
-  const [currentTransition, setCurrentTransition] = useState<PendingTransition | null>(null)
-  const [transitionQueue, setTransitionQueue] = useState<PendingTransition[]>([])
-  const transitionIdRef = useRef<number | null>(null)
-  const lastTransitionTimeRef = useRef<number>(0)
-  const animationCompleteTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const isTransitioning = phase !== "idle"
+  // On place TOUS les hooks ici (jamais après un return)
+  const isTouch = useIsTouchDevice();
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [label, setLabel] = useState<string | null>(null);
+  const [showChildren, setShowChildren] = useState(true);
+  const [currentTransition, setCurrentTransition] = useState<PendingTransition | null>(null);
+  const [transitionQueue, setTransitionQueue] = useState<PendingTransition[]>([]);
+  const transitionIdRef = useRef<number | null>(null);
+  const lastTransitionTimeRef = useRef<number>(0);
+  const animationCompleteTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isTransitioning = phase !== "idle";
 
   const processNextTransition = useCallback(() => {
-    setTransitionQueue(queue => {
-      if (queue.length === 0) return queue
-      const nextTransition = queue[0]
-      const remainingQueue = queue.slice(1)
-      transitionIdRef.current = nextTransition.id
-      setCurrentTransition(nextTransition)
-      setLabel(nextTransition.label || null)
-      setPhase("covering")
-      return remainingQueue
-    })
-  }, [])
+    setTransitionQueue((queue) => {
+      if (queue.length === 0) return queue;
+      const nextTransition = queue[0];
+      const remainingQueue = queue.slice(1);
+      transitionIdRef.current = nextTransition.id;
+      setCurrentTransition(nextTransition);
+      setLabel(nextTransition.label || null);
+      setPhase("covering");
+      return remainingQueue;
+    });
+  }, []);
 
-  const startTransition = useCallback((url: string, labelText?: string) => {
-    const now = Date.now()
-    if (url === pathname || now - lastTransitionTimeRef.current < debounceMs) return
+  const startTransition = useCallback(
+    (url: string, labelText?: string) => {
+      const now = Date.now();
+      if (url === pathname || now - lastTransitionTimeRef.current < debounceMs) return;
 
-    const isExternal = url.startsWith("http") || url.startsWith("#") || url.startsWith("mailto:") || url.startsWith("tel:")
-    if (isExternal) {
-      router.push(url)
-      return
-    }
+      const isExternal =
+        url.startsWith("http") ||
+        url.startsWith("#") ||
+        url.startsWith("mailto:") ||
+        url.startsWith("tel:");
+      if (isExternal) {
+        router.push(url);
+        return;
+      }
 
-    const newTransition: PendingTransition = {
-      url,
-      label: labelText,
-      id: now,
-      timestamp: now,
-    }
+      const newTransition: PendingTransition = {
+        url,
+        label: labelText,
+        id: now,
+        timestamp: now,
+      };
 
-    lastTransitionTimeRef.current = now
+      lastTransitionTimeRef.current = now;
 
-    if (phase === "idle") {
-      transitionIdRef.current = newTransition.id
-      setCurrentTransition(newTransition)
-      setLabel(labelText || null)
-      setPhase("covering")
-    } else {
-      setTransitionQueue(queue => {
-        if (phase === "covering") {
-          transitionIdRef.current = newTransition.id
-          setCurrentTransition(newTransition)
-          setLabel(labelText || null)
-          return queue
-        }
-        const filteredQueue = queue.filter(t => t.url !== newTransition.url)
-        return [...filteredQueue, newTransition]
-      })
-    }
-  }, [phase, router, pathname, debounceMs])
+      if (phase === "idle") {
+        transitionIdRef.current = newTransition.id;
+        setCurrentTransition(newTransition);
+        setLabel(labelText || null);
+        setPhase("covering");
+      } else {
+        setTransitionQueue((queue) => {
+          if (phase === "covering") {
+            transitionIdRef.current = newTransition.id;
+            setCurrentTransition(newTransition);
+            setLabel(labelText || null);
+            return queue;
+          }
+          const filteredQueue = queue.filter((t) => t.url !== newTransition.url);
+          return [...filteredQueue, newTransition];
+        });
+      }
+    },
+    [phase, router, pathname, debounceMs]
+  );
 
   const handleAnimationComplete = useCallback(() => {
-    if (animationCompleteTimeoutRef.current) clearTimeout(animationCompleteTimeoutRef.current)
+    if (animationCompleteTimeoutRef.current) clearTimeout(animationCompleteTimeoutRef.current);
 
     animationCompleteTimeoutRef.current = setTimeout(() => {
       if (phase === "covering" && currentTransition) {
-        setShowChildren(false)
-        router.push(currentTransition.url)
+        setShowChildren(false);
+        router.push(currentTransition.url);
       } else if (phase === "revealing") {
         if (transitionQueue.length > 0) {
-          processNextTransition()
+          processNextTransition();
         } else {
-          transitionIdRef.current = null
-          setPhase("idle")
-          setLabel(null)
-          setCurrentTransition(null)
+          transitionIdRef.current = null;
+          setPhase("idle");
+          setLabel(null);
+          setCurrentTransition(null);
         }
       }
-    }, 50)
-  }, [phase, currentTransition, transitionQueue, processNextTransition, router])
+    }, 50);
+  }, [phase, currentTransition, transitionQueue, processNextTransition, router]);
 
-  // Détection du changement de page
   useEffect(() => {
     if (phase === "covering" && currentTransition?.url === pathname) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          setShowChildren(true)
-          setPhase("revealing")
-        })
-      })
+          setShowChildren(true);
+          setPhase("revealing");
+        });
+      });
     }
-  }, [pathname, phase, currentTransition])
+  }, [pathname, phase, currentTransition]);
 
   useEffect(() => {
     return () => {
-      if (animationCompleteTimeoutRef.current) clearTimeout(animationCompleteTimeoutRef.current)
+      if (animationCompleteTimeoutRef.current) clearTimeout(animationCompleteTimeoutRef.current);
       if (transitionIdRef.current) {
-        setPhase("idle")
-        setLabel(null)
-        setCurrentTransition(null)
-        setTransitionQueue([])
+        setPhase("idle");
+        setLabel(null);
+        setCurrentTransition(null);
+        setTransitionQueue([]);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   useEffect(() => {
-    document.body.style.overflow = isTransitioning ? "hidden" : "unset"
+    document.body.style.overflow = isTransitioning ? "hidden" : "unset";
     return () => {
-      document.body.style.overflow = "unset"
-    }
-  }, [isTransitioning])
+      document.body.style.overflow = "unset";
+    };
+  }, [isTransitioning]);
 
+  // Désactive les transitions pour tactile : affiche direct les children
+  if (isTouch) {
+    return <>{children}</>;
+  }
+
+  // Sinon, la transition normale desktop
   return (
     <PageTransitionContext.Provider value={{ startTransition, setLabel, phase, isTransitioning }}>
       {showChildren && children}
@@ -201,5 +227,5 @@ export default function PageTransition({
         )}
       </AnimatePresence>
     </PageTransitionContext.Provider>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 import SlideButton from "../animations/SlideButton";
 import FlipLink from "../animations/FlipLink";
-import { MoveUpRight } from 'lucide-react'
+
 export default function Footer({ className = "" }) {
   return (
     <footer className={`w-full text-black ${className}`}>
@@ -50,14 +50,12 @@ export default function Footer({ className = "" }) {
 
   
   <div className="flex flex-col justify-start items-start gap-3 pl-4 border-l  border-black">
-    <a href="#" className="font-title text-2xl inline-block">Linkedin
-      <MoveUpRight className="inline-block ml-1" size={14} />
+    <a href="#" className="flex font-title text-2xl items-start">LinkedIn
     </a>
-    <a href="#" className="font-title text-2xl inline-block">Github
-      <MoveUpRight className="inline-block ml-1" size={14} />
+    <a href="#" className="flex font-title text-2xl items-start ">GitHub
+      
     </a>
-    <a href="mailto:..." className="font-title text-2xl inline-block">Contact
-      <MoveUpRight className="inline-block ml-1" size={14} />
+    <a href="mailto:..." className="flex font-title text-2xl  items-start">Contact
     </a>
   </div>
 </div>

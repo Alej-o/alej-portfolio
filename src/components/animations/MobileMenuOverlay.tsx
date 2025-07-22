@@ -122,7 +122,7 @@ export default function MobileMenuOverlay({
 >
   <button
     onClick={closeMenu}
-    className="absolute top-4 right-4 sm:top-6 sm:right-6 text-xl font-title uppercase text-black hover:opacity-70 transition-opacity duration-300 z-10"
+    className="absolute top-4 right-4 sm:top-6 sm:right-6 text-xl font-title uppercase text-black z-10"
     aria-label="Fermer le menu"
   >
     Fermer
@@ -155,7 +155,7 @@ export default function MobileMenuOverlay({
           >
             <button
               onClick={() => handleClick(scrollTo, href)}
-              className={`w-full py-4 px-4 text-6xl text-left uppercase font-title hover:opacity-70 transition ${borderClasses}`}
+              className={`w-full py-4   text-5xl text-left uppercase font-title  transition ${borderClasses}`}
               aria-label={`Aller à ${label}`}
             >
               {label}
@@ -164,46 +164,44 @@ export default function MobileMenuOverlay({
         )
       })}
     </ul>
-  </div>
-
- 
-  <div className="w-full px-4 py-2 text-black shrink-0">
-  
-  <div className="flex items-center gap-6 text-lg ">
-    <span className="text-2xl font-title uppercase ">Agathe</span>
-
-    <div className="flex items-center gap-6 border-b border-black flex-1 font-eb-garamond ">
+      <div className="flex flex-col gap-2 mt-10 font-eb-garamond  ">
       <a
-        href="https://linkedin.com/in/tonprofil"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hover:underline"
+         href="https://linkedin.com/in/tonprofil"
+       target="_blank"
+      rel="noopener noreferrer"
+      className="hover:underline text-2xl flex items-start gap-1"
       >
-        LinkedIn
+      LinkedIn 
       </a>
       <a
-        href="https://github.com/tonprofil"
+         href="https://github.com/tonprofil"
         target="_blank"
         rel="noopener noreferrer"
-        className="hover:underline"
+        className="hover:underline text-2xl flex items-start gap-1"
       >
         GitHub
-      </a>
+     </a>
       <a
         href="mailto:lejour.agathe@outlook.fr"
-        className=" hover:underline"
-      >
-        Mail
-      </a>
+        className="hover:underline flex text-2xl items-start gap-1"
+        aria-label="Envoyer un email">
+         Email
+       </a>
     </div>
   </div>
 
+ 
+
   
-  <p className="uppercase text-2xl mt-1 font-title ">Lejour – Portfolio 2025</p>
-</div>
+  <div className="flex  justify-center mb-4">
+    <span className="text-xl text-center font-title uppercase ">Agathe Lejour – Portfolio 2025</span>
+  </div>
+
 </motion.div>
 
       )}
     </AnimatePresence>
   )
 }
+
+  
