@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMenuStore } from '../../app/lib/menuStore'
 import { usePageTransition } from './PageTransition'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useCallback } from 'react'
 
 const menuLinks = [
@@ -12,17 +12,15 @@ const menuLinks = [
   { label: 'Contact', href: 'mailto:lejour.agathe@outlook.fr' },
 ]
 
-interface MobileMenuOverlayProps {
-  isDarkBackground?: boolean
-  scrolled?: boolean
-}
-
-export default function MobileMenuOverlay({ 
-}: MobileMenuOverlayProps = {}) {
+export default function MobileMenuOverlay() {
   const { isOpen, closeMenu } = useMenuStore()
   const { startTransition } = usePageTransition()
   const pathname = usePathname()
+  const router = useRouter()
   const isHome = pathname === '/'
+
+
+  const isTouch = typeof window !== "undefined" && window.matchMedia("(pointer:coarse)").matches
 
   const handleClick = useCallback((scrollTo?: string | null, href?: string) => {
     if (href) {
@@ -37,16 +35,19 @@ export default function MobileMenuOverlay({
       if (isHome) {
         const el = document.getElementById(scrollTo)
         if (el) {
-         
           setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 700)
         }
       } else {
         sessionStorage.setItem('scrollTo', scrollTo)
-        startTransition('/', scrollTo.toUpperCase())
+       
+        if (isTouch) {
+          router.push("/")
+        } else {
+          startTransition('/', scrollTo.toUpperCase())
+        }
       }
-    } 
-  }, [isHome, closeMenu, startTransition])
-
+    }
+  }, [isHome, closeMenu, startTransition, router, isTouch])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,9 +63,7 @@ export default function MobileMenuOverlay({
     if (isOpen) {
       window.addEventListener('scroll', handleScroll, { passive: true })
       document.addEventListener('keydown', handleEscape)
- 
       document.body.style.overflow = 'hidden'
-     
       document.body.classList.add('menu-open')
     } else {
       document.body.style.overflow = 'unset'
@@ -106,102 +105,93 @@ export default function MobileMenuOverlay({
     })
   }
 
-
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
-<motion.div
-  className="fixed inset-0 z-[10000] bg-beige text-black flex flex-col min-h-screen"
-  role="dialog"
-  aria-modal="true"
-  variants={overlayVariants}
-  initial="hidden"
-  animate="visible"
-  exit="hidden"
-  onClick={(e) => e.stopPropagation()}
->
-  <button
-    onClick={closeMenu}
-    className="absolute top-4 right-4 sm:top-6 sm:right-6 text-xl font-title uppercase text-black z-10"
-    aria-label="Fermer le menu"
-  >
-    Fermer
-  </button>
-
-
-  <div className="grow w-full pt-44 px-4">
-    <p className="font-eb-garamond pb-4 text-base">(Menu)</p>
-    <ul className="flex flex-col w-full">
-      {menuLinks.map(({ label, scrollTo, href }, i) => {
-        const isFirst = i === 0
-        const isLast = i === menuLinks.length - 1
-        const isProjets = label === 'Projets'
-
-        const borderClasses = [
-          isFirst ? 'border-t' : '',
-          isProjets ? 'border-t border-b' : '',
-          isLast ? 'border-b' : '',
-          'border-black',
-        ].join(' ')
-
-        return (
-          <motion.li
-            key={label}
-            variants={menuItemVariants}
-            initial="hidden"
-            animate="visible"
-            custom={i}
-            className="w-full"
+        <motion.div
+          className="fixed inset-0 z-[10000] bg-beige text-black flex flex-col min-h-screen"
+          role="dialog"
+          aria-modal="true"
+          variants={overlayVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={closeMenu}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-xl font-title uppercase text-black z-10"
+            aria-label="Fermer le menu"
           >
-            <button
-              onClick={() => handleClick(scrollTo, href)}
-              className={`w-full py-4   text-5xl text-left uppercase font-title  transition ${borderClasses}`}
-              aria-label={`Aller à ${label}`}
-            >
-              {label}
-            </button>
-          </motion.li>
-        )
-      })}
-    </ul>
-      <div className="flex flex-col gap-2 mt-10 font-eb-garamond  ">
-      <a
-         href="https://linkedin.com/in/tonprofil"
-       target="_blank"
-      rel="noopener noreferrer"
-      className="hover:underline text-2xl flex items-start gap-1"
-      >
-      LinkedIn 
-      </a>
-      <a
-         href="https://github.com/tonprofil"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hover:underline text-2xl flex items-start gap-1"
-      >
-        GitHub
-     </a>
-      <a
-        href="mailto:lejour.agathe@outlook.fr"
-        className="hover:underline flex text-2xl items-start gap-1"
-        aria-label="Envoyer un email">
-         Email
-       </a>
-    </div>
-  </div>
+            Fermer
+          </button>
 
- 
+          <div className="grow w-full pt-44 px-4">
+            <p className="font-eb-garamond pb-4 text-base">(Menu)</p>
+            <ul className="flex flex-col w-full">
+              {menuLinks.map(({ label, scrollTo, href }, i) => {
+                const isFirst = i === 0
+                const isLast = i === menuLinks.length - 1
+                const isProjets = label === 'Projets'
 
-  
-  <div className="flex  justify-center mb-4">
-    <span className="text-xl text-center font-title uppercase ">Agathe Lejour – Portfolio 2025</span>
-  </div>
+                const borderClasses = [
+                  isFirst ? 'border-t' : '',
+                  isProjets ? 'border-t border-b' : '',
+                  isLast ? 'border-b' : '',
+                  'border-black',
+                ].join(' ')
 
-</motion.div>
+                return (
+                  <motion.li
+                    key={label}
+                    variants={menuItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    custom={i}
+                    className="w-full"
+                  >
+                    <button
+                      onClick={() => handleClick(scrollTo, href)}
+                      className={`w-full py-4 text-5xl text-left uppercase font-title transition ${borderClasses}`}
+                      aria-label={`Aller à ${label}`}
+                    >
+                      {label}
+                    </button>
+                  </motion.li>
+                )
+              })}
+            </ul>
+            <div className="flex flex-col gap-2 mt-10 font-eb-garamond">
+              <a
+                href="https://linkedin.com/in/tonprofil"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline text-2xl flex items-start gap-1"
+              >
+                LinkedIn 
+              </a>
+              <a
+                href="https://github.com/tonprofil"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline text-2xl flex items-start gap-1"
+              >
+                GitHub
+              </a>
+              <a
+                href="mailto:lejour.agathe@outlook.fr"
+                className="hover:underline flex text-2xl items-start gap-1"
+                aria-label="Envoyer un email">
+                Email
+              </a>
+            </div>
+          </div>
 
+          <div className="flex justify-center mb-4">
+            <span className="text-xl text-center font-title uppercase ">Agathe Lejour – Portfolio 2025</span>
+          </div>
+        </motion.div>
       )}
     </AnimatePresence>
   )
 }
-
-  

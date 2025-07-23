@@ -123,7 +123,7 @@ export default function Header() {
           {links.map(({ scrollTo, href, label }) => {
             const isExternal = href?.startsWith('mailto:')
             const isAnchor = isHome && scrollTo
-            const fullHref = isAnchor ? `#${scrollTo}` : scrollTo ? '/' : href!
+            const fullHref = scrollTo ? `/#${scrollTo}` : href!
             const handleClick = (e: React.MouseEvent) => {
               if (scrollTo) {
                 e.preventDefault()
@@ -160,7 +160,7 @@ export default function Header() {
         </ul>
       </nav>
 
-      <MobileMenuOverlay isDarkBackground={isDarkBackground} scrolled={scrolled} />
+      <MobileMenuOverlay  />
     </header>
   )
 }
