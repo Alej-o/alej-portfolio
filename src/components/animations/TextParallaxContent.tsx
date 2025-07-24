@@ -71,7 +71,7 @@ const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
     lg:text-[clamp(6rem,16vw,8rem)]
     xl:text-[clamp(8rem,18vw,14rem)]
     text-left sm:text-left
-    px-2
+    px-8
       
     "
   >

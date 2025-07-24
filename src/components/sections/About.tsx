@@ -50,7 +50,7 @@ export default function About() {
     À propos
   </RevealTextOnScroll>
 
-  <div className="max-w-7xl mx-auto font-eb-garamond xl:mt-14 text-black">
+  <div className="max-w-8xl mx-auto font-eb-garamond xl:mt-14 text-black">
     <AnimatedParagraph>
       {`Hello, moi c'est Agathe !
 Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles. Ce que j'aime, c'est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. Pour moi, le code, c'est un moyen d'exprimer des idées… et de toucher les gens.`}

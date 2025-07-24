@@ -57,7 +57,7 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 w-full min-h-[64px] ${transitionClass} z-[10000] ${
+      className={`fixed top-0 w-full min-h-[64px] xl:px-4 ${transitionClass} z-[10000] ${
         scrolled ? 'bg-black/10 backdrop-blur-md shadow-md' : 'bg-transparent'
       }`}
     >
@@ -108,7 +108,7 @@ export default function Header() {
       </div>
 
       
-      <nav className="hidden xl:grid grid-cols-3 items-center px-6 xl:px-8 py-4">
+      <nav className="hidden xl:grid grid-cols-3 items-center px-6  py-4">
         <div className="flex justify-start">
           <button
             onClick={handleHeroClick}
