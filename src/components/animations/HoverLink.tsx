@@ -11,7 +11,6 @@ import { ArrowRight } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import FlipLink from "./FlipLink"
 
-
 interface ProjectProps {
   slug: string;
   title: string;
@@ -25,13 +24,12 @@ interface ProjectProps {
   variant?: "default" | "compact";
 }
 
-
 const useIsMobile = (breakpoint = 1280) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < breakpoint);
-    check(); // appel initial
+    check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, [breakpoint]);
@@ -47,30 +45,24 @@ export const HoverLink = ({
   slug,
   hoverHeading,
   hoverSubheading,
-  isFirst,
   transitionLabel,
   variant = "default",
 }: ProjectProps) => {
-  
   const ref = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  
   const [inViewRef, isInView] = useInView({
     triggerOnce: true,
     threshold: 0.4,
   });
 
- 
   const isMobile = useIsMobile();
 
-  
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
 
-  
   const top = useTransform(mouseYSpring, [0.5, -0.5], ["40%", "60%"]);
   const left = useTransform(mouseXSpring, [0.5, -0.5], ["60%", "70%"]);
 
@@ -87,39 +79,32 @@ export const HoverLink = ({
     y.set(yPct);
   };
 
-
-  const headingSize = variant === "compact" ? "text-3xl  xl:text-4xl" : "text-3xl md:text-4xl xl:text-6xl";
+  const headingSize = variant === "compact" ? "text-3xl xl:text-4xl" : "text-3xl md:text-4xl xl:text-6xl";
   const subheadingSize = variant === "compact" ? "text-lg" : "text-4xl";
   const tagSize = variant === "compact" ? "text-xs md:text-sm" : "text-sm xl:text-lg md:text-lg";
   const spacing = variant === "compact" ? "gap-2 " : "gap-2 md:gap-4 xl:gap-4";
   const px = variant === "compact" ? "px-2" : "px-6 xl:px-8";
-  // const iconSize = variant === "compact" ? 24 : 40;
 
- 
   return (
     <motion.div
       ref={(node) => {
         ref.current = node;
-        if (isFirst && node) inViewRef(node);
+        inViewRef(node);
       }}
-      
       onMouseMove={!isMobile ? handleMouseMove : undefined}
       onMouseEnter={!isMobile ? () => setIsHovered(true) : undefined}
       onMouseLeave={!isMobile ? () => setIsHovered(false) : undefined}
       className={`relative group flex w-full h-full items-center justify-between border-b transition-colors duration-500 border-black`}
     >
-
-     
       <FlipLink
         label={transitionLabel}
         hovered={isHovered}
         href={`/projects/${slug}`}
         className="pointer-events-none w-full h-full"
         hoverBackground={!isMobile}
-       
         hoverChildren={
           !isMobile && (
-            <div className={`h-full flex items-center justify-between  ${px}`}>
+            <div className={`h-full flex items-center justify-between ${px}`}>
               <div className={`text-left flex flex-col justify-center ${spacing}`}>
                 <div className={`font-title uppercase text-beige ${headingSize}`}>
                   {hoverHeading}
@@ -128,87 +113,60 @@ export const HoverLink = ({
                   {hoverSubheading}
                 </div>
               </div>
-            
               <motion.div
                 animate={isHovered ? { x: "0%", opacity: 1 } : { x: "25%", opacity: 0 }}
                 transition={{ type: "spring" }}
                 className="relative z-10 p-2"
               >
                 <ArrowRight
-  className={
-    variant === "compact"
-      ? "w-5 h-5 sm:w-6 sm:h-6  text-beige"
-      : "w-7 h-7 xl:w-10 xl:h-10  text-beige"
-  }
-/>
+                  className={
+                    variant === "compact"
+                      ? "w-5 h-5 sm:w-6 sm:h-6  text-beige"
+                      : "w-7 h-7 xl:w-10 xl:h-10  text-beige"
+                  }
+                />
               </motion.div>
             </div>
           )
         }
       >
-
-     
         <div className={`h-full flex items-center justify-between ${px}`}>
           <div className={`text-left flex flex-col justify-center py-4 md:py-4 xl:py-0 ${spacing}`}>
-
-        
-            {isFirst ? (
-  <div className="overflow-hidden">
-    <motion.div
-      initial={{ y: "100%", opacity: 0 }}
-      animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
-      transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-      className={`font-title uppercase text-black ${headingSize}`}
-    >
-      {isMobile ? title : heading}
-    </motion.div>
-  </div>
-) : (
-  <div className={`font-title uppercase text-black ${headingSize}`}>
-    {isMobile ? title : heading}
-  </div>
-)}
-            {isFirst ? (
-              <div className="overflow-hidden">
-                <motion.div
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4, ease: [0.25, 1, 0.5, 1] }}
-                  className="flex flex-wrap gap-2"
-                >
-                  {subheading.map((tech, i) => (
-                    <span
-                      key={i}
-                      className={`px-3 py-1 rounded-md font-eb-garamond border border-black text-black ${tagSize}`}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </motion.div>
-              </div>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {subheading.map((tech, i) => ( 
+            <div className="overflow-hidden">
+              <motion.div
+                initial={{ y: "100%", opacity: 0 }}
+                animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
+                transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                className={`font-title uppercase text-black ${headingSize}`}
+              >
+                {isMobile ? title : heading}
+              </motion.div>
+            </div>
+            <div className="overflow-hidden">
+              <motion.div
+                initial={{ y: "100%", opacity: 0 }}
+                animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
+                transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                className="flex flex-wrap gap-2"
+              >
+                {subheading.map((tech, i) => (
                   <span
                     key={i}
-                    className={`px-3 py-1  font-eb-garamond rounded-md border border-black text-black ${tagSize}`}
+                    className={`px-3 py-1 rounded-md font-eb-garamond border border-black text-black ${tagSize}`}
                   >
                     {tech}
                   </span>
                 ))}
-              </div>
-            )}
+              </motion.div>
+            </div>
           </div>
           {isMobile && (
-      <ArrowRight
-  className={ "w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black"
-  }
-/>
-    )}
+            <ArrowRight
+              className={"w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black"}
+            />
+          )}
         </div>
       </FlipLink>
-
-      
       {!isMobile && isHovered && variant !== "compact" && (
         <motion.img
           style={{

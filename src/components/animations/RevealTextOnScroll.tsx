@@ -8,11 +8,17 @@ import { ReactNode } from 'react'
 type RevealTextOnScrollProps = {
   children: ReactNode
   className?: string
+  forceReveal?: boolean
+  maskColor?: string 
+  delay?: number     
 }
 
 export default function RevealTextOnScroll({
   children,
   className = '',
+  forceReveal = false,
+  maskColor = 'bg-beige',
+  delay = 0,
 }: RevealTextOnScrollProps) {
   const controls = useAnimation()
   const [ref, inView] = useInView({
@@ -21,30 +27,43 @@ export default function RevealTextOnScroll({
   })
 
   useEffect(() => {
-    if (inView) {
+    if (forceReveal || inView) {
       controls.start('visible')
     }
-  }, [inView, controls])
+  }, [inView, forceReveal, controls])
 
   return (
-    <div ref={ref} className="relative h-[100px] overflow-hidden flex justify-left items-center md:justify-center lg:justify-center xl:justify-center">
-     
-      <motion.div
+    <div
+      ref={ref}
+      className={`relative overflow-hidden xl:flex xl:items-center xl:justify-center`}
+      style={{ minHeight: '1em' }}
+    >
+      <div
+        className={`absolute inset-0 w-full h-full ${maskColor}`}
+        style={{ zIndex: 10, pointerEvents: 'none' }}
+      />
+      <motion.span
         initial={{ y: '100%' }}
         animate={controls}
         variants={{
           visible: {
             y: '0%',
             transition: {
-              duration: 0.6,
-              ease: [0.25, 1, 0.5, 1], 
+              duration: 0.42,
+              delay, 
+              ease: [0.4, 0.0, 0.2, 1],
             },
           },
         }}
         className={className}
+        style={{
+          display: 'block',
+          position: 'relative',
+          zIndex: 20,
+        }}
       >
         {children}
-      </motion.div>
+      </motion.span>
     </div>
   )
 }
