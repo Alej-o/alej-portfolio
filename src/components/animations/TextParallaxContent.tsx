@@ -62,12 +62,13 @@ const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
 >
   <p
     className="
-        font-title text-beige
+      font-title text-beige
     leading-[0.8] uppercase
     break-words
-    text-[clamp(2.2rem,12vw,4rem)]  /* base = GROS sur mobile */
-    sm:text-[clamp(3rem,16vw,6rem)] /* dès 640px, encore + gros */
-    md:text-[clamp(5rem,16vw,10rem)]
+    text-[clamp(2.2rem,12vw,4rem)] 
+    sm:text-[clamp(3rem,16vw,5rem)] 
+    md:text-[clamp(5rem,16vw,6rem)]
+    lg:text-[clamp(6rem,16vw,8rem)]
     xl:text-[clamp(8rem,18vw,14rem)]
     text-left sm:text-left
     px-2

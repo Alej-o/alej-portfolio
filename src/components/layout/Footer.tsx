@@ -38,24 +38,23 @@ export default function Footer({ className = "" }) {
           </div>
         </div>
       </div>
-  
-  <div className="grid grid-cols-[2fr_1fr] w-full px-4 py-8  xl:hidden items-center mx-auto">
+
+  {/* Mobile & Tablet */}
+  <div className="grid grid-cols-[2fr_1fr] lg:grid-cols-2 w-full px-4 md:px-8 py-8  xl:hidden items-center mx-auto">
   
   <div className="flex flex-col justify-center h-full pr-2 ">
-    <h2 className="text-4xl font-title uppercase text-left text-black  leading-tight">
+    <h2 className="text-4xl md:text-6xl font-title uppercase text-left text-black  leading-tight">
       Restons<br/>Connectés
     </h2>
   </div>
   
-
-  
-  <div className="flex flex-col justify-start items-start gap-3 pl-4 border-l  border-black">
-    <a href="#" className="flex font-title text-2xl items-start">LinkedIn
+  <div className="flex flex-col justify-start items-start gap-3 pl-4 md:pl-6 border-l  border-black">
+    <a href="#" className="flex font-eb-garamond text-2xl md:text-3xl items-start">LinkedIn
     </a>
-    <a href="#" className="flex font-title text-2xl items-start ">GitHub
+    <a href="#" className="flex font-eb-garamond text-2xl md:text-3xl items-start ">GitHub
       
     </a>
-    <a href="mailto:..." className="flex font-title text-2xl  items-start">Contact
+    <a href="mailto:..." className="flex font-eb-garamond text-2xl md:text-3xl  items-start">Contact
     </a>
   </div>
 </div>

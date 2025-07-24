@@ -43,25 +43,26 @@ export default function About() {
   return (
     <section
   id="about"
-  className="relative z-10 bg-beige w-full  py-16 px-6 "
+  className="relative z-10 bg-beige w-full  py-16 px-6 md:py-40 lg:py-40 xl:py-60 "
 >
-  <RevealTextOnScroll className="text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-title text-black uppercase ">
+  
+  <RevealTextOnScroll className="text-4xl md:text-4xl lg:text-5xl xl:text-7xl  font-title text-black uppercase ">
     À propos
   </RevealTextOnScroll>
 
-  <div className="max-w-5xl mx-auto font-eb-garamond text-black">
+  <div className="max-w-7xl mx-auto font-eb-garamond xl:mt-14 text-black">
     <AnimatedParagraph>
       {`Hello, moi c'est Agathe !
 Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles. Ce que j'aime, c'est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. Pour moi, le code, c'est un moyen d'exprimer des idées… et de toucher les gens.`}
     </AnimatedParagraph>
   </div>
 
-  <div ref={ref} className="max-w-5xl mx-auto mt-10 xl:mt-16">
-    <RevealTextOnScroll className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-title text-black uppercase mt-10 mb-8 ">
+  <div ref={ref} className="max-w-7xl mx-auto mt-10 lg:mt-16 xl:mt-32">
+    <RevealTextOnScroll className="text-4xl md:text-4xl lg:text-5xl xl:text-7xl font-title text-black uppercase mt-10 mb-8 lg:mb-20  ">
       Technologies
     </RevealTextOnScroll>
 
-    <div className="flex flex-wrap md:justify-center xl:justify-center text-lg gap-x-3 gap-y-2 md:gap-x-6 md:gap-y-4 font-eb-garamond text-black uppercase">
+    <div className="flex flex-wrap xl:flex-nowrap md:justify-center lg:justify-center xl:justify-center text-lg md:text-xl gap-x-3 gap-y-2 md:gap-x-2 md:gap-y-4 font-eb-garamond xl:text-4xl xl:mt-14 text-black uppercase">
       {techList.map((tech, i) => (
         <motion.div
           key={tech}
@@ -69,11 +70,11 @@ Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes
           initial="hidden"
           animate={controls}
           variants={tagVariants}
-          className="flex items-center"
+          className="flex items-center whitespace-nowrap"
         >
           <span>{tech}</span>
           {i !== techList.length - 1 && (
-            <span className="ml-2 select-none" aria-hidden="true">
+            <span className="ml-2  select-none " aria-hidden="true">
               •
             </span>
           )}

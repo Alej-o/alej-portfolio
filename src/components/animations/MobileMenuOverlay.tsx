@@ -120,14 +120,14 @@ export default function MobileMenuOverlay() {
         >
           <button
             onClick={closeMenu}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-xl font-title uppercase text-black z-10"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-xl md:text-2xl font-title uppercase text-black z-10"
             aria-label="Fermer le menu"
           >
             Fermer
           </button>
 
           <div className="grow w-full pt-44 px-4">
-            <p className="font-eb-garamond pb-4 text-base">(Menu)</p>
+            <p className="font-eb-garamond pb-4 text-base md:text-lg">(Menu)</p>
             <ul className="flex flex-col w-full">
               {menuLinks.map(({ label, scrollTo, href }, i) => {
                 const isFirst = i === 0
@@ -152,7 +152,7 @@ export default function MobileMenuOverlay() {
                   >
                     <button
                       onClick={() => handleClick(scrollTo, href)}
-                      className={`w-full py-4 text-5xl text-left uppercase font-title transition ${borderClasses}`}
+                      className={`w-full py-4 text-5xl md:text-7xl text-left uppercase font-title transition ${borderClasses}`}
                       aria-label={`Aller à ${label}`}
                     >
                       {label}
@@ -166,7 +166,7 @@ export default function MobileMenuOverlay() {
                 href="https://linkedin.com/in/tonprofil"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline text-2xl flex items-start gap-1"
+                className="hover:underline text-2xl md:text-3xl flex items-start gap-1"
               >
                 LinkedIn 
               </a>
@@ -174,21 +174,21 @@ export default function MobileMenuOverlay() {
                 href="https://github.com/tonprofil"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline text-2xl flex items-start gap-1"
+                className="hover:underline text-2xl md:text-3xl flex items-start gap-1"
               >
                 GitHub
               </a>
               <a
                 href="mailto:lejour.agathe@outlook.fr"
-                className="hover:underline flex text-2xl items-start gap-1"
+                className="hover:underline flex text-2xl md:text-3xl  items-start gap-1"
                 aria-label="Envoyer un email">
                 Email
               </a>
             </div>
           </div>
 
-          <div className="flex justify-center mb-4">
-            <span className="text-xl text-center font-title uppercase ">Agathe Lejour – Portfolio 2025</span>
+          <div className="flex justify-center mb-4 md:mb-10 ">
+            <span className="text-xl md:text-4xl text-center font-title uppercase  ">Agathe Lejour – Portfolio 2025</span>
           </div>
         </motion.div>
       )}

@@ -26,7 +26,7 @@ function useIsTouchDevice() {
   const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
-    // Exécuté UNIQUEMENT côté client (jamais SSR)
+    
     setIsTouch(window.matchMedia("(pointer:coarse)").matches);
   }, []);
 
@@ -54,7 +54,6 @@ const TransitionLink = forwardRef<HTMLAnchorElement, Props>(
     const lastClickRef = useRef<number>(0);
     const isTouch = useIsTouchDevice();
 
-    // Ajout : attend d’être hydraté pour éviter le bug mobile
     const [hydrated, setHydrated] = useState(false);
     useEffect(() => { setHydrated(true); }, []);
     if (!hydrated) return null;
@@ -70,7 +69,7 @@ const TransitionLink = forwardRef<HTMLAnchorElement, Props>(
       if (now - lastClickRef.current < debounceMs) return;
       lastClickRef.current = now;
 
-      // PATCH POUR MOBILE/TABLET (touch)
+      
       if (isTouch) {
         if (href.startsWith("/#")) {
           const anchor = href.split("#")[1];
@@ -100,7 +99,7 @@ const TransitionLink = forwardRef<HTMLAnchorElement, Props>(
         return;
       }
 
-      // LOGIQUE DESKTOP AVEC TRANSITION
+    
       if (href.startsWith("#")) {
         if (skipTransition) {
           const element = document.getElementById(href.slice(1));

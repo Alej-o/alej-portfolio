@@ -22,7 +22,17 @@ export default function AnimatedParagraph({ children }: { children: React.ReactN
   return (
    <div
   ref={ref}
-  className=" py-2  max-w-[80ch] text-2xl xl:text-4xl  leading-snug  flex flex-wrap text-left md:text-justify lg:text-justify xl:text-justify justify-left md:justify-center lg:justify-center xl:justify-center  font-eb-garamond"
+  className=" 
+  py-2  
+  max-w-[80ch] xl:max-w-[110ch] 
+  text-2xl md:text-3xl xl:text-6xl  
+  leading-snug  
+  flex flex-wrap 
+  text-left md:text-justify lg:text-justify xl:text-justify 
+  justify-left md:justify-center lg:justify-center xl:justify-center  
+  font-eb-garamond
+
+  "
 >
   {words.map((word, i) => {
     if (word === '\n') {

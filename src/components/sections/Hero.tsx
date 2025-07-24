@@ -5,32 +5,32 @@ import HeroBackgroundFluid from './HeroBackgroundFluid'
 
 export default function Hero() {
   return (
- 
-   <Canvas
-  orthographic
-  camera={{
-    position: [0, 0, 1],
-    zoom: 1,
-    near: 0.1,
-    far: 10,
-    left: -1,
-    right: 1,
-    top: 1,
-    bottom: -1,
-  }}
-  gl={{ preserveDrawingBuffer: true }}
-  style={{
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100vh',
-  }}
-  id="hero"
->
-  <HeroBackgroundFluid />
-</Canvas>
-
+    <section id="hero" className="relative w-full h-screen overflow-hidden">
+      <Canvas
+        orthographic
+        camera={{
+          position: [0, 0, 1],
+          zoom: 1,
+          near: 0.1,
+          far: 10,
+          left: -1,
+          right: 1,
+          top: 1,
+          bottom: -1,
+        }}
+        gl={{ preserveDrawingBuffer: true }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+        }}
+      >
+        <HeroBackgroundFluid />
+      </Canvas>
+     
+    </section>
   )
 }
 

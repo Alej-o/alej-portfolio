@@ -188,12 +188,11 @@ export default function PageTransition({
     };
   }, [isTransitioning]);
 
-  // Désactive les transitions pour tactile : affiche direct les children
+
   if (isTouch) {
     return <>{children}</>;
   }
 
-  // Sinon, la transition normale desktop
   return (
     <PageTransitionContext.Provider value={{ startTransition, setLabel, phase, isTransitioning }}>
       {showChildren && children}
@@ -202,7 +201,7 @@ export default function PageTransition({
         {phase !== "idle" && currentTransition && (
           <motion.div
             key={`transition-${currentTransition.id}`}
-            className={`fixed top-0 left-0 w-full h-full ${overlayColor} z-[9999] flex items-center justify-center`}
+            className={`fixed top-0 left-0 w-full h-full ${overlayColor} z-[11000] flex items-center justify-center`}
             initial={{ y: "100%" }}
             animate={{ y: phase === "covering" ? "0%" : "-100%" }}
             exit={{ y: "-100%" }}

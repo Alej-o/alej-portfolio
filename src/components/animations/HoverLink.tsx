@@ -26,7 +26,7 @@ interface ProjectProps {
 }
 
 
-const useIsMobile = (breakpoint = 768) => {
+const useIsMobile = (breakpoint = 1280) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -88,11 +88,11 @@ export const HoverLink = ({
   };
 
 
-  const headingSize = variant === "compact" ? "text-3xl xl:text-4xl" : "text-3xl xl:text-6xl";
+  const headingSize = variant === "compact" ? "text-3xl  xl:text-4xl" : "text-3xl md:text-4xl xl:text-6xl";
   const subheadingSize = variant === "compact" ? "text-lg" : "text-4xl";
   const tagSize = variant === "compact" ? "text-xs md:text-sm" : "text-sm xl:text-lg md:text-lg";
-  const spacing = variant === "compact" ? "gap-2" : "gap-2 md:gap-4 xl:gap-4";
-  const px = variant === "compact" ? "px-2" : "px-6 xl:px-4";
+  const spacing = variant === "compact" ? "gap-2 " : "gap-2 md:gap-4 xl:gap-4";
+  const px = variant === "compact" ? "px-2" : "px-6 xl:px-8";
   // const iconSize = variant === "compact" ? 24 : 40;
 
  
@@ -137,8 +137,8 @@ export const HoverLink = ({
                 <ArrowRight
   className={
     variant === "compact"
-      ? "w-5 h-5 sm:w-6 sm:h-6 text-beige"
-      : "w-7 h-7 xl:w-10 xl:h-10 text-beige"
+      ? "w-5 h-5 sm:w-6 sm:h-6  text-beige"
+      : "w-7 h-7 xl:w-10 xl:h-10  text-beige"
   }
 />
               </motion.div>
@@ -149,7 +149,7 @@ export const HoverLink = ({
 
      
         <div className={`h-full flex items-center justify-between ${px}`}>
-          <div className={`text-left flex flex-col justify-center py-4 md:py-0 xl:py-0 ${spacing}`}>
+          <div className={`text-left flex flex-col justify-center py-4 md:py-4 xl:py-0 ${spacing}`}>
 
         
             {isFirst ? (
@@ -191,7 +191,7 @@ export const HoverLink = ({
                 {subheading.map((tech, i) => ( 
                   <span
                     key={i}
-                    className={`px-3 py-1 font-eb-garamond rounded-md border border-black text-black ${tagSize}`}
+                    className={`px-3 py-1  font-eb-garamond rounded-md border border-black text-black ${tagSize}`}
                   >
                     {tech}
                   </span>
@@ -201,7 +201,7 @@ export const HoverLink = ({
           </div>
           {isMobile && (
       <ArrowRight
-  className={ "w-6 h-6 flex-shrink-0 text-black"
+  className={ "w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black"
   }
 />
     )}
@@ -221,7 +221,7 @@ export const HoverLink = ({
           animate={{ scale: 1, rotate: "12.5deg", opacity: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
           src={imgSrc}
-          className="absolute z-0 h-24 w-32 rounded-lg object-cover md:h-48 md:w-64"
+          className="absolute z-0 h-24 w-32 rounded-lg object-cover "
           alt={`Image representing a link for ${heading}`}
         />
       )}
