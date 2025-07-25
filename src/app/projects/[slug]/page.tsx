@@ -4,7 +4,7 @@ import Image from "next/image";
 import { HoverLink } from "@/components/animations/HoverLink";
 import SlideButton from "@/components/animations/SlideButton";
 import RevealTextOnScroll from "@/components/animations/RevealTextOnScroll";
-
+// import  AnimatedBorder  from "@/components/animations/AnimatedBorder";
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
