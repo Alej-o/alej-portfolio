@@ -1,39 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 import TransitionLink from "@/components/TransitionLink";
 
-interface FlipLinkProps {
+export interface FlipLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
   hoverChildren: ReactNode;
-  href: string;
-  className?: string;
+  label?: string;
   hovered?: boolean;
   hoverBackground?: boolean;
-  label?: string;
   skipTransition?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export default function FlipLink({
   children,
   hoverChildren,
-  href,
   label,
   skipTransition = false,
   className = "",
   hovered = false,
   hoverBackground = false,
-  onClick,
+  ...props
 }: FlipLinkProps) {
+  // Ensure href is always a string (default to empty string if undefined)
+  const { href = "", ...restProps } = props;
+
   return (
     <TransitionLink
-      href={href}
       label={label}
       skipTransition={skipTransition}
-      onClick={onClick}
       className="block w-full h-full"
+      href={href}
+      {...restProps}
     >
       <motion.div
         initial="initial"

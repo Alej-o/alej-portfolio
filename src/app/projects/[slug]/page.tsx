@@ -102,7 +102,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   
         {hasGallery && (
-          <div className="flex-1 w-full pt-2 md:pt-0">
+          <div className="flex-1 w-full xl:pt-[120px] md:pt-0">
             <div className="pt-2 pb-2">
               <div className="flex flex-row flex-wrap md:flex-nowrap gap-6 w-full justify-center items-center">
                 {project.images!.map((img, idx) => (
