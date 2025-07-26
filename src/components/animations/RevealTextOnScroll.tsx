@@ -35,7 +35,7 @@ export default function RevealTextOnScroll({
   return (
     <div
       ref={ref}
-      className={`relative overflow-hidden xl:flex xl:items-center xl:justify-center`}
+      className={`relative overflow-hidden `}
       style={{ minHeight: '1em' }}
     >
       <div

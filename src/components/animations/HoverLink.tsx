@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import {
   useMotionValue,
@@ -9,7 +9,7 @@ import {
 import React, { useRef, useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { useInView } from "react-intersection-observer";
-import FlipLink from "./FlipLink"
+import FlipLink from "./FlipLink";
 
 interface ProjectProps {
   slug: string;
@@ -18,7 +18,7 @@ interface ProjectProps {
   subheading: string[];
   hoverHeading: string;
   hoverSubheading: string;
-  imgSrc: string;
+  imgSrc?: string; // <-- optionnel
   isFirst?: boolean;
   transitionLabel?: string;
   variant?: "default" | "compact";
@@ -167,7 +167,8 @@ export const HoverLink = ({
           )}
         </div>
       </FlipLink>
-      {!isMobile && isHovered && variant !== "compact" && (
+      {/* Affiche l'image seulement si imgSrc existe et n'est pas vide */}
+      {!isMobile && isHovered && variant !== "compact" && !!imgSrc && (
         <motion.img
           style={{
             top,
@@ -179,7 +180,7 @@ export const HoverLink = ({
           animate={{ scale: 1, rotate: "12.5deg", opacity: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
           src={imgSrc}
-          className="absolute z-0 h-24 w-32 rounded-lg object-cover "
+          className="absolute z-0 h-24 w-32 rounded-lg object-cover"
           alt={`Image representing a link for ${heading}`}
         />
       )}

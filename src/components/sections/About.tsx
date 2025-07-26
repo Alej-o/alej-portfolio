@@ -42,13 +42,13 @@ export default function About() {
   return (
    <section
   id="about"
-  className="relative z-10 bg-beige w-full py-16 px-6 md:py-40 lg:py-40 xl:py-60"
+  className="relative z-10 bg-beige w-full py-16 px-6 md:py-40 lg:py-40 xl:py-52"
 >
   <RevealTextOnScroll className="text-4xl md:text-4xl lg:text-5xl xl:text-7xl font-title text-black uppercase md:text-center mb-8 mt-8 lg:mb-10">
     À propos
   </RevealTextOnScroll>
 
-  <div className="max-w-8xl mx-auto font-eb-garamond xl:mt-14 text-black">
+  <div className="max-w-7xl mx-auto font-eb-garamond xl:mt-14 text-black">
    
       <AnimatedParagraph>
       {`Hello, moi c'est Agathe !
