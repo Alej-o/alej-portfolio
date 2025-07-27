@@ -1,16 +1,15 @@
-// app/projects/[slug]/page.tsx
-
 import { projectsData } from "@/data/projectsData";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { HoverLink } from "@/components/animations/HoverLink";
 import RevealTextOnScroll from "@/components/animations/RevealTextOnScroll";
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from "lucide-react";
 
 type ProjectLink = string | { url: string; label: string };
 
 interface ProjectPageProps {
   params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined }; // 👈 ajouté
 }
 
 export async function generateStaticParams() {
@@ -80,30 +79,30 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <DetailRow label="(Année)" delay={delays[5]}>{project.annee}</DetailRow>
           </dl>
 
-       <DetailRow label="(Lien)">
-  <RevealTextOnScroll delay={0.78}>
-    {links.length > 0 ? (
-      <ul className="flex gap-4 flex-col">
-        {links.map((link) => (
-          <li key={link.url}>
-            <a
-  href={link.url}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="group inline-flex items-center gap-2 font-eb-garamond text-2xl xl:text-4xl hover:text-[#8C0812] transition-colors"
-  aria-label={link.label}
->
-  {link.label}
-  <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-</a>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <span className="font-eb-garamond xl:text-4xl">En cours</span>
-    )}
-  </RevealTextOnScroll>
-</DetailRow>
+          <DetailRow label="(Lien)">
+            <RevealTextOnScroll delay={0.78}>
+              {links.length > 0 ? (
+                <ul className="flex gap-4 flex-col">
+                  {links.map((link) => (
+                    <li key={link.url}>
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-2 font-eb-garamond text-2xl xl:text-4xl hover:text-[#8C0812] transition-colors"
+                        aria-label={link.label}
+                      >
+                        {link.label}
+                        <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span className="font-eb-garamond xl:text-4xl">En cours</span>
+              )}
+            </RevealTextOnScroll>
+          </DetailRow>
         </section>
 
         {hasGallery && (
