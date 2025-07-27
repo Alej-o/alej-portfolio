@@ -23,22 +23,24 @@ export default function FlipLink({
   hoverBackground = false,
   ...props
 }: FlipLinkProps) {
-  // Ensure href is always a string (default to empty string if undefined)
   const { href = "", ...restProps } = props;
 
   return (
     <TransitionLink
+      href={href}
       label={label}
       skipTransition={skipTransition}
       className="block w-full h-full"
-      href={href}
       {...restProps}
     >
       <motion.div
+        role="link"
         initial="initial"
         whileHover="hovered"
         animate={hovered ? "hovered" : "initial"}
-        className={`relative block overflow-hidden font-title text-3xl sm:text-2xl md:text-4xl ${hoverBackground ? 'py-8' : 'py-1'} ${className}`}
+        className={`relative block overflow-hidden font-title text-3xl sm:text-2xl md:text-4xl ${
+          hoverBackground ? "py-8" : "py-1"
+        } ${className}`}
       >
         {hoverBackground && (
           <>
@@ -49,6 +51,7 @@ export default function FlipLink({
                 hovered: { y: "-150%" },
               }}
               transition={{ duration: 0.35, ease: "easeInOut" }}
+              aria-hidden="true"
             >
               <div className="w-full h-full bg-transparent" />
             </motion.div>
@@ -59,6 +62,7 @@ export default function FlipLink({
                 hovered: { y: 0 },
               }}
               transition={{ duration: 0.35, ease: "easeInOut" }}
+              aria-hidden="true"
             >
               <div className="w-full h-full bg-black" />
             </motion.div>
@@ -83,6 +87,7 @@ export default function FlipLink({
             hovered: { y: 0 },
           }}
           transition={{ duration: 0.35, ease: "easeInOut" }}
+          aria-hidden="true"
         >
           {hoverChildren}
         </motion.div>

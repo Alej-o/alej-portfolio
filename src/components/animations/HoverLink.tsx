@@ -18,7 +18,7 @@ interface ProjectProps {
   subheading: string[];
   hoverHeading: string;
   hoverSubheading: string;
-  imgSrc?: string; // <-- optionnel
+  imgSrc?: string;
   isFirst?: boolean;
   transitionLabel?: string;
   variant?: "default" | "compact";
@@ -50,31 +50,21 @@ export const HoverLink = ({
 }: ProjectProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-
-  const [inViewRef, isInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.4,
-  });
-
+  const [inViewRef, isInView] = useInView({ triggerOnce: true, threshold: 0.4 });
   const isMobile = useIsMobile();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
-
   const top = useTransform(mouseYSpring, [0.5, -0.5], ["40%", "60%"]);
   const left = useTransform(mouseXSpring, [0.5, -0.5], ["60%", "70%"]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
     x.set(xPct);
     y.set(yPct);
   };
@@ -82,11 +72,12 @@ export const HoverLink = ({
   const headingSize = variant === "compact" ? "text-3xl xl:text-4xl" : "text-3xl md:text-4xl xl:text-6xl";
   const subheadingSize = variant === "compact" ? "text-lg" : "text-4xl";
   const tagSize = variant === "compact" ? "text-xs md:text-sm" : "text-sm xl:text-lg md:text-lg";
-  const spacing = variant === "compact" ? "gap-2 " : "gap-2 md:gap-4 xl:gap-4";
+  const spacing = variant === "compact" ? "gap-2" : "gap-2 md:gap-4 xl:gap-4";
   const px = variant === "compact" ? "px-2" : "px-6 xl:px-8";
 
   return (
     <motion.div
+      role="listitem"
       ref={(node) => {
         ref.current = node;
         inViewRef(node);
@@ -94,7 +85,7 @@ export const HoverLink = ({
       onMouseMove={!isMobile ? handleMouseMove : undefined}
       onMouseEnter={!isMobile ? () => setIsHovered(true) : undefined}
       onMouseLeave={!isMobile ? () => setIsHovered(false) : undefined}
-      className={`relative group flex w-full h-full items-center justify-between border-b transition-colors duration-500 border-black`}
+      className="relative group flex w-full h-full items-center justify-between border-b transition-colors duration-500 border-black"
     >
       <FlipLink
         label={transitionLabel}
@@ -102,6 +93,7 @@ export const HoverLink = ({
         href={`/projects/${slug}`}
         className="pointer-events-none w-full h-full"
         hoverBackground={!isMobile}
+        aria-label={`Voir le projet : ${heading}`}
         hoverChildren={
           !isMobile && (
             <div className={`h-full flex items-center justify-between ${px}`}>
@@ -121,8 +113,8 @@ export const HoverLink = ({
                 <ArrowRight
                   className={
                     variant === "compact"
-                      ? "w-5 h-5 sm:w-6 sm:h-6  text-beige"
-                      : "w-7 h-7 xl:w-10 xl:h-10  text-beige"
+                      ? "w-5 h-5 sm:w-6 sm:h-6 text-beige"
+                      : "w-7 h-7 xl:w-10 xl:h-10 text-beige"
                   }
                 />
               </motion.div>
@@ -161,13 +153,11 @@ export const HoverLink = ({
             </div>
           </div>
           {isMobile && (
-            <ArrowRight
-              className={"w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black"}
-            />
+            <ArrowRight className="w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black" />
           )}
         </div>
       </FlipLink>
-      {/* Affiche l'image seulement si imgSrc existe et n'est pas vide */}
+
       {!isMobile && isHovered && variant !== "compact" && !!imgSrc && (
         <motion.img
           style={{
@@ -180,8 +170,8 @@ export const HoverLink = ({
           animate={{ scale: 1, rotate: "12.5deg", opacity: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
           src={imgSrc}
+          alt={`Illustration du projet ${heading}`}
           className="absolute z-0 h-24 w-32 rounded-lg object-cover"
-          alt={`Image representing a link for ${heading}`}
         />
       )}
     </motion.div>

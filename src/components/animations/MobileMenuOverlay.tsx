@@ -84,6 +84,7 @@ export default function MobileMenuOverlay() {
           className="fixed inset-0 z-[10000] bg-beige text-black flex flex-col min-h-screen"
           role="dialog"
           aria-modal="true"
+          aria-label="Menu principal"
           variants={overlayVariants}
           initial="hidden"
           animate="visible"
@@ -117,7 +118,7 @@ export default function MobileMenuOverlay() {
                     <button
                       onClick={() => handleClick(scrollTo, href)}
                       className={`w-full py-4 text-5xl md:text-7xl text-left uppercase font-title transition ${borderClasses}`}
-                      aria-label={`Aller à ${label}`}
+                      aria-label={href ? `Ouvrir ${label}` : `Aller à la section ${label}`}
                     >
                       <RevealText reveal={reveal} delay={0.17 + i * 0.09}>
                         {label}
@@ -129,9 +130,27 @@ export default function MobileMenuOverlay() {
             </ul>
             <div className="flex flex-col gap-2 mt-10 font-eb-garamond">
               {[
-                { label: 'LinkedIn', href: 'https://linkedin.com/in/tonprofil' },
-                { label: 'GitHub', href: 'https://github.com/tonprofil' },
-                { label: 'Email', href: 'mailto:lejour.agathe@outlook.fr', extraProps: { 'aria-label': 'Envoyer un email' } },
+                {
+                  label: 'LinkedIn',
+                  href: 'https://linkedin.com/in/agathe-lejour',
+                  extraProps: {
+                    'aria-label': 'Ouvrir LinkedIn dans un nouvel onglet'
+                  },
+                },
+                {
+                  label: 'GitHub',
+                  href: 'https://github.com/Alej-o',
+                  extraProps: {
+                    'aria-label': 'Voir le GitHub dans un nouvel onglet'
+                  },
+                },
+                {
+                  label: 'Email',
+                  href: 'mailto:lejour.agathe@outlook.fr',
+                  extraProps: {
+                    'aria-label': 'Envoyer un email à Agathe'
+                  },
+                },
               ].map((link, i) => (
                 <RevealText
                   reveal={reveal}
@@ -141,7 +160,7 @@ export default function MobileMenuOverlay() {
                   <a
                     href={link.href}
                     target={link.href.startsWith('mailto') ? undefined : '_blank'}
-                    rel="noopener noreferrer"
+                    rel={link.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                     className="hover:underline text-2xl md:text-3xl flex items-start gap-1"
                     {...(link.extraProps || {})}
                   >
