@@ -30,6 +30,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Agathe Lejour", url: "https://agathelejour.fr" }],
   creator: "Agathe Lejour",
   robots: "index, follow",
+  metadataBase: new URL("https://agathelejour.com"),
 };
 
 export default function RootLayout({

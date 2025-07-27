@@ -9,8 +9,8 @@ import type { Metadata } from "next"
 type ProjectLink = string | { url: string; label: string }
 
 type Props = {
-  params: { slug: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
+  params: Promise<{ slug: string }>
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export async function generateStaticParams() {
@@ -19,7 +19,8 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params
   const project = projectsData.find((p) => p.slug === params.slug)
   if (!project) return {}
 
@@ -34,7 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ProjectPage({ params }: Props) {
+export default async function ProjectPage(props: Props) {
+  const params = await props.params
   const project = projectsData.find((p) => p.slug === params.slug)
   if (!project) return notFound()
 
@@ -51,9 +53,7 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <>
       <main
-        className={`bg-beige text-black flex flex-col ${
-          hasGallery ? "md:flex-row" : ""
-        } px-4 md:px-10 xl:px-10 pt-28 xl:pt-40 gap-12`}
+        className={`bg-beige text-black flex flex-col ${hasGallery ? "md:flex-row" : ""} px-4 md:px-10 xl:px-10 pt-28 xl:pt-40 gap-12`}
         aria-labelledby="project-title"
       >
         <section className={`flex flex-col gap-10 w-full ${hasGallery ? "flex-1 max-w-6xl" : ""}`}>
@@ -107,7 +107,7 @@ export default async function ProjectPage({ params }: Props) {
         </section>
 
         {hasGallery && (
-          <section className="flex-1 w-full xl:pt-[120px] md:pt-0" aria-label="Galerie d’images du projet">
+          <section className="flex-1 w-full xl:pt-[120px] md:pt-0" aria-label="Galerie d'images du projet">
             <div className="flex flex-wrap md:flex-nowrap gap-6 justify-center items-center">
               {project.images?.map((img, idx) => (
                 <div key={img} className="w-[370px] overflow-hidden">
