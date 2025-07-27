@@ -1,26 +1,27 @@
-import { projectsData } from "@/data/projectsData";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import { HoverLink } from "@/components/animations/HoverLink";
-import RevealTextOnScroll from "@/components/animations/RevealTextOnScroll";
-import { ArrowUpRight } from "lucide-react";
+import { projectsData } from "@/data/projectsData"
+import { notFound } from "next/navigation"
+import Image from "next/image"
+import { HoverLink } from "@/components/animations/HoverLink"
+import RevealTextOnScroll from "@/components/animations/RevealTextOnScroll"
+import { ArrowUpRight } from "lucide-react"
+import type { Metadata } from "next"
 
-type ProjectLink = string | { url: string; label: string };
+type ProjectLink = string | { url: string; label: string }
 
-interface ProjectPageProps {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined }; // 👈 ajouté
+type Props = {
+  params: { slug: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateStaticParams() {
   return projectsData.map((project) => ({
     slug: project.slug,
-  }));
+  }))
 }
 
-export async function generateMetadata({ params }: ProjectPageProps) {
-  const project = projectsData.find((p) => p.slug === params.slug);
-  if (!project) return {};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const project = projectsData.find((p) => p.slug === params.slug)
+  if (!project) return {}
 
   return {
     title: `${project.title} – Agathe Lejour`,
@@ -30,22 +31,22 @@ export async function generateMetadata({ params }: ProjectPageProps) {
       description: project.description,
       images: project.images?.length ? [project.images[0]] : [],
     },
-  };
+  }
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
-  const project = projectsData.find((p) => p.slug === params.slug);
-  if (!project) return notFound();
+export default async function ProjectPage({ params }: Props) {
+  const project = projectsData.find((p) => p.slug === params.slug)
+  if (!project) return notFound()
 
-  const otherProjects = projectsData.filter((p) => p.slug !== params.slug);
+  const otherProjects = projectsData.filter((p) => p.slug !== params.slug)
   const links: { url: string; label: string }[] = (project.link ?? []).map((l: ProjectLink) =>
     typeof l === "string"
       ? { url: l, label: l.includes("github.com") ? "Voir le code sur GitHub" : "Visiter le site" }
       : l
-  );
+  )
 
-  const delays = [0, 0.13, 0.26, 0.39, 0.52, 0.65];
-  const hasGallery = !!project.images?.length;
+  const delays = [0, 0.13, 0.26, 0.39, 0.52, 0.65]
+  const hasGallery = !!project.images?.length
 
   return (
     <>
@@ -143,7 +144,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </div>
       </section>
     </>
-  );
+  )
 }
 
 function DetailRow({
@@ -151,9 +152,9 @@ function DetailRow({
   children,
   delay = 0,
 }: {
-  label: string;
-  children?: React.ReactNode;
-  delay?: number;
+  label: string
+  children?: React.ReactNode
+  delay?: number
 }) {
   return (
     <div className="flex border-b border-black pb-2 min-h-[64px]">
@@ -162,5 +163,5 @@ function DetailRow({
         <RevealTextOnScroll delay={delay}>{children}</RevealTextOnScroll>
       </dd>
     </div>
-  );
+  )
 }
