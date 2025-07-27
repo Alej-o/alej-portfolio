@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { HoverLink } from "@/components/animations/HoverLink";
 import RevealTextOnScroll from "@/components/animations/RevealTextOnScroll";
+import { ArrowUpRight } from 'lucide-react';
 
 type ProjectLink = string | { url: string; label: string };
 
@@ -65,35 +66,36 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </header>
           </RevealTextOnScroll>
 
-          <p className="text-sm font-eb-garamond sr-only">(DESCRIPTION)</p>
+          <p className="text-sm font-eb-garamond ">(DESCRIPTION)</p>
           <RevealTextOnScroll delay={delays[1]}>
-            <p className="text-3xl xl:text-4xl font-eb-garamond">{project.description}</p>
+            <p className="text-3xl xl:text-4xl font-eb-garamond xl:pb-4">{project.description}</p>
           </RevealTextOnScroll>
 
           <dl className="border-t font-eb-garamond border-black pt-8 text-2xl xl:text-4xl space-y-8">
-            <DetailRow label="Type" delay={delays[2]}>{project.type}</DetailRow>
-            <DetailRow label="Technologies" delay={delays[3]}>
+            <DetailRow label="(Type)" delay={delays[2]}>{project.type}</DetailRow>
+            <DetailRow label="(Technologies)" delay={delays[3]}>
               {project.stack?.join(", ")}
             </DetailRow>
-            <DetailRow label="Statut" delay={delays[4]}>{project.status}</DetailRow>
-            <DetailRow label="Année" delay={delays[5]}>{project.annee}</DetailRow>
+            <DetailRow label="(Statut)" delay={delays[4]}>{project.status}</DetailRow>
+            <DetailRow label="(Année)" delay={delays[5]}>{project.annee}</DetailRow>
           </dl>
 
-       <DetailRow label="Lien">
+       <DetailRow label="(Lien)">
   <RevealTextOnScroll delay={0.78}>
     {links.length > 0 ? (
       <ul className="flex gap-4 flex-col">
         {links.map((link) => (
           <li key={link.url}>
             <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-eb-garamond text-2xl xl:text-4xl underline hover:text-[#8C0812]"
-              aria-label={link.label}
-            >
-              {link.label}
-            </a>
+  href={link.url}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group inline-flex items-center gap-2 font-eb-garamond text-2xl xl:text-4xl hover:text-[#8C0812] transition-colors"
+  aria-label={link.label}
+>
+  {link.label}
+  <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+</a>
           </li>
         ))}
       </ul>
@@ -156,7 +158,7 @@ function DetailRow({
 }) {
   return (
     <div className="flex border-b border-black pb-2 min-h-[64px]">
-      <dt className="w-1/4 text-sm uppercase tracking-wider">{label}</dt>
+      <dt className="w-1/4 text-sm uppercase font-eb-garamond tracking-wider">{label}</dt>
       <dd className="flex-1 text-right font-title">
         <RevealTextOnScroll delay={delay}>{children}</RevealTextOnScroll>
       </dd>

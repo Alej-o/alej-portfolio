@@ -3,7 +3,7 @@
 import About from '../components/sections/About'
 import Projects from '../components/sections/Projects'
 import TextParallaxContent from '../components/animations/TextParallaxContent'
-import ScrollToAnchor from '../components/ScrollToAnchor'
+import ScrollToAnchor from '../components/animations/ScrollToAnchor'
 
 export default function Home() {
   return (

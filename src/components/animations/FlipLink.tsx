@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
-import TransitionLink from "@/components/TransitionLink";
+import TransitionLink from "@/components/animations/TransitionLink";
 
 export interface FlipLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
@@ -37,6 +37,7 @@ export default function FlipLink({
         role="link"
         initial="initial"
         whileHover="hovered"
+        whileFocus="hovered"
         animate={hovered ? "hovered" : "initial"}
         className={`relative block overflow-hidden font-title text-3xl sm:text-2xl md:text-4xl ${
           hoverBackground ? "py-8" : "py-1"

@@ -1,36 +1,77 @@
-<!-- This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio – Agathe Lejour
 
-## Getting Started
+## 🇫🇷 Français
 
-First, run the development server:
+Ce portfolio a été imaginé et développé sur mesure afin de refléter mon identité visuelle, mes compétences techniques et ma sensibilité créative.  
+L’ensemble du code, des animations et des transitions a été pensé spécifiquement pour ce projet.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Ce travail n’est pas destiné à être cloné, réutilisé tel quel, ni reproduit à l’identique.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Je suis néanmoins favorable au partage d’idées ou d’approches techniques – inspirez-vous-en pour créer quelque chose qui vous ressemble.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Stack technique
 
-## Learn More
+- Next.js 14 (App Router)
+- TypeScript
+- React
+- Tailwind CSS
+- Framer Motion
+- Three.js & GLSL (shaders)
+- Vercel (déploiement)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ Fonctionnalités notables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Transitions de page personnalisées avec animations fluides  
+- Texte animé au scroll (scroll-based motion)  
+- Fond interactif en shader GLSL  
+- Micro-interactions fluides  
+- Structure accessible : balises sémantiques, ARIA, contraste, etc.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🌍 En ligne
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details. -->
+👉 [agathelejour.com](https://agathelejour.com)
+
+---
+
+## 🇬🇧 English
+
+This portfolio was fully custom-designed and developed to reflect my visual identity, technical skills, and creative sensibility.  
+Every piece of code, animation, and transition was carefully crafted for this project.
+
+This work is not intended to be cloned, reused as-is, or replicated identically.
+
+That said, I warmly encourage sharing ideas and technical approaches — feel free to draw inspiration to create something that’s truly yours.
+
+---
+
+## 🛠️ Tech stack
+
+- Next.js 14 (App Router)  
+- TypeScript  
+- React  
+- Tailwind CSS  
+- Framer Motion  
+- Three.js & GLSL (shaders)  
+- Vercel (deployment)
+
+---
+
+## ✨ Key features
+
+- Custom page transitions with smooth animations  
+- Scroll-based text animation  
+- Interactive GLSL shader background  
+- Fluid micro-interactions  
+- Accessible structure: semantic HTML, ARIA, contrast, navigation, etc.
+
+---
+
+## 🌍 Live
+
+👉 [agathelejour.com](https://agathelejour.com)

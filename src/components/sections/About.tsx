@@ -56,9 +56,10 @@ export default function About() {
 
       <div className="max-w-7xl mx-auto font-eb-garamond xl:mt-14 text-black">
         <AnimatedParagraph>
-          {`Hello, moi c'est Agathe !
-Je suis développeuse front-end, avec un vrai goût pour les interfaces vivantes et accessibles. Ce que j'aime, c'est créer des expériences fluides, sensibles, où chaque détail compte : du petit mouvement subtil à la clarté de la navigation. Pour moi, le code, c'est un moyen d'exprimer des idées… et de toucher les gens.`}
-        </AnimatedParagraph>
+  {`Hello, moi c'est Agathe. 
+  Développeuse front-end passionnée par la création d'interfaces fluides et accessibles. Je me spécialise dans les micro-interactions et animations qui enrichissent l'expérience utilisateur, tout en explorant des territoires plus créatifs comme les shaders. Le site s'étoffera avec de nouvelles réalisations à découvrir dans la section Projets.`}
+</AnimatedParagraph>
+
       </div>
 
       <div ref={ref} className="max-w-7xl mx-auto mt-10 lg:mt-16 xl:mt-32">

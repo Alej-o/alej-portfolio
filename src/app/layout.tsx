@@ -26,7 +26,7 @@ export const viewport = {
 export const metadata: Metadata = {
   title: "Agathe Lejour – Portfolio",
   description: "Développeuse front-end créative",
-  keywords: ["Agathe Lejour", "Développeuse front-end", "creative developer", "portfolio", "web"],
+  keywords: ["Agathe Lejour", "Développeuse front-end", "creative developer", "portfolio", "web", "développeur"],
   authors: [{ name: "Agathe Lejour", url: "https://agathelejour.fr" }],
   creator: "Agathe Lejour",
   robots: "index, follow",
