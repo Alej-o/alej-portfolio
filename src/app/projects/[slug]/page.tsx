@@ -8,7 +8,7 @@ import type { Metadata } from "next"
 
 type ProjectLink = string | { url: string; label: string }
 
-type Props = {
+interface Props {
   params: Promise<{ slug: string }>
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
@@ -35,7 +35,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 }
 
-export default async function ProjectPage(props: Props) {
+type PageProps = {
+  params: Promise<{ slug: string }>
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export default async function ProjectPage(props: PageProps) {
   const params = await props.params
   const project = projectsData.find((p) => p.slug === params.slug)
   if (!project) return notFound()
