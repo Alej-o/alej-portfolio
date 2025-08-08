@@ -113,19 +113,30 @@ export default async function ProjectPage(props: PageProps) {
 
         {hasGallery && (
           <section className="flex-1 w-full xl:pt-[120px] md:pt-0" aria-label="Galerie d'images du projet">
-            <div className="flex flex-wrap md:flex-nowrap gap-6 justify-center items-center">
+            <div className="flex flex-wrap justify-center gap-6 2xl:flex-nowrap 2xl:justify-start">
               {project.images?.map((img, idx) => (
-                <div key={img} className="w-[370px] overflow-hidden">
-                  <Image
-                    src={img.startsWith("/") ? img : `/${img}`}
-                    alt={`Capture ${idx + 1} du projet ${project.title}`}
-                    width={600}
-                    height={600}
-                    className="object-cover w-full h-auto"
-                    draggable={false}
-                    priority={idx === 0}
-                  />
-                </div>
+                <div
+  key={img}
+  className="
+    w-full
+    sm:w-full
+    md:w-[calc(50%-12px)]
+    2xl:w-[370px] 2xl:max-w-[370px]
+    max-w-[320px] mx-auto
+    overflow-hidden
+  "
+>
+  <Image
+    src={img.startsWith("/") ? img : `/${img}`}
+    alt={`Capture ${idx + 1} du projet ${project.title}`}
+    width={600}
+    height={600}
+    className="object-cover w-full h-auto"
+    draggable={false}
+    priority={idx === 0}
+  />
+</div>
+
               ))}
             </div>
           </section>

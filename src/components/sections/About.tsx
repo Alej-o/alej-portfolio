@@ -70,29 +70,40 @@ export default function About() {
           <RevealTextOnScroll>Technologies</RevealTextOnScroll>
         </h3>
 
-        <div
-          role="list"
-          aria-labelledby="technologies-title"
-          className="flex flex-wrap xl:flex-nowrap md:justify-center text-lg md:text-xl gap-x-3 gap-y-2 md:gap-x-2 md:gap-y-4 font-eb-garamond xl:text-4xl xl:mt-14 text-black uppercase"
-        >
-          {techList.map((tech, i) => (
-            <motion.div
-              key={tech}
-              initial="hidden"
-              animate={controls}
-              variants={tagVariants}
-              className="flex items-center whitespace-nowrap"
-              role="listitem"
-            >
-              <span>{tech}</span>
-              {i !== techList.length - 1 && (
-                <span className="ml-2 select-none" aria-hidden="true">
-                  •
-                </span>
-              )}
-            </motion.div>
-          ))}
-        </div>
+     <div
+  role="list"
+  aria-labelledby="technologies-title"
+  className="
+    flex flex-wrap 
+    md:justify-center
+    text-lg md:text-xl
+    gap-x-3 gap-y-2 md:gap-x-2 md:gap-y-4
+    font-eb-garamond
+    text-black uppercase
+    xl:text-4xl
+    xl:mt-14
+    2xl:flex-nowrap
+  "
+>
+  {techList.map((tech, i) => (
+    <motion.div
+      key={tech}
+      initial="hidden"
+      animate={controls}
+      variants={tagVariants}
+      className="flex items-center whitespace-nowrap"
+      role="listitem"
+    >
+      <span>{tech}</span>
+      {i !== techList.length - 1 && (
+        <span className="ml-2 select-none" aria-hidden="true">
+          •
+        </span>
+      )}
+    </motion.div>
+  ))}
+</div>
+
       </div>
     </section>
   )

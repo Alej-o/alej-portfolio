@@ -1,19 +1,10 @@
 'use client'
 
-import { ReactNode, useRef,} from 'react'
-import {
-  motion,
-  useScroll,
-  useTransform,
-
-  MotionValue,
-  
-} from 'framer-motion'
+import { ReactNode, useRef } from 'react'
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
 import Hero from '../sections/Hero'
 
-type Props = {
-  children: ReactNode
-}
+type Props = { children: ReactNode }
 
 export default function TextParallaxContent({ children }: Props) {
   const ref = useRef(null)
@@ -28,12 +19,8 @@ export default function TextParallaxContent({ children }: Props) {
   return (
     <div>
       <div ref={ref} className="relative h-[100vh]">
-      
         <motion.div
-          style={{
-            opacity: canvasOpacity,
-            height: '100vh',
-          }}
+          style={{ opacity: canvasOpacity, height: '100vh' }}
           className="sticky top-0 z-0 overflow-hidden"
         >
           <Hero />
@@ -47,9 +34,7 @@ export default function TextParallaxContent({ children }: Props) {
   )
 }
 
-type OverlayCopyProps = {
-  scrollYProgress: MotionValue<number>
-}
+type OverlayCopyProps = { scrollYProgress: MotionValue<number> }
 
 const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
   const y = useTransform(scrollYProgress, [0, 1], [0, -350])
@@ -57,27 +42,21 @@ const OverlayCopy = ({ scrollYProgress }: OverlayCopyProps) => {
 
   return (
     <motion.div
-  style={{ y, opacity }}
-  className="absolute bottom-8 left-2 pointer-events-none z-20 "
->
-  <p
-    className="
-      font-title text-beige
-    leading-[0.8] uppercase
-    break-words
-    text-[clamp(2.2rem,12vw,4rem)] 
-    sm:text-[clamp(3rem,16vw,5rem)] 
-    md:text-[clamp(5rem,16vw,6rem)]
-    lg:text-[clamp(6rem,16vw,8rem)]
-    xl:text-[clamp(8rem,18vw,14rem)]
-    text-left sm:text-left
-    xl:px-8
-      
-    "
-  >
-    DÉVELOPPEUSE<br />
-    FRONT-END
-  </p>
-</motion.div>
+      style={{ y, opacity }}
+      className="absolute bottom-8 left-0 right-0 pointer-events-none z-20 px-3 sm:px-4 md:px-6 xl:px-8"
+    >
+      <h1
+        className="
+          font-title text-beige uppercase leading-[0.85] break-words text-left
+          text-[clamp(2.2rem,10vw,5rem)]
+          md:text-[clamp(3rem,9vw,7rem)]
+          xl:text-[min(12rem,12vw)]
+          2xl:text-[min(14rem,11vw)]
+        "
+      >
+        DÉVELOPPEUSE<br />
+        FRONT-END
+      </h1>
+    </motion.div>
   )
 }

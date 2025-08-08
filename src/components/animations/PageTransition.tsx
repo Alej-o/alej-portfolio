@@ -65,7 +65,6 @@ export default function PageTransition({
   easingCurve = [0.22, 1, 0.36, 1],
   debounceMs = 100,
 }: PageTransitionProps) {
-  // On place TOUS les hooks ici (jamais après un return)
   const isTouch = useIsTouchDevice();
 
   const router = useRouter();
