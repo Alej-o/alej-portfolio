@@ -202,26 +202,23 @@ void main() {
 `;
 
 export const mobileShader = `
-precision mediump float;
+precision highp float;
 
 uniform float iTime;
 uniform vec2  iResolution;
-
-uniform float uDistortionAmount;
 
 uniform vec3 uColor1;
 uniform vec3 uColor2;
 uniform vec3 uColor3;
 uniform vec3 uColor4;
-
 uniform float uColorIntensity;
+uniform float uFlow;
 
 varying vec2 vUv;
 
 float rnd(vec2 p){
-  return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453123);
+  return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
 }
-
 float noise(vec2 p){
   vec2 i = floor(p), f = fract(p);
   vec2 u = f*f*(3.0 - 2.0*f);
@@ -231,43 +228,54 @@ float noise(vec2 p){
     u.y
   );
 }
-
 float fbm(vec2 p){
-  float v = 0.0, a = 0.5, f = 1.0;
-  for (int i = 0; i < 3; i++) {
-    v += a * noise(p * f);
-    f *= 2.0;
-    a *= 0.5;
-  }
+  float v = 0.0, a = 0.6, f = 1.0;
+  for (int i = 0; i < 3; i++){ v += a * noise(p * f); f *= 2.0; a *= 0.5; }
   return v;
 }
 
 void main(){
-  vec2 st = vUv * 2.8;
+  vec2 st = vUv * 2.5;
 
-  float t = iTime * 0.08;
+  float t = iTime * 0.06;
+  float s = 0.05;
+  st += s * sin(vec2(st.y, st.x) * 6.0 + t * uFlow);
 
-  vec2 q = vec2(
-    fbm(st + vec2(10.7, 9.2) + t),
-    fbm(st + vec2( 8.3, 2.8) - t * 0.7)
-  );
+  float ang = 0.12 * sin(t * 0.6);
+  mat2 R = mat2(cos(ang), -sin(ang), sin(ang), cos(ang));
+  st = R * (st - 1.2) + 1.2;
 
-  st += q * (uDistortionAmount * 0.5);
-
-  float n = fbm(st + q * 1.3);
+  float n = fbm(st);
 
   float n1 = smoothstep(0.0,  0.6,  n);
   float n2 = smoothstep(0.4,  0.75, n);
-  float n3 = smoothstep(0.65, 0.9,  n);
-  float n4 = smoothstep(0.8,  1.0,  n);
+  float n3 = smoothstep(0.65, 0.90, n);
+  float n4 = smoothstep(0.80, 1.00, n);
 
-  vec3 col = mix(uColor4, uColor1, n1);
+  vec3 base = mix(uColor4, uColor3, 0.30);
+  vec3 col  = mix(uColor4, uColor1, n1);
   col = mix(col, uColor2, n2);
   col = mix(col, uColor3, n3);
   col = mix(col, uColor4, n4);
+  col = mix(base, col, 0.70);
 
-  col = pow(col * uColorIntensity, vec3(0.8));
 
-  gl_FragColor = vec4(col, 1.0);
+  vec2 uv = vUv;
+  vec2 c1 = vec2(0.78 + 0.02*sin(t*0.7), 0.18 + 0.02*cos(t*0.5));
+  vec2 c2 = vec2(0.32 + 0.02*cos(t*0.6), 0.70 + 0.02*sin(t*0.4));
+  float halo1 = exp(-pow(distance(uv, c1)*5.0, 2.0));
+  float halo2 = exp(-pow(distance(uv, c2)*4.2, 2.0));
+  col += (halo1 + 0.8*halo2) * uColor1 * 0.8;
+
+  col *= (uColorIntensity * 1.25);
+  col += 0.14;
+  col  = pow(col, vec3(0.9));
+
+  float luma = dot(col, vec3(0.2126, 0.7152, 0.0722));
+  float target = 0.22;                 // remonte si encore trop sombre (ex: 0.26)
+  col += max(0.0, target - luma);
+
+  gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }
 `;
+
