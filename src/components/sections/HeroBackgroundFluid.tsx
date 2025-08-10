@@ -2,21 +2,22 @@
 
 import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { fluidShader, vertexShader, gradientShader } from "../../shaders/FluidShader.glsl";
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
+  const isRef = useRef(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsMobile(window.matchMedia("(pointer:coarse)").matches);
+      isRef.current = window.matchMedia("(pointer:coarse)").matches;
     }
   }, []);
-  return isMobile;
+  return isRef.current;
 }
 
 export default function HeroBackgroundFluid() {
   const { gl, size, camera, scene } = useThree();
+  const isMobile = useIsMobile();
 
   const fluidPlane = useRef<THREE.Mesh>(null);
   const displayPlane = useRef<THREE.Mesh>(null);
@@ -24,100 +25,117 @@ export default function HeroBackgroundFluid() {
   const mouse = useRef({ x: 0, y: 0, px: 0, py: 0 });
   const lastInteractionTime = useRef(0);
 
-  const isMobile = useIsMobile();
+  const scale = isMobile ? 0.33 : 0.6;
+  const renderWidth = Math.max(160, Math.round(size.width * scale));
+  const renderHeight = Math.max(160, Math.round(size.height * scale));
 
- 
-  const [initialSize] = useState(() => ({
-    width: typeof window !== "undefined" && isMobile
-      ? Math.max(160, Math.round(window.innerWidth * 0.33))
-      : (typeof window !== "undefined" ? window.innerWidth : 1920),
-    height: typeof window !== "undefined" && isMobile
-      ? Math.max(160, Math.round(window.innerHeight * 0.33))
-      : (typeof window !== "undefined" ? window.innerHeight : 1080),
-  }));
-  const renderWidth = isMobile ? initialSize.width : size.width;
-  const renderHeight = isMobile ? initialSize.height : size.height;
+  const rtOpts = useMemo(
+    () => ({
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+      depthBuffer: false,
+      stencilBuffer: false,
+      generateMipmaps: false
+    }),
+    []
+  );
 
-  const rt1 = useMemo(() => new THREE.WebGLRenderTarget(renderWidth, renderHeight), [renderWidth, renderHeight]);
-  const rt2 = useMemo(() => new THREE.WebGLRenderTarget(renderWidth, renderHeight), [renderWidth, renderHeight]);
+  const rt1 = useMemo(() => new THREE.WebGLRenderTarget(renderWidth, renderHeight, rtOpts), [renderWidth, renderHeight, rtOpts]);
+  const rt2 = useMemo(() => new THREE.WebGLRenderTarget(renderWidth, renderHeight, rtOpts), [renderWidth, renderHeight, rtOpts]);
   const currentRT = useRef(rt1);
   const previousRT = useRef(rt2);
 
-  const fluidMaterial = useMemo(() => new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader: fluidShader,
-    uniforms: {
-      iTime: { value: 0 },
-      iResolution: { value: new THREE.Vector2(renderWidth, renderHeight) },
-      iMouse: { value: new THREE.Vector4(0, 0, 0, 0) },
-      iFrame: { value: 0 },
-      iPreviousFrame: { value: null },
-      uBrushSize: { value: 0.5 },
-      uBrushStrength: { value: 1 },
-      uFluidDecay: { value: 0.92 },
-      uTrailLength: { value: 0.95 },
-      uStopDecay: { value: 0.75 },
-      uLastInteractionTime: { value: 0.0 },
-    },
-  }), [renderWidth, renderHeight]);
+  const iterations = isMobile ? 2 : 4;
 
-  const displayMaterial = useMemo(() => new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader: gradientShader,
-    uniforms: {
-      iTime: { value: 0 },
-      iResolution: { value: new THREE.Vector2(size.width, size.height) },
-      iFluid: { value: null },
-      uDistortionAmount: { value: 0.8 },
-      uColor1: { value: new THREE.Color("#73080D") },
-      uColor2: { value: new THREE.Color("#8C0812") },
-      uColor3: { value: new THREE.Color("#FCE8DB") },
-      uColor4: { value: new THREE.Color("#25100A") },
-      uColorIntensity: { value: 1.5 },
-      uSoftness: { value: 1 },
-    },
-  }), [size]);
+  const fluidMaterial = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader: fluidShader,
+        uniforms: {
+          iTime: { value: 0 },
+          iResolution: { value: new THREE.Vector2(renderWidth, renderHeight) },
+          iMouse: { value: new THREE.Vector4(0, 0, 0, 0) },
+          iFrame: { value: 0 },
+          iPreviousFrame: { value: null },
+          uBrushSize: { value: isMobile ? 0.6 : 0.5 },
+          uBrushStrength: { value: isMobile ? 0.8 : 1 },
+          uFluidDecay: { value: 0.92 },
+          uTrailLength: { value: 0.95 },
+          uStopDecay: { value: 0.75 },
+          uLastInteractionTime: { value: 0.0 },
+          uIterations: { value: iterations }
+        },
+        glslVersion: THREE.GLSL1
+      }),
+    [renderWidth, renderHeight, isMobile, iterations]
+  );
+
+  const displayMaterial = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader: gradientShader,
+        uniforms: {
+          iTime: { value: 0 },
+          iResolution: { value: new THREE.Vector2(size.width, size.height) },
+          iFluid: { value: null },
+          uDistortionAmount: { value: 0.7 },
+          uColor1: { value: new THREE.Color("#73080D") },
+          uColor2: { value: new THREE.Color("#8C0812") },
+          uColor3: { value: new THREE.Color("#FCE8DB") },
+          uColor4: { value: new THREE.Color("#25100A") },
+          uColorIntensity: { value: 1.35 },
+          uSoftness: { value: 1 }
+        },
+        glslVersion: THREE.GLSL1
+      }),
+    [size]
+  );
 
   useEffect(() => {
     const geometry = new THREE.PlaneGeometry(2, 2);
     const fluid = new THREE.Mesh(geometry, fluidMaterial);
     const display = new THREE.Mesh(geometry, displayMaterial);
+    fluid.frustumCulled = false;
+    display.frustumCulled = false;
     fluidPlane.current = fluid;
     displayPlane.current = display;
     scene.add(display);
 
-    if (!isMobile) {
-      const updateMouse = (x: number, y: number) => {
-        if (mouse.current.x !== x || mouse.current.y !== y) {
-          mouse.current.px = mouse.current.x;
-          mouse.current.py = mouse.current.y;
-          mouse.current.x = x;
-          mouse.current.y = y;
-          lastInteractionTime.current = performance.now() * 0.001;
-        }
-      };
+    const toRT = (x: number, y: number) => {
+      const sx = renderWidth / size.width;
+      const sy = renderHeight / size.height;
+      return { x: x * sx, y: y * sy };
+    };
 
-      const handleMouseMove = (e: MouseEvent) => {
-        const rect = gl.domElement.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = rect.height - (e.clientY - rect.top);
-        updateMouse(x, y);
-      };
+    const updateMouse = (x: number, y: number) => {
+      if (mouse.current.x !== x || mouse.current.y !== y) {
+        mouse.current.px = mouse.current.x;
+        mouse.current.py = mouse.current.y;
+        mouse.current.x = x;
+        mouse.current.y = y;
+        lastInteractionTime.current = performance.now() * 0.001;
+      }
+    };
 
-      window.addEventListener("mousemove", handleMouseMove);
-
-      return () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-        rt1.dispose();
-        rt2.dispose();
-      };
-    } else {
-      return () => {
-        rt1.dispose();
-        rt2.dispose();
-      };
+    function handleMouseMove(e: MouseEvent) {
+      const rect = gl.domElement.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = rect.height - (e.clientY - rect.top);
+      const p = toRT(cx, cy);
+      updateMouse(p.x, p.y);
     }
-  }, [isMobile, gl, fluidMaterial, displayMaterial, rt1, rt2, scene, size]);
+
+    if (!isMobile) window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      if (!isMobile) window.removeEventListener("mousemove", handleMouseMove);
+      rt1.dispose();
+      rt2.dispose();
+      geometry.dispose();
+    };
+  }, [isMobile, gl, fluidMaterial, displayMaterial, rt1, rt2, scene, renderWidth, renderHeight, size.width, size.height]);
 
   useFrame(() => {
     if (!fluidPlane.current || !displayPlane.current) return;
@@ -125,32 +143,34 @@ export default function HeroBackgroundFluid() {
     const time = performance.now() * 0.001;
     const frame = frameCount.current++;
 
-    fluidMaterial.uniforms.iTime.value = time;
-    fluidMaterial.uniforms.iFrame.value = frame;
-    fluidMaterial.uniforms.iPreviousFrame.value = previousRT.current.texture;
-
-    if (isMobile) {
-      fluidMaterial.uniforms.iMouse.value.set(0, 0, 0, 0);
-    } else {
-      fluidMaterial.uniforms.iMouse.value.set(
-        mouse.current.x, mouse.current.y,
-        mouse.current.px, mouse.current.py
-      );
-    }
-    fluidMaterial.uniforms.uLastInteractionTime.value = lastInteractionTime.current;
+    const idleFor = time - lastInteractionTime.current;
+    const skipFluid = idleFor > 2.0 && frame % (isMobile ? 3 : 2) !== 0;
 
     displayMaterial.uniforms.iTime.value = time;
-    displayMaterial.uniforms.iFluid.value = currentRT.current.texture;
+    displayMaterial.uniforms.iFluid.value = previousRT.current.texture;
 
-    gl.setRenderTarget(currentRT.current);
-    gl.render(fluidPlane.current, camera);
+    if (!skipFluid) {
+      fluidMaterial.uniforms.iTime.value = time;
+      fluidMaterial.uniforms.iFrame.value = frame;
+      fluidMaterial.uniforms.iPreviousFrame.value = previousRT.current.texture;
 
-    gl.setRenderTarget(null);
+      if (isMobile) {
+        fluidMaterial.uniforms.iMouse.value.set(0, 0, 0, 0);
+      } else {
+        fluidMaterial.uniforms.iMouse.value.set(mouse.current.x, mouse.current.y, mouse.current.px, mouse.current.py);
+      }
+      fluidMaterial.uniforms.uLastInteractionTime.value = lastInteractionTime.current;
+
+      gl.setRenderTarget(currentRT.current);
+      gl.render(fluidPlane.current, camera);
+      gl.setRenderTarget(null);
+
+      const temp = currentRT.current;
+      currentRT.current = previousRT.current;
+      previousRT.current = temp;
+    }
+
     gl.render(displayPlane.current, camera);
-
-    const temp = currentRT.current;
-    currentRT.current = previousRT.current;
-    previousRT.current = temp;
   });
 
   return null;
