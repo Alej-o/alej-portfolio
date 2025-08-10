@@ -10,15 +10,17 @@ function MobileBackground() {
   const mat = useRef<THREE.ShaderMaterial>(null);
 
   const uniforms = useMemo(() => ({
-    iTime: { value: 0 },
-    iResolution: { value: new THREE.Vector2(size.width, size.height) },
-    uDistortionAmount: { value: 0.7 },          
-    uColor1: { value: new THREE.Color("#73080D") },
-    uColor2: { value: new THREE.Color("#8C0812") },
-    uColor3: { value: new THREE.Color("#FCE8DB") },
-    uColor4: { value: new THREE.Color("#25100A") },
-    uColorIntensity: { value: 1.35 },           
-  }), [size.width, size.height]);
+  iTime: { value: 0 },
+  iResolution: { value: new THREE.Vector2(size.width, size.height) },
+  uColor1: { value: new THREE.Color("#73080D") },
+  uColor2: { value: new THREE.Color("#8C0812") },
+  uColor3: { value: new THREE.Color("#FCE8DB") },
+  uColor4: { value: new THREE.Color("#25100A") },
+  uColorIntensity: { value: 1.55 }, 
+  uFlow: { value: 0.6 },
+  uLift: { value: 0.04 },           
+  uMinLuma: { value: 0.16 }         
+}), [size.width, size.height]);
 
   useFrame(() => {
     if (!mat.current) return;
@@ -51,7 +53,7 @@ export default function MobileBackgroundCanvas() {
       aria-hidden
       role="presentation"
       onCreated={({ gl }) => {
-  gl.setClearColor(0x1b0d0a, 1); 
+ gl.setClearColor(0x120907, 1); 
 }}
     >
       <MobileBackground />
