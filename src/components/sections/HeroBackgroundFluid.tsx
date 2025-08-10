@@ -5,29 +5,26 @@ import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
 import { fluidShader, vertexShader, gradientShader } from "../../shaders/FluidShader.glsl";
 
-function useIsMobile() {
-  const isRef = useRef(false);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      isRef.current = window.matchMedia("(pointer:coarse)").matches;
-    }
-  }, []);
-  return isRef.current;
+function useFlags() {
+  const isMobile = typeof window !== "undefined" ? window.matchMedia("(pointer:coarse)").matches : false;
+  const reduceMotion = typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
+  return { isMobile, reduceMotion };
 }
 
 export default function HeroBackgroundFluid() {
   const { gl, size, camera, scene } = useThree();
-  const isMobile = useIsMobile();
+  const { isMobile, reduceMotion } = useFlags();
 
   const fluidPlane = useRef<THREE.Mesh>(null);
   const displayPlane = useRef<THREE.Mesh>(null);
   const frameCount = useRef(0);
   const mouse = useRef({ x: 0, y: 0, px: 0, py: 0 });
   const lastInteractionTime = useRef(0);
+  const lastFrameTime = useRef(0);
 
-  const scale = isMobile ? 0.33 : 0.6;
-  const renderWidth = Math.max(160, Math.round(size.width * scale));
-  const renderHeight = Math.max(160, Math.round(size.height * scale));
+  const scale = isMobile ? 0.2 : 0.6;
+  const renderWidth = Math.max(128, Math.round(size.width * scale));
+  const renderHeight = Math.max(128, Math.round(size.height * scale));
 
   const rtOpts = useMemo(
     () => ({
@@ -45,7 +42,7 @@ export default function HeroBackgroundFluid() {
   const currentRT = useRef(rt1);
   const previousRT = useRef(rt2);
 
-  const iterations = isMobile ? 2 : 4;
+  const iterations = isMobile ? 1 : 4;
 
   const fluidMaterial = useMemo(
     () =>
@@ -58,8 +55,8 @@ export default function HeroBackgroundFluid() {
           iMouse: { value: new THREE.Vector4(0, 0, 0, 0) },
           iFrame: { value: 0 },
           iPreviousFrame: { value: null },
-          uBrushSize: { value: isMobile ? 0.6 : 0.5 },
-          uBrushStrength: { value: isMobile ? 0.8 : 1 },
+          uBrushSize: { value: isMobile ? 0.7 : 0.5 },
+          uBrushStrength: { value: isMobile ? 0.7 : 1 },
           uFluidDecay: { value: 0.92 },
           uTrailLength: { value: 0.95 },
           uStopDecay: { value: 0.75 },
@@ -80,7 +77,7 @@ export default function HeroBackgroundFluid() {
           iTime: { value: 0 },
           iResolution: { value: new THREE.Vector2(size.width, size.height) },
           iFluid: { value: null },
-          uDistortionAmount: { value: 0.7 },
+          uDistortionAmount: { value: isMobile ? 0.6 : 0.7 },
           uColor1: { value: new THREE.Color("#73080D") },
           uColor2: { value: new THREE.Color("#8C0812") },
           uColor3: { value: new THREE.Color("#FCE8DB") },
@@ -90,7 +87,7 @@ export default function HeroBackgroundFluid() {
         },
         glslVersion: THREE.GLSL1
       }),
-    [size]
+    [size, isMobile]
   );
 
   useEffect(() => {
@@ -119,7 +116,7 @@ export default function HeroBackgroundFluid() {
       }
     };
 
-    function handleMouseMove(e: MouseEvent) {
+    function onMouseMove(e: MouseEvent) {
       const rect = gl.domElement.getBoundingClientRect();
       const cx = e.clientX - rect.left;
       const cy = rect.height - (e.clientY - rect.top);
@@ -127,15 +124,47 @@ export default function HeroBackgroundFluid() {
       updateMouse(p.x, p.y);
     }
 
-    if (!isMobile) window.addEventListener("mousemove", handleMouseMove);
+    function onPointerMove(e: PointerEvent) {
+      const rect = gl.domElement.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = rect.height - (e.clientY - rect.top);
+      const p = toRT(cx, cy);
+      updateMouse(p.x, p.y);
+    }
+
+    function onTouchStart(e: TouchEvent) {
+      if (!e.touches.length) return;
+      const rect = gl.domElement.getBoundingClientRect();
+      const cx = e.touches[0].clientX - rect.left;
+      const cy = rect.height - (e.touches[0].clientY - rect.top);
+      const p = toRT(cx, cy);
+      updateMouse(p.x, p.y);
+    }
+
+    function onTouchMove(e: TouchEvent) {
+      if (!e.touches.length) return;
+      const rect = gl.domElement.getBoundingClientRect();
+      const cx = e.touches[0].clientX - rect.left;
+      const cy = rect.height - (e.touches[0].clientY - rect.top);
+      const p = toRT(cx, cy);
+      updateMouse(p.x, p.y);
+    }
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
 
     return () => {
-      if (!isMobile) window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
       rt1.dispose();
       rt2.dispose();
       geometry.dispose();
     };
-  }, [isMobile, gl, fluidMaterial, displayMaterial, rt1, rt2, scene, renderWidth, renderHeight, size.width, size.height]);
+  }, [gl, fluidMaterial, displayMaterial, rt1, rt2, scene, renderWidth, renderHeight, size.width, size.height]);
 
   useFrame(() => {
     if (!fluidPlane.current || !displayPlane.current) return;
@@ -143,8 +172,17 @@ export default function HeroBackgroundFluid() {
     const time = performance.now() * 0.001;
     const frame = frameCount.current++;
 
+    if (reduceMotion) return;
+
+    if (isMobile) {
+      const dt = time - lastFrameTime.current;
+      if (dt < 1 / 30) return;
+      lastFrameTime.current = time;
+    }
+
     const idleFor = time - lastInteractionTime.current;
-    const skipFluid = idleFor > 2.0 && frame % (isMobile ? 3 : 2) !== 0;
+    const recentlyActive = idleFor < 1.0;
+    const skipFluid = isMobile ? !recentlyActive : idleFor > 2.0 && frame % 2 !== 0;
 
     displayMaterial.uniforms.iTime.value = time;
     displayMaterial.uniforms.iFluid.value = previousRT.current.texture;
@@ -153,12 +191,7 @@ export default function HeroBackgroundFluid() {
       fluidMaterial.uniforms.iTime.value = time;
       fluidMaterial.uniforms.iFrame.value = frame;
       fluidMaterial.uniforms.iPreviousFrame.value = previousRT.current.texture;
-
-      if (isMobile) {
-        fluidMaterial.uniforms.iMouse.value.set(0, 0, 0, 0);
-      } else {
-        fluidMaterial.uniforms.iMouse.value.set(mouse.current.x, mouse.current.y, mouse.current.px, mouse.current.py);
-      }
+      fluidMaterial.uniforms.iMouse.value.set(mouse.current.x, mouse.current.y, mouse.current.px, mouse.current.py);
       fluidMaterial.uniforms.uLastInteractionTime.value = lastInteractionTime.current;
 
       gl.setRenderTarget(currentRT.current);
