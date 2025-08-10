@@ -202,41 +202,39 @@ void main() {
 `;
 
 export const mobileShader = `
-precision mediump float;
+precision highp float;
+precision highp int;
 
 uniform float iTime;
 uniform vec2  iResolution;
 
-uniform vec3 uColor1;
-uniform vec3 uColor2;
-uniform vec3 uColor3;
-uniform vec3 uColor4;
+uniform vec3 uColor1;   
+uniform vec3 uColor2;   
+uniform vec3 uColor3;   
+uniform vec3 uColor4;   A
 
-uniform float uColorIntensity;
-uniform float uFlow;
+uniform float uColorIntensity; 
+uniform float uFlow;           
 
 varying vec2 vUv;
 
-float rnd(vec2 p) {
+float rnd(vec2 p){
   return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
-float noise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  vec2 u = f * f * (3.0 - 2.0 * f);
+float noise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f*f*(3.0 - 2.0*f);
   return mix(
-    mix(rnd(i),                 rnd(i + vec2(1.0, 0.0)), u.x),
-    mix(rnd(i + vec2(0.0, 1.0)), rnd(i + vec2(1.0, 1.0)), u.x),
+    mix(rnd(i),               rnd(i + vec2(1.0, 0.0)), u.x),
+    mix(rnd(i + vec2(0.0,1.0)), rnd(i + vec2(1.0, 1.0)), u.x),
     u.y
   );
 }
 
-float fbm(vec2 p) {
-  float v = 0.0;
-  float a = 0.6;
-  float f = 1.0;
-  for (int i = 0; i < 3; i++) {
+float fbm(vec2 p){
+  float v = 0.0, a = 0.6, f = 1.0;
+  for (int i=0; i<3; i++){
     v += a * noise(p * f);
     f *= 2.0;
     a *= 0.5;
@@ -244,12 +242,11 @@ float fbm(vec2 p) {
   return v;
 }
 
-void main() {
+void main(){
   vec2 st = vUv * 2.6;
 
   float t = iTime * 0.06;
   float s = 0.05;
-
   st += s * sin(vec2(st.y, st.x) * 6.0 + t * uFlow);
 
   float ang = 0.15 * sin(t * 0.6);
@@ -260,15 +257,21 @@ void main() {
 
   float n1 = smoothstep(0.0,  0.6,  n);
   float n2 = smoothstep(0.4,  0.75, n);
-  float n3 = smoothstep(0.65, 0.9,  n);
-  float n4 = smoothstep(0.8,  1.0,  n);
+  float n3 = smoothstep(0.65, 0.90, n);
+  float n4 = smoothstep(0.80, 1.00, n);
 
   vec3 col = mix(uColor4, uColor1, n1);
   col = mix(col, uColor2, n2);
   col = mix(col, uColor3, n3);
   col = mix(col, uColor4, n4);
 
-  col = pow(col * uColorIntensity, vec3(0.8));
+  // base rouge douce pour éviter le "noir"
+  vec3 base = mix(uColor4, uColor1, 0.45 + 0.35 * n);
+  col = mix(base, col, 0.65);
+
+  // lift + légère gamma-correction
+  col = col * (uColorIntensity * 1.15) + 0.12;
+  col = pow(col, vec3(0.9));
 
   gl_FragColor = vec4(col, 1.0);
 }

@@ -9,24 +9,20 @@ function MobileBackground() {
   const { size } = useThree();
   const mat = useRef<THREE.ShaderMaterial>(null);
 
-  const uniforms = useMemo(
-    () => ({
-      iTime: { value: 0 },
-      iResolution: { value: new THREE.Vector2(size.width, size.height) },
-      uColor1: { value: new THREE.Color("#73080D") },
-      uColor2: { value: new THREE.Color("#8C0812") },
-      uColor3: { value: new THREE.Color("#FCE8DB") },
-      uColor4: { value: new THREE.Color("#25100A") },
-      uColorIntensity: { value: 1.35 },
-      uFlow: { value: 0.6 },
-    }),
-    [size.width, size.height]
-  );
+  const uniforms = useMemo(() => ({
+    iTime: { value: 0 },
+    iResolution: { value: new THREE.Vector2(size.width, size.height) },
+    uColor1: { value: new THREE.Color("#73080D") },
+    uColor2: { value: new THREE.Color("#8C0812") },
+    uColor3: { value: new THREE.Color("#FCE8DB") },
+    uColor4: { value: new THREE.Color("#25100A") },
+    uColorIntensity: { value: 1.35 },
+    uFlow: { value: 0.6 }
+  }), [size.width, size.height]);
 
   useFrame(() => {
     if (!mat.current) return;
-    const t = performance.now() * 0.001;
-    mat.current.uniforms.iTime.value = t;
+    mat.current.uniforms.iTime.value = performance.now() * 0.001;
   });
 
   return (
@@ -54,6 +50,9 @@ export default function MobileBackgroundCanvas() {
       className="absolute inset-0"
       aria-hidden
       role="presentation"
+      onCreated={({ gl }) => {
+        gl.setClearColor(0x000000, 0); // pas de fond noir opaque
+      }}
     >
       <MobileBackground />
     </Canvas>
