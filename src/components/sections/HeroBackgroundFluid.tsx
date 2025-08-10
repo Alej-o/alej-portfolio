@@ -12,7 +12,7 @@ function useFlags() {
 }
 
 export default function HeroBackgroundFluid() {
-  const { gl, size, camera, scene } = useThree();
+  const { gl, size, camera, scene, invalidate } = useThree();
   const { isMobile, reduceMotion } = useFlags();
 
   const fluidPlane = useRef<THREE.Mesh>(null);
@@ -20,7 +20,10 @@ export default function HeroBackgroundFluid() {
   const frameCount = useRef(0);
   const mouse = useRef({ x: 0, y: 0, px: 0, py: 0 });
   const lastInteractionTime = useRef(0);
-  const lastFrameTime = useRef(0);
+  const lastSimTime = useRef(0);
+
+  const rafId = useRef<number | null>(null);
+  const rafTick = useRef(0);
 
   const scale = isMobile ? 0.2 : 0.6;
   const renderWidth = Math.max(128, Math.round(size.width * scale));
@@ -116,14 +119,6 @@ export default function HeroBackgroundFluid() {
       }
     };
 
-    function onMouseMove(e: MouseEvent) {
-      const rect = gl.domElement.getBoundingClientRect();
-      const cx = e.clientX - rect.left;
-      const cy = rect.height - (e.clientY - rect.top);
-      const p = toRT(cx, cy);
-      updateMouse(p.x, p.y);
-    }
-
     function onPointerMove(e: PointerEvent) {
       const rect = gl.domElement.getBoundingClientRect();
       const cx = e.clientX - rect.left;
@@ -132,62 +127,58 @@ export default function HeroBackgroundFluid() {
       updateMouse(p.x, p.y);
     }
 
-    function onTouchStart(e: TouchEvent) {
-      if (!e.touches.length) return;
+    function onPointerDown(e: PointerEvent) {
       const rect = gl.domElement.getBoundingClientRect();
-      const cx = e.touches[0].clientX - rect.left;
-      const cy = rect.height - (e.touches[0].clientY - rect.top);
+      const cx = e.clientX - rect.left;
+      const cy = rect.height - (e.clientY - rect.top);
       const p = toRT(cx, cy);
       updateMouse(p.x, p.y);
     }
 
-    function onTouchMove(e: TouchEvent) {
-      if (!e.touches.length) return;
-      const rect = gl.domElement.getBoundingClientRect();
-      const cx = e.touches[0].clientX - rect.left;
-      const cy = rect.height - (e.touches[0].clientY - rect.top);
-      const p = toRT(cx, cy);
-      updateMouse(p.x, p.y);
-    }
-
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("pointerdown", onPointerDown, { passive: true });
+
+    const loop = () => {
+      const t = performance.now() * 0.001;
+      const active = t - lastInteractionTime.current < 1.0;
+      rafTick.current = (rafTick.current + 1) | 0;
+      const idleSkip = isMobile ? 3 : 2;
+      if (active || rafTick.current % idleSkip === 0) invalidate();
+      rafId.current = requestAnimationFrame(loop);
+    };
+    if (!rafId.current) rafId.current = requestAnimationFrame(loop);
 
     return () => {
-      window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("pointerdown", onPointerDown);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      rafId.current = null;
       rt1.dispose();
       rt2.dispose();
       geometry.dispose();
     };
-  }, [gl, fluidMaterial, displayMaterial, rt1, rt2, scene, renderWidth, renderHeight, size.width, size.height]);
+  }, [gl, fluidMaterial, displayMaterial, rt1, rt2, scene, renderWidth, renderHeight, size.width, size.height, invalidate, isMobile]);
 
   useFrame(() => {
     if (!fluidPlane.current || !displayPlane.current) return;
+    if (reduceMotion) return;
 
     const time = performance.now() * 0.001;
     const frame = frameCount.current++;
-
-    if (reduceMotion) return;
-
-    if (isMobile) {
-      const dt = time - lastFrameTime.current;
-      if (dt < 1 / 30) return;
-      lastFrameTime.current = time;
-    }
-
-    const idleFor = time - lastInteractionTime.current;
-    const recentlyActive = idleFor < 1.0;
-    const skipFluid = isMobile ? !recentlyActive : idleFor > 2.0 && frame % 2 !== 0;
+    const recentlyActive = time - lastInteractionTime.current < 1.0;
 
     displayMaterial.uniforms.iTime.value = time;
     displayMaterial.uniforms.iFluid.value = previousRT.current.texture;
 
-    if (!skipFluid) {
+    if (recentlyActive) {
+      const target = isMobile ? 1 / 60 : 1 / 60;
+      const dt = time - lastSimTime.current;
+      if (dt < target) {
+        gl.render(displayPlane.current, camera);
+        return;
+      }
+      lastSimTime.current = time;
+
       fluidMaterial.uniforms.iTime.value = time;
       fluidMaterial.uniforms.iFrame.value = frame;
       fluidMaterial.uniforms.iPreviousFrame.value = previousRT.current.texture;

@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    webpack(config) {
+  reactStrictMode: true,
+  webpack(config) {
     config.module.rules.push({
       test: /\.(glsl|vs|fs)$/,
-      use: 'raw-loader',
+      use: "raw-loader",
     });
     return config;
   },
