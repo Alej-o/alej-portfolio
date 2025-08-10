@@ -5,29 +5,17 @@ import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
 import { fluidShader, vertexShader, gradientShader } from "../../shaders/FluidShader.glsl";
 
-function useFlags() {
-  const isMobile = typeof window !== "undefined" ? window.matchMedia("(pointer:coarse)").matches : false;
-  const reduceMotion = typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
-  return { isMobile, reduceMotion };
-}
-
 export default function HeroBackgroundFluid() {
-  const { gl, size, camera, scene, invalidate } = useThree();
-  const { isMobile, reduceMotion } = useFlags();
+  const { gl, size, camera, scene } = useThree();
 
   const fluidPlane = useRef<THREE.Mesh>(null);
   const displayPlane = useRef<THREE.Mesh>(null);
   const frameCount = useRef(0);
   const mouse = useRef({ x: 0, y: 0, px: 0, py: 0 });
   const lastInteractionTime = useRef(0);
-  const lastSimTime = useRef(0);
 
-  const rafId = useRef<number | null>(null);
-  const rafTick = useRef(0);
-
-  const scale = isMobile ? 0.2 : 0.6;
-  const renderWidth = Math.max(128, Math.round(size.width * scale));
-  const renderHeight = Math.max(128, Math.round(size.height * scale));
+  const renderWidth = Math.max(160, Math.round(size.width * 0.6));
+  const renderHeight = Math.max(160, Math.round(size.height * 0.6));
 
   const rtOpts = useMemo(
     () => ({
@@ -45,8 +33,6 @@ export default function HeroBackgroundFluid() {
   const currentRT = useRef(rt1);
   const previousRT = useRef(rt2);
 
-  const iterations = isMobile ? 1 : 4;
-
   const fluidMaterial = useMemo(
     () =>
       new THREE.ShaderMaterial({
@@ -58,17 +44,17 @@ export default function HeroBackgroundFluid() {
           iMouse: { value: new THREE.Vector4(0, 0, 0, 0) },
           iFrame: { value: 0 },
           iPreviousFrame: { value: null },
-          uBrushSize: { value: isMobile ? 0.7 : 0.5 },
-          uBrushStrength: { value: isMobile ? 0.7 : 1 },
+          uBrushSize: { value: 0.5 },
+          uBrushStrength: { value: 1 },
           uFluidDecay: { value: 0.92 },
           uTrailLength: { value: 0.95 },
           uStopDecay: { value: 0.75 },
           uLastInteractionTime: { value: 0.0 },
-          uIterations: { value: iterations }
+          uIterations: { value: 4 }
         },
         glslVersion: THREE.GLSL1
       }),
-    [renderWidth, renderHeight, isMobile, iterations]
+    [renderWidth, renderHeight]
   );
 
   const displayMaterial = useMemo(
@@ -80,7 +66,7 @@ export default function HeroBackgroundFluid() {
           iTime: { value: 0 },
           iResolution: { value: new THREE.Vector2(size.width, size.height) },
           iFluid: { value: null },
-          uDistortionAmount: { value: isMobile ? 0.6 : 0.7 },
+          uDistortionAmount: { value: 0.7 },
           uColor1: { value: new THREE.Color("#73080D") },
           uColor2: { value: new THREE.Color("#8C0812") },
           uColor3: { value: new THREE.Color("#FCE8DB") },
@@ -90,7 +76,7 @@ export default function HeroBackgroundFluid() {
         },
         glslVersion: THREE.GLSL1
       }),
-    [size, isMobile]
+    [size]
   );
 
   useEffect(() => {
@@ -127,74 +113,39 @@ export default function HeroBackgroundFluid() {
       updateMouse(p.x, p.y);
     }
 
-    function onPointerDown(e: PointerEvent) {
-      const rect = gl.domElement.getBoundingClientRect();
-      const cx = e.clientX - rect.left;
-      const cy = rect.height - (e.clientY - rect.top);
-      const p = toRT(cx, cy);
-      updateMouse(p.x, p.y);
-    }
-
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    window.addEventListener("pointerdown", onPointerDown, { passive: true });
-
-    const loop = () => {
-      const t = performance.now() * 0.001;
-      const active = t - lastInteractionTime.current < 1.0;
-      rafTick.current = (rafTick.current + 1) | 0;
-      const idleSkip = isMobile ? 3 : 2;
-      if (active || rafTick.current % idleSkip === 0) invalidate();
-      rafId.current = requestAnimationFrame(loop);
-    };
-    if (!rafId.current) rafId.current = requestAnimationFrame(loop);
 
     return () => {
       window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerdown", onPointerDown);
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-      rafId.current = null;
       rt1.dispose();
       rt2.dispose();
       geometry.dispose();
     };
-  }, [gl, fluidMaterial, displayMaterial, rt1, rt2, scene, renderWidth, renderHeight, size.width, size.height, invalidate, isMobile]);
+  }, [gl, fluidMaterial, displayMaterial, rt1, rt2, scene, renderWidth, renderHeight, size.width, size.height]);
 
   useFrame(() => {
     if (!fluidPlane.current || !displayPlane.current) return;
-    if (reduceMotion) return;
 
     const time = performance.now() * 0.001;
     const frame = frameCount.current++;
-    const recentlyActive = time - lastInteractionTime.current < 1.0;
+
+    fluidMaterial.uniforms.iTime.value = time;
+    fluidMaterial.uniforms.iFrame.value = frame;
+    fluidMaterial.uniforms.iPreviousFrame.value = previousRT.current.texture;
+    fluidMaterial.uniforms.iMouse.value.set(mouse.current.x, mouse.current.y, mouse.current.px, mouse.current.py);
+    fluidMaterial.uniforms.uLastInteractionTime.value = lastInteractionTime.current;
 
     displayMaterial.uniforms.iTime.value = time;
-    displayMaterial.uniforms.iFluid.value = previousRT.current.texture;
+    displayMaterial.uniforms.iFluid.value = currentRT.current.texture;
 
-    if (recentlyActive) {
-      const target = isMobile ? 1 / 60 : 1 / 60;
-      const dt = time - lastSimTime.current;
-      if (dt < target) {
-        gl.render(displayPlane.current, camera);
-        return;
-      }
-      lastSimTime.current = time;
-
-      fluidMaterial.uniforms.iTime.value = time;
-      fluidMaterial.uniforms.iFrame.value = frame;
-      fluidMaterial.uniforms.iPreviousFrame.value = previousRT.current.texture;
-      fluidMaterial.uniforms.iMouse.value.set(mouse.current.x, mouse.current.y, mouse.current.px, mouse.current.py);
-      fluidMaterial.uniforms.uLastInteractionTime.value = lastInteractionTime.current;
-
-      gl.setRenderTarget(currentRT.current);
-      gl.render(fluidPlane.current, camera);
-      gl.setRenderTarget(null);
-
-      const temp = currentRT.current;
-      currentRT.current = previousRT.current;
-      previousRT.current = temp;
-    }
-
+    gl.setRenderTarget(currentRT.current);
+    gl.render(fluidPlane.current, camera);
+    gl.setRenderTarget(null);
     gl.render(displayPlane.current, camera);
+
+    const temp = currentRT.current;
+    currentRT.current = previousRT.current;
+    previousRT.current = temp;
   });
 
   return null;
