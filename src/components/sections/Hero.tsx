@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 
-const HeroBackgroundSwitch = dynamic(() => import("./HeroBackgroundSwitch"), {
+const HeroBackgroundSwitch = dynamic(() => import("./background/HeroBackgroundSwitch"), {
   ssr: false,
-  loading: () => <div className="absolute inset-0 bg-[url(/poster.jpg)] bg-cover bg-center" aria-hidden />
+  loading: () => <div className="absolute inset-0  bg-cover bg-center" aria-hidden />
 });
 
 export default function Hero() {

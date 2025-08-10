@@ -1,29 +1,28 @@
-import { projectsData } from "@/data/projectsData"
-import { notFound } from "next/navigation"
-import Image from "next/image"
-import { HoverLink } from "@/components/animations/HoverLink"
-import RevealTextOnScroll from "@/components/animations/RevealTextOnScroll"
-import { ArrowUpRight } from "lucide-react"
-import type { Metadata } from "next"
+import { projectsData } from "@/data/projectsData";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import { HoverLink } from "@/components/animations/HoverLink";
+import RevealTextOnScroll from "@/components/animations/RevealTextOnScroll";
+import { ArrowUpRight } from "lucide-react";
+import type { Metadata } from "next";
 
-type ProjectLink = string | { url: string; label: string }
+type ProjectLink = string | { url: string; label: string };
 
 interface Props {
-  params: Promise<{ slug: string }>
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateStaticParams() {
   return projectsData.map((project) => ({
     slug: project.slug,
-  }))
+  }));
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const params = await props.params
-  const project = projectsData.find((p) => p.slug === params.slug)
-  if (!project) return {}
-
+  const params = await props.params;
+  const project = projectsData.find((p) => p.slug === params.slug);
+  if (!project) return {};
   return {
     title: `${project.title} – Agathe Lejour`,
     description: project.description,
@@ -32,28 +31,28 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       description: project.description,
       images: project.images?.length ? [project.images[0]] : [],
     },
-  }
+  };
 }
 
 type PageProps = {
-  params: Promise<{ slug: string }>
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
-}
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 export default async function ProjectPage(props: PageProps) {
-  const params = await props.params
-  const project = projectsData.find((p) => p.slug === params.slug)
-  if (!project) return notFound()
+  const params = await props.params;
+  const project = projectsData.find((p) => p.slug === params.slug);
+  if (!project) return notFound();
 
-  const otherProjects = projectsData.filter((p) => p.slug !== params.slug)
+  const otherProjects = projectsData.filter((p) => p.slug !== params.slug);
   const links: { url: string; label: string }[] = (project.link ?? []).map((l: ProjectLink) =>
     typeof l === "string"
       ? { url: l, label: l.includes("github.com") ? "Voir le code sur GitHub" : "Visiter le site" }
       : l
-  )
+  );
 
-  const delays = [0, 0.13, 0.26, 0.39, 0.52, 0.65]
-  const hasGallery = !!project.images?.length
+  const delays = [0, 0.13, 0.26, 0.39, 0.52, 0.65];
+  const hasGallery = !!project.images?.length;
 
   return (
     <>
@@ -77,12 +76,33 @@ export default async function ProjectPage(props: PageProps) {
           </RevealTextOnScroll>
 
           <dl className="border-t font-eb-garamond border-black pt-8 text-2xl xl:text-4xl space-y-8">
-            <DetailRow label="(Type)" delay={delays[2]}>{project.type}</DetailRow>
-            <DetailRow label="(Technologies)" delay={delays[3]}>
-              {project.stack?.join(", ")}
+            <DetailRow label="(Type)" delay={delays[2]}>
+              {project.type}
             </DetailRow>
-            <DetailRow label="(Statut)" delay={delays[4]}>{project.status}</DetailRow>
-            <DetailRow label="(Année)" delay={delays[5]}>{project.annee}</DetailRow>
+
+            <DetailRow
+              label="(Techno&shy;logies)"
+              labelClassName="w-[11ch] md:w-1/4 break-words [hyphens:manual] leading-snug"
+              delay={delays[3]}
+            >
+              <div
+                className="
+                  ml-auto text-right
+                  max-w-[min(78vw,36ch)]
+                  sm:max-w-none
+                  [overflow-wrap:anywhere]
+                "
+              >
+                {project.stack?.join(", ")}
+              </div>
+            </DetailRow>
+
+            <DetailRow label="(Statut)" delay={delays[4]}>
+              {project.status}
+            </DetailRow>
+            <DetailRow label="(Année)" delay={delays[5]}>
+              {project.annee}
+            </DetailRow>
           </dl>
 
           <DetailRow label="(Lien)">
@@ -116,27 +136,26 @@ export default async function ProjectPage(props: PageProps) {
             <div className="flex flex-wrap justify-center gap-6 2xl:flex-nowrap 2xl:justify-start">
               {project.images?.map((img, idx) => (
                 <div
-  key={img}
-  className="
-    w-full
-    sm:w-full
-    md:w-[calc(50%-12px)]
-    2xl:w-[370px] 2xl:max-w-[370px]
-    max-w-[320px] mx-auto
-    overflow-hidden
-  "
->
-  <Image
-    src={img.startsWith("/") ? img : `/${img}`}
-    alt={`Capture ${idx + 1} du projet ${project.title}`}
-    width={600}
-    height={600}
-    className="object-cover w-full h-auto"
-    draggable={false}
-    priority={idx === 0}
-  />
-</div>
-
+                  key={img}
+                  className="
+                    w-full
+                    sm:w-full
+                    md:w-[calc(50%-12px)]
+                    2xl:w-[370px] 2xl:max-w-[370px]
+                    max-w-[320px] mx-auto
+                    overflow-hidden
+                  "
+                >
+                  <Image
+                    src={img.startsWith("/") ? img : `/${img}`}
+                    alt={`Capture ${idx + 1} du projet ${project.title}`}
+                    width={600}
+                    height={600}
+                    className="object-cover w-full h-auto"
+                    draggable={false}
+                    priority={idx === 0}
+                  />
+                </div>
               ))}
             </div>
           </section>
@@ -160,24 +179,32 @@ export default async function ProjectPage(props: PageProps) {
         </div>
       </section>
     </>
-  )
+  );
 }
 
 function DetailRow({
   label,
   children,
   delay = 0,
+  labelClassName = "",
 }: {
-  label: string
-  children?: React.ReactNode
-  delay?: number
+  label: React.ReactNode;
+  children?: React.ReactNode;
+  delay?: number;
+  labelClassName?: string;
 }) {
   return (
     <div className="flex border-b border-black pb-2 min-h-[64px]">
-      <dt className="w-1/4 text-sm uppercase font-eb-garamond tracking-wider">{label}</dt>
+      <dt
+        className={`text-sm uppercase font-eb-garamond tracking-wider ${
+          labelClassName || "w-1/4"
+        }`}
+      >
+        {label}
+      </dt>
       <dd className="flex-1 text-right font-title">
         <RevealTextOnScroll delay={delay}>{children}</RevealTextOnScroll>
       </dd>
     </div>
-  )
+  );
 }

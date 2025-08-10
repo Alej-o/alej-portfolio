@@ -3,7 +3,7 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useMemo, useRef } from "react";
-import { vertexShader, mobileShader } from "../../shaders/FluidShader.glsl";
+import { vertexShader, mobileShader } from "../../../shaders/FluidShader.glsl";
 
 function MobileBackground() {
   const { size } = useThree();

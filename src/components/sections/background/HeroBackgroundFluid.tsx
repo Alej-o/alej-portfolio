@@ -3,7 +3,7 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
-import { fluidShader, vertexShader, gradientShader } from "../../shaders/FluidShader.glsl";
+import { fluidShader, vertexShader, gradientShader } from "../../../shaders/FluidShader.glsl";
 
 export default function HeroBackgroundFluid() {
   const { gl, size, camera, scene } = useThree();
