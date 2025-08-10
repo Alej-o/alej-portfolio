@@ -9,16 +9,15 @@ function MobileBackground() {
   const { size } = useThree();
   const mat = useRef<THREE.ShaderMaterial>(null);
 
+ 
   const uniforms = useMemo(() => ({
     iTime: { value: 0 },
     iResolution: { value: new THREE.Vector2(size.width, size.height) },
-    uColor1: { value: new THREE.Color("#8B1538") },
-    uColor2: { value: new THREE.Color("#A01B47") }, 
-    uColor3: { value: new THREE.Color("#C4375F") }, 
-    uColor4: { value: new THREE.Color("#4A0D1E") },
-    uColorIntensity: { value: 0.85 }, 
-    uFlow: { value: 0.4 },         
-    uStreak: { value: 0.3 }         
+    uColor1: { value: new THREE.Color("#73080D") },
+    uColor2: { value: new THREE.Color("#8C0812") },
+    uColor3: { value: new THREE.Color("#FCE8DB") },
+    uColor4: { value: new THREE.Color("#25100A") },
+    uColorIntensity: { value: 1.35 }, 
   }), [size.width, size.height]);
 
   useFrame(() => {

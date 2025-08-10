@@ -202,38 +202,42 @@ void main() {
 `;
 
 export const mobileShader = `
-precision mediump float; // Réduit pour mobile
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
 
 uniform float iTime;
 uniform vec2  iResolution;
 
-uniform vec3 uColor1;   
-uniform vec3 uColor2;   
-uniform vec3 uColor3;  
-uniform vec3 uColor4;  
+uniform vec3 uColor1;
+uniform vec3 uColor2;
+uniform vec3 uColor3;
+uniform vec3 uColor4;
 
-uniform float uColorIntensity; 
-uniform float uFlow;
+uniform float uColorIntensity;
 
 varying vec2 vUv;
 
 float rnd(vec2 p){
-  return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+  return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453123);
 }
 
 float noise(vec2 p){
   vec2 i = floor(p), f = fract(p);
   vec2 u = f*f*(3.0 - 2.0*f);
   return mix(
-    mix(rnd(i),                 rnd(i + vec2(1.0, 0.0)), u.x),
-    mix(rnd(i + vec2(0.0, 1.0)), rnd(i + vec2(1.0, 1.0)), u.x),
+    mix(rnd(i),               rnd(i + vec2(1.0, 0.0)), u.x),
+    mix(rnd(i + vec2(0.0,1.0)), rnd(i + vec2(1.0, 1.0)), u.x),
     u.y
   );
 }
 
 float fbm(vec2 p){
   float v = 0.0, a = 0.5, f = 1.0;
-  for (int i = 0; i < 2; i++){ 
+  // 3 octaves = parfait pour mobile
+  for (int i = 0; i < 3; i++){
     v += a * noise(p * f);
     f *= 2.0;
     a *= 0.5;
@@ -242,50 +246,40 @@ float fbm(vec2 p){
 }
 
 void main(){
-  vec2 st = vUv * 2.0; 
+  
+  vec2 st = vUv * 2.6;
 
-  float t = iTime * 0.08;
-  float s = 0.04;
-  st += s * sin(vec2(st.y, st.x) * 5.0 + t * uFlow);
+ 
+  float t = iTime * 0.06;
 
-  float ang = 0.1 * sin(t * 0.5);
-  mat2 R = mat2(cos(ang), -sin(ang), sin(ang), cos(ang));
-  st = R * (st - 1.0) + 1.0;
+  vec2 q = vec2(
+    fbm(st + vec2(10.7, 9.2) + t),
+    fbm(st + vec2( 8.3, 2.8) - t * 0.7)
+  );
 
-  float n = fbm(st);
+  vec2 r = vec2(
+    fbm(st + 1.4 * q + vec2(80.5, 4.5)),
+    fbm(st + 1.4 * q + vec2( 5.5, 6.5))
+  );
 
-  float n1 = smoothstep(0.1,  0.5,  n);
-  float n2 = smoothstep(0.3,  0.7, n);
-  float n3 = smoothstep(0.6, 0.85, n);
-  float n4 = smoothstep(0.75, 0.95, n);
+  float n = fbm(st + r * 1.3);
 
-  // Mélange des couleurs rouges
+  float n1 = smoothstep(0.0,  0.6,  n);
+  float n2 = smoothstep(0.4,  0.75, n);
+  float n3 = smoothstep(0.65, 0.90, n);
+  float n4 = smoothstep(0.80, 1.00, n);
+
   vec3 col = mix(uColor4, uColor1, n1);
   col = mix(col, uColor2, n2);
   col = mix(col, uColor3, n3);
-  col = mix(col, uColor1 * 0.8, n4);
+  col = mix(col, uColor4, n4);
 
-  // Halos lumineux simplifiés
-  vec2 uv = vUv;
-  vec2 c1 = vec2(0.75 + 0.15*sin(t*0.6), 0.25 + 0.15*cos(t*0.4));
-  vec2 c2 = vec2(0.25 + 0.15*cos(t*0.5), 0.75 + 0.15*sin(t*0.3));
-  float d1 = distance(uv, c1);
-  float d2 = distance(uv, c2);
-  float halo1 = exp(-pow(d1*4.0, 2.0)) * 0.8;
-  float halo2 = exp(-pow(d2*3.5, 2.0)) * 0.6;
-  
-  vec3 glow = halo1 * uColor3 + halo2 * uColor2;
-  col += glow * 0.7;
+  col = pow(col * uColorIntensity, vec3(0.8));
 
-  // Ajustements finaux
-  col *= uColorIntensity;
-  col = pow(col, vec3(1.0));
-  
-  // Saturation plus douce
-  col.r = min(col.r * 1.05, 1.0);
+
+  float d = (rnd(gl_FragCoord.xy + t * 60.0) - 0.5) * (1.0 / 255.0) * 1.5;
+  col += d;
 
   gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }
 `;
-
-
