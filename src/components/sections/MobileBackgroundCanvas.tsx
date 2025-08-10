@@ -16,9 +16,9 @@ function MobileBackground() {
     uColor2: { value: new THREE.Color("#8C0812") },
     uColor3: { value: new THREE.Color("#FCE8DB") },
     uColor4: { value: new THREE.Color("#25100A") },
-    uColorIntensity: { value: 1.35 },
-    uSpeed: { value: 0.1 }, 
-    uWarp:  { value: 0.04 }  
+    uColorIntensity: { value: 1.30 },
+    uSpeed: { value: 0.09 }, 
+    uWarp:  { value: 0.035 }  
   }), [size.width, size.height]);
 
   useFrame(() => {

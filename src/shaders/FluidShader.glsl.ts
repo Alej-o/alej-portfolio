@@ -202,8 +202,11 @@ void main() {
 `;
 
 export const mobileShader = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
+#else
 precision mediump float;
+#endif
 
 uniform float iTime;
 uniform vec2  iResolution;
@@ -214,8 +217,8 @@ uniform vec3 uColor3;
 uniform vec3 uColor4;
 
 uniform float uColorIntensity;
-uniform float uSpeed;  
-uniform float uWarp;    
+uniform float uSpeed;   
+uniform float uWarp;   
 
 varying vec2 vUv;
 
@@ -247,6 +250,7 @@ void main(){
     fbm(st + 1.4 * q + vec2( 5.5, 6.5))
   );
 
+  
   st += uWarp * vec2(
     sin(st.y*4.0 + t*0.8),
     cos(st.x*3.5 - t*0.6)
@@ -266,10 +270,10 @@ void main(){
 
   col = pow(col * uColorIntensity, vec3(0.8));
 
+ 
   float d = (rnd(gl_FragCoord.xy + t*60.0) - 0.5) * (1.0/255.0) * 1.5;
   col += d;
 
   gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }
 `;
-
