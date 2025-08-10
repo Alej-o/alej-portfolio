@@ -202,11 +202,8 @@ void main() {
 `;
 
 export const mobileShader = `
-#ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
-#else
 precision mediump float;
-#endif
 
 uniform float iTime;
 uniform vec2  iResolution;
@@ -217,40 +214,28 @@ uniform vec3 uColor3;
 uniform vec3 uColor4;
 
 uniform float uColorIntensity;
+uniform float uSpeed;  
+uniform float uWarp;    
 
 varying vec2 vUv;
 
-float rnd(vec2 p){
-  return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453123);
-}
-
+float rnd(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453123); }
 float noise(vec2 p){
-  vec2 i = floor(p), f = fract(p);
-  vec2 u = f*f*(3.0 - 2.0*f);
-  return mix(
-    mix(rnd(i),               rnd(i + vec2(1.0, 0.0)), u.x),
-    mix(rnd(i + vec2(0.0,1.0)), rnd(i + vec2(1.0, 1.0)), u.x),
-    u.y
-  );
+  vec2 i=floor(p), f=fract(p);
+  vec2 u=f*f*(3.0-2.0*f);
+  return mix(mix(rnd(i), rnd(i+vec2(1.0,0.0)), u.x),
+             mix(rnd(i+vec2(0.0,1.0)), rnd(i+vec2(1.0,1.0)), u.x), u.y);
 }
-
 float fbm(vec2 p){
-  float v = 0.0, a = 0.5, f = 1.0;
-  // 3 octaves = parfait pour mobile
-  for (int i = 0; i < 3; i++){
-    v += a * noise(p * f);
-    f *= 2.0;
-    a *= 0.5;
-  }
+  float v=0.0, a=0.5, f=1.0;
+  for (int i=0;i<3;i++){ v+=a*noise(p*f); f*=2.0; a*=0.5; }
   return v;
 }
 
 void main(){
-  
   vec2 st = vUv * 2.6;
 
- 
-  float t = iTime * 0.06;
+  float t = iTime * uSpeed;
 
   vec2 q = vec2(
     fbm(st + vec2(10.7, 9.2) + t),
@@ -260,6 +245,11 @@ void main(){
   vec2 r = vec2(
     fbm(st + 1.4 * q + vec2(80.5, 4.5)),
     fbm(st + 1.4 * q + vec2( 5.5, 6.5))
+  );
+
+  st += uWarp * vec2(
+    sin(st.y*4.0 + t*0.8),
+    cos(st.x*3.5 - t*0.6)
   );
 
   float n = fbm(st + r * 1.3);
@@ -276,10 +266,10 @@ void main(){
 
   col = pow(col * uColorIntensity, vec3(0.8));
 
-
-  float d = (rnd(gl_FragCoord.xy + t * 60.0) - 0.5) * (1.0 / 255.0) * 1.5;
+  float d = (rnd(gl_FragCoord.xy + t*60.0) - 0.5) * (1.0/255.0) * 1.5;
   col += d;
 
   gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }
 `;
+
