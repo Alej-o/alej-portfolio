@@ -186,7 +186,7 @@ export default function MobileMenuOverlay() {
               })}
             </ul>
 
-            <div className="flex flex-col gap-2 mt-10 font-eb-garamond">
+            <div className="flex flex-col  mt-10 font-eb-garamond">
               {[
                 {
                   label: 'LinkedIn',
@@ -209,7 +209,7 @@ export default function MobileMenuOverlay() {
                     href={link.href}
                     target={link.href.startsWith('mailto') ? undefined : '_blank'}
                     rel={link.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-                    className="hover:underline text-2xl md:text-3xl flex items-start gap-1"
+                    className=" text-2xl md:text-3xl flex items-start gap-1"
                     {...(link.extraProps || {})}
                   >
                     {link.label}
