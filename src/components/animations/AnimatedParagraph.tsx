@@ -113,7 +113,7 @@ function Word({
   const amount = range[1] - range[0]
   const step = amount / children.length
   return (
-    <span className="relative mr-3 inline-flex font-eb-garamond">
+    <span className="relative inline-flex font-eb-garamond">
       {children.split('').map((char, i) => (
         <Char
           key={i}

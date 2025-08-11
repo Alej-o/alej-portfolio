@@ -219,7 +219,7 @@ export default function MobileMenuOverlay() {
             </div>
           </div>
 
-          <div className="flex justify-center mb-4 md:mb-10 ">
+          <div className="flex justify-center mb-8 md:mb-10 ">
             <RevealText reveal={reveal} delay={0.62} className="text-xl md:text-4xl text-center font-title uppercase">
               Agathe Lejour – Portfolio 2025
             </RevealText>
