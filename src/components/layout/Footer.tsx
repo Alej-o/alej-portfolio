@@ -8,19 +8,28 @@ export default function Footer({ className = "" }) {
       itemScope
       itemType="http://schema.org/Person"
     >
+      {/* SEO/Microdata */}
       <meta itemProp="name" content="Agathe Lejour" />
       <meta itemProp="jobTitle" content="Développeuse front-end" />
       <meta itemProp="email" content="lejour.agathe@outlook.fr" />
       <meta itemProp="url" content="https://agathelejour.com" />
 
+      {/* Un SEUL vrai heading pour tout le bloc */}
+      <h2 id="stay-connected" className="sr-only">Restons connectés</h2>
+
       {/* Desktop */}
       <div className="hidden xl:grid w-full xl:grid-cols-[auto_1fr] gap-x-4 xl:gap-x-10 px-4 xl:px-8 xl:min-h-[300px]">
+        {/* Colonne gauche : mot “Restons” (décoratif) */}
         <div className="flex flex-col items-start justify-end">
-          <h2 className="text-4xl md:text-[110px] leading-[0.85] font-title uppercase text-left">
+          <span
+            aria-hidden="true"
+            className="text-4xl md:text-[110px] leading-[0.85] font-title uppercase text-left"
+          >
             Restons
-          </h2>
+          </span>
         </div>
 
+        {/* Ligne CTA */}
         <div className="flex items-center xl:gap-6 xl:mt-12">
           <p className="text-black text-xl xl:text-4xl font-title">
             Une idée, un projet ?
@@ -34,15 +43,20 @@ export default function Footer({ className = "" }) {
           </SlideButton>
         </div>
 
+        {/* Colonne droite : mot “Connectés” (décoratif) */}
         <div className="flex flex-col items-start">
-          <h2 className="text-4xl md:text-[110px] leading-[0.85] font-title uppercase text-left">
+          <span
+            aria-hidden="true"
+            className="text-4xl md:text-[110px] leading-[0.85] font-title uppercase text-left"
+          >
             Connectés
-          </h2>
+          </span>
         </div>
 
+        {/* Réseaux sociaux */}
         <nav
           className="flex flex-col items-start"
-          aria-label="Liens vers les réseaux sociaux"
+          aria-labelledby="stay-connected"
         >
           <hr className="w-full border-black mb-1" />
           <ul className="flex gap-2 xl:gap-20 xl:text-2xl font-title mt-6 justify-start text-black">
@@ -89,14 +103,18 @@ export default function Footer({ className = "" }) {
       {/* Mobile & Tablet */}
       <div className="grid grid-cols-[2fr_1fr] lg:grid-cols-2 w-full px-4 md:px-8 py-8 xl:hidden items-center mx-auto">
         <div className="flex flex-col justify-center h-full pr-2">
-          <h2 className="text-4xl md:text-6xl font-title uppercase text-left text-black leading-tight">
+          {/* Même idée: visuel en spans, le h2 est déjà plus haut */}
+          <span
+            aria-hidden="true"
+            className="text-4xl md:text-6xl font-title uppercase text-left text-black leading-tight"
+          >
             Restons<br />Connectés
-          </h2>
+          </span>
         </div>
 
         <nav
           className="flex flex-col justify-start items-start gap-3 pl-4 md:pl-6 border-l border-black"
-          aria-label="Liens vers les réseaux sociaux (mobile)"
+          aria-labelledby="stay-connected"
         >
           <a
             href="https://www.linkedin.com/in/agathe-lejour"

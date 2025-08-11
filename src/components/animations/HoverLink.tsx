@@ -1,10 +1,7 @@
 "use client";
 
 import {
-  useMotionValue,
-  motion,
-  useSpring,
-  useTransform,
+  useMotionValue, motion, useSpring, useTransform, useReducedMotion,
 } from "framer-motion";
 import React, { useRef, useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
@@ -26,14 +23,12 @@ interface ProjectProps {
 
 const useIsMobile = (breakpoint = 1280) => {
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < breakpoint);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, [breakpoint]);
-
   return isMobile;
 };
 
@@ -52,6 +47,7 @@ export const HoverLink = ({
   const [isHovered, setIsHovered] = useState(false);
   const [inViewRef, isInView] = useInView({ triggerOnce: true, threshold: 0.4 });
   const isMobile = useIsMobile();
+  const reduceMotion = useReducedMotion();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -69,15 +65,18 @@ export const HoverLink = ({
     y.set(yPct);
   };
 
-  const headingSize = variant === "compact" ? "text-3xl xl:text-4xl" : "text-3xl md:text-4xl xl:text-6xl";
+  const headingSize =
+    variant === "compact" ? "text-3xl xl:text-4xl" : "text-3xl md:text-4xl xl:text-6xl";
   const subheadingSize = variant === "compact" ? "text-lg" : "text-4xl";
   const tagSize = variant === "compact" ? "text-xs md:text-sm" : "text-sm xl:text-lg md:text-lg";
   const spacing = variant === "compact" ? "gap-2" : "gap-2 md:gap-4 xl:gap-4";
   const px = variant === "compact" ? "px-2" : "px-6 xl:px-8";
 
+  // id unique pour le titre invisible
+  const titleId = `project-title-${slug}`;
+
   return (
     <motion.div
-      role="listitem"
       ref={(node) => {
         ref.current = node;
         inViewRef(node);
@@ -85,15 +84,24 @@ export const HoverLink = ({
       onMouseMove={!isMobile ? handleMouseMove : undefined}
       onMouseEnter={!isMobile ? () => setIsHovered(true) : undefined}
       onMouseLeave={!isMobile ? () => setIsHovered(false) : undefined}
+      onFocusCapture={() => setIsHovered(true)}
+      onBlurCapture={() => setIsHovered(false)}
       className="relative group flex w-full h-full items-center justify-between border-b transition-colors duration-500 border-black"
+      role="article"
+      aria-labelledby={titleId}
     >
+      {/* Titre accessible NON visible pour chaque projet */}
+      <h3 id={titleId} className="sr-only">
+        {title}
+      </h3>
+
       <FlipLink
-        label={transitionLabel}
+        label={transitionLabel ?? title}
         hovered={isHovered}
         href={`/projects/${slug}`}
         className="pointer-events-none w-full h-full"
         hoverBackground={!isMobile}
-        aria-label={`Voir le projet : ${heading}`}
+        aria-labelledby={titleId}  // le lien est étiqueté par le <h3> sr-only
         hoverChildren={
           !isMobile && (
             <div className={`h-full flex items-center justify-between ${px}`}>
@@ -106,8 +114,9 @@ export const HoverLink = ({
                 </div>
               </div>
               <motion.div
+                aria-hidden="true"
                 animate={isHovered ? { x: "0%", opacity: 1 } : { x: "25%", opacity: 0 }}
-                transition={{ type: "spring" }}
+                transition={reduceMotion ? { duration: 0 } : { type: "spring" }}
                 className="relative z-10 p-2"
               >
                 <ArrowRight
@@ -128,9 +137,10 @@ export const HoverLink = ({
               <motion.div
                 initial={{ y: "100%", opacity: 0 }}
                 animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
-                transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
                 className={`font-title uppercase text-black ${headingSize}`}
               >
+                {/* Visuel : sur desktop tu montres `heading`, sur mobile `title` */}
                 {isMobile ? title : heading}
               </motion.div>
             </div>
@@ -138,7 +148,7 @@ export const HoverLink = ({
               <motion.div
                 initial={{ y: "100%", opacity: 0 }}
                 animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
-                transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
                 className="flex flex-wrap gap-2"
               >
                 {subheading.map((tech, i) => (
@@ -152,26 +162,23 @@ export const HoverLink = ({
               </motion.div>
             </div>
           </div>
+
           {isMobile && (
-            <ArrowRight className="w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black" />
+            <ArrowRight aria-hidden="true" className="w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black" />
           )}
         </div>
       </FlipLink>
 
       {!isMobile && isHovered && variant !== "compact" && !!imgSrc && (
         <motion.img
-          style={{
-            top,
-            left,
-            translateX: "-50%",
-            translateY: "-50%",
-          }}
-          initial={{ scale: 0, rotate: "-12.5deg", opacity: 0 }}
-          animate={{ scale: 1, rotate: "12.5deg", opacity: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          style={{ top, left, translateX: "-50%", translateY: "-50%" }}
+          initial={reduceMotion ? { opacity: 0 } : { scale: 0, rotate: "-12.5deg", opacity: 0 }}
+          animate={reduceMotion ? { opacity: 1 } : { scale: 1, rotate: "12.5deg", opacity: 1 }}
+          transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 20 }}
           src={imgSrc}
-          alt={`Illustration du projet ${heading}`}
-          className="absolute z-0 h-24 w-32 rounded-lg object-cover"
+          alt=""
+          aria-hidden="true"
+          className="absolute z-0 h-24 w-32 rounded-lg object-cover pointer-events-none"
         />
       )}
     </motion.div>

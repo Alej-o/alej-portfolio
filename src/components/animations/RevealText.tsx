@@ -20,7 +20,7 @@ export default function RevealText({
 }: RevealTextProps) {
   return (
     <span
-      className={`relative inline-block overflow-hidden ${maskColor}`}
+      className={`relative inline-block overflow-hidden py-2 ${maskColor}`}
       style={{ minHeight: '1em' }}
     >
       <motion.span

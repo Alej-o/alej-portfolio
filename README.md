@@ -7,7 +7,7 @@ L’ensemble du code, des animations et des transitions a été pensé spécifiq
 
 Ce travail n’est pas destiné à être cloné, réutilisé tel quel, ni reproduit à l’identique.
 
-Je suis néanmoins favorable au partage d’idées ou d’approches techniques – inspirez-vous-en pour créer quelque chose qui vous ressemble.
+Je suis néanmoins favorable au partage d’idées ou d’approches techniques, inspirez-vous-en pour créer quelque chose qui vous ressemble.
 
 ---
 
@@ -29,13 +29,13 @@ Je suis néanmoins favorable au partage d’idées ou d’approches techniques �
 - Texte animé au scroll (scroll-based motion)  
 - Fond interactif en shader GLSL  
 - Micro-interactions fluides  
-- Structure accessible : balises sémantiques, ARIA, contraste, etc.
+- Structure accessible : balises sémantiques, ARIA, etc.
 
 ---
 
 ## 🌍 En ligne
 
-👉 [agathelejour.com](https://agathelejour.com)
+👉 [agathelejour.com](https://www.agathelejour.com)
 
 ---
 
@@ -68,10 +68,10 @@ That said, I warmly encourage sharing ideas and technical approaches — feel fr
 - Scroll-based text animation  
 - Interactive GLSL shader background  
 - Fluid micro-interactions  
-- Accessible structure: semantic HTML, ARIA, contrast, navigation, etc.
+- Accessible structure: semantic HTML, ARIA, navigation, etc.
 
 ---
 
 ## 🌍 Live
 
-👉 [agathelejour.com](https://agathelejour.com)
+👉 [agathelejour.com](https://www.agathelejour.com)

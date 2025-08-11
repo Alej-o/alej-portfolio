@@ -7,7 +7,7 @@ import TransitionLink from "@/components/animations/TransitionLink";
 export interface FlipLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
   hoverChildren: ReactNode;
-  label?: string;
+  label?: string;              // <- le texte à afficher dans l'overlay
   hovered?: boolean;
   hoverBackground?: boolean;
   skipTransition?: boolean;
@@ -28,13 +28,13 @@ export default function FlipLink({
   return (
     <TransitionLink
       href={href}
-      label={label}
+      label={label}                            // <- important !
+      aria-label={restProps["aria-label"] ?? label}
       skipTransition={skipTransition}
       className="block w-full h-full"
       {...restProps}
     >
       <motion.div
-        role="link"
         initial="initial"
         whileHover="hovered"
         whileFocus="hovered"
@@ -47,10 +47,7 @@ export default function FlipLink({
           <>
             <motion.div
               className="absolute inset-0 w-full z-[-1]"
-              variants={{
-                initial: { y: 0 },
-                hovered: { y: "-150%" },
-              }}
+              variants={{ initial: { y: 0 }, hovered: { y: "-150%" } }}
               transition={{ duration: 0.35, ease: "easeInOut" }}
               aria-hidden="true"
             >
@@ -58,10 +55,7 @@ export default function FlipLink({
             </motion.div>
             <motion.div
               className="absolute inset-0 h-full"
-              variants={{
-                initial: { y: "100%" },
-                hovered: { y: 0 },
-              }}
+              variants={{ initial: { y: "100%" }, hovered: { y: 0 } }}
               transition={{ duration: 0.35, ease: "easeInOut" }}
               aria-hidden="true"
             >
@@ -72,10 +66,7 @@ export default function FlipLink({
 
         <motion.div
           className="h-full flex flex-col justify-center relative z-10"
-          variants={{
-            initial: { y: 0 },
-            hovered: { y: "-200%" },
-          }}
+          variants={{ initial: { y: 0 }, hovered: { y: "-200%" } }}
           transition={{ duration: 0.35, ease: "easeInOut" }}
         >
           {children}
@@ -83,10 +74,7 @@ export default function FlipLink({
 
         <motion.div
           className="absolute inset-0 h-full flex flex-col justify-center z-10"
-          variants={{
-            initial: { y: "100%" },
-            hovered: { y: 0 },
-          }}
+          variants={{ initial: { y: "100%" }, hovered: { y: 0 } }}
           transition={{ duration: 0.35, ease: "easeInOut" }}
           aria-hidden="true"
         >

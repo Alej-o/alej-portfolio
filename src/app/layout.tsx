@@ -27,10 +27,10 @@ export const metadata: Metadata = {
   title: "Agathe Lejour – Portfolio",
   description: "Développeuse front-end créative",
   keywords: ["Agathe Lejour", "Développeuse front-end", "creative developer", "portfolio", "web", "développeur"],
-  authors: [{ name: "Agathe Lejour", url: "https://agathelejour.fr" }],
+  authors: [{ name: "Agathe Lejour", url: "https://www.agathelejour.com" }],
   creator: "Agathe Lejour",
   robots: "index, follow",
-  metadataBase: new URL("https://agathelejour.com"),
+  metadataBase: new URL("https://www.agathelejour.com"),
 };
 
 export default function RootLayout({
@@ -44,16 +44,11 @@ export default function RootLayout({
         className={`min-h-screen flex flex-col bg-beige ${caslon.variable} ${ebGaramond.variable}`}
       >
         <PageTransitionProvider>
-          {/* Navigation principale */}
           <Header />
-
-          {/* Contenu principal de la page */}
           <main id="main" className="flex-1 w-full relative" role="main">
             <SmoothScroll />
             {children}
           </main>
-
-          {/* Pied de page */}
           <Footer />
         </PageTransitionProvider>
       </body>
