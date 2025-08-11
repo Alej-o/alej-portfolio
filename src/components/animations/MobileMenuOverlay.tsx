@@ -20,7 +20,6 @@ export default function MobileMenuOverlay() {
   const router = useRouter()
   const isHome = pathname === '/'
 
-  // Focus trap refs
   const overlayRef = useRef<HTMLDivElement | null>(null)
   const closeBtnRef = useRef<HTMLButtonElement | null>(null)
   const prevFocusedRef = useRef<HTMLElement | null>(null)
@@ -57,8 +56,6 @@ export default function MobileMenuOverlay() {
     if (!isOpen) return
     prevFocusedRef.current = document.activeElement as HTMLElement
 
-
-    
     const t = setTimeout(() => {
       closeBtnRef.current?.focus()
     }, 0)
@@ -69,8 +66,6 @@ export default function MobileMenuOverlay() {
       if (!root) return
 
       const focusables = root.querySelectorAll<HTMLElement>(
- 
-        
         'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
       )
       if (!focusables.length) {
@@ -94,13 +89,10 @@ export default function MobileMenuOverlay() {
     return () => {
       clearTimeout(t)
       window.removeEventListener('keydown', onKeyDown)
-      // restituer le focus
       prevFocusedRef.current?.focus?.()
     }
   }, [isOpen])
 
-
-  
   useEffect(() => {
     const handleScroll = () => { if (isOpen) closeMenu() }
     const handleEscape = (e: KeyboardEvent) => {
@@ -148,7 +140,7 @@ export default function MobileMenuOverlay() {
           <button
             ref={closeBtnRef}
             onClick={closeMenu}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-xl md:text-2xl font-title uppercase text-black z-10 border border-black px-3 py-1"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-xl md:text-2xl font-title uppercase text-black z-10 border border-black px-3 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
             aria-label="Fermer le menu"
           >
             Fermer
@@ -174,7 +166,7 @@ export default function MobileMenuOverlay() {
                   <li key={label} className="w-full">
                     <button
                       onClick={() => handleClick(scrollTo, href)}
-                      className={`w-full py-4 text-5xl md:text-7xl text-left uppercase font-title transition ${borderClasses}`}
+                      className={`w-full py-4 text-5xl md:text-7xl text-left uppercase font-title transition ${borderClasses} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black`}
                       aria-label={href ? `Ouvrir ${label}` : `Aller à la section ${label}`}
                     >
                       <RevealText reveal={reveal} delay={0.17 + i * 0.09}>
@@ -186,7 +178,7 @@ export default function MobileMenuOverlay() {
               })}
             </ul>
 
-            <div className="flex flex-col  mt-10 font-eb-garamond">
+            <div className="flex flex-col gap-2 mt-10 font-eb-garamond">
               {[
                 {
                   label: 'LinkedIn',
@@ -209,7 +201,7 @@ export default function MobileMenuOverlay() {
                     href={link.href}
                     target={link.href.startsWith('mailto') ? undefined : '_blank'}
                     rel={link.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-                    className=" text-2xl md:text-3xl flex items-start gap-1"
+                    className="text-2xl md:text-3xl flex items-start gap-1 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                     {...(link.extraProps || {})}
                   >
                     {link.label}
@@ -219,7 +211,7 @@ export default function MobileMenuOverlay() {
             </div>
           </div>
 
-          <div className="flex justify-center mb-8 md:mb-10 ">
+          <div className="flex justify-center mb-8 md:mb-10">
             <RevealText reveal={reveal} delay={0.62} className="text-xl md:text-4xl text-center font-title uppercase">
               Agathe Lejour – Portfolio 2025
             </RevealText>

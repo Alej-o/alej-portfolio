@@ -7,6 +7,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import FlipLink from "./FlipLink";
+import TransitionLink from "@/components/animations/TransitionLink";
 
 interface ProjectProps {
   slug: string;
@@ -72,7 +73,6 @@ export const HoverLink = ({
   const spacing = variant === "compact" ? "gap-2" : "gap-2 md:gap-4 xl:gap-4";
   const px = variant === "compact" ? "px-2" : "px-6 xl:px-8";
 
-  // id unique pour le titre invisible
   const titleId = `project-title-${slug}`;
 
   return (
@@ -84,34 +84,70 @@ export const HoverLink = ({
       onMouseMove={!isMobile ? handleMouseMove : undefined}
       onMouseEnter={!isMobile ? () => setIsHovered(true) : undefined}
       onMouseLeave={!isMobile ? () => setIsHovered(false) : undefined}
-      onFocusCapture={() => setIsHovered(true)}
-      onBlurCapture={() => setIsHovered(false)}
+      onFocusCapture={!isMobile ? () => setIsHovered(true) : undefined}
+      onBlurCapture={!isMobile ? () => setIsHovered(false) : undefined}
       className="relative group flex w-full h-full items-center justify-between border-b transition-colors duration-500 border-black"
       role="article"
       aria-labelledby={titleId}
     >
-      {/* Titre accessible NON visible pour chaque projet */}
-      <h3 id={titleId} className="sr-only">
-        {title}
-      </h3>
+      {/* Titre accessible SR uniquement */}
+      <h3 id={titleId} className="sr-only">{title}</h3>
 
-      <FlipLink
-        label={transitionLabel ?? title}
-        hovered={isHovered}
-        href={`/projects/${slug}`}
-        className="pointer-events-none w-full h-full"
-        hoverBackground={!isMobile}
-        aria-labelledby={titleId}  // le lien est étiqueté par le <h3> sr-only
-        hoverChildren={
-          !isMobile && (
+      {isMobile ? (
+        /* --- MOBILE: pas de FlipLink, pas de hover --- */
+        <TransitionLink
+          href={`/projects/${slug}`}
+          aria-labelledby={titleId}
+          skipTransition={false}
+          className="block w-full h-full"
+        >
+          <div className={`h-full flex items-center justify-between ${px}`}>
+            <div className={`text-left flex flex-col justify-center py-4 md:py-4 xl:py-0 ${spacing}`}>
+              <div className="overflow-hidden">
+                <motion.div
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                  className={`font-title uppercase text-black ${headingSize}`}
+                >
+                  {title}
+                </motion.div>
+              </div>
+              <div className="overflow-hidden">
+                <motion.div
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                  className="flex flex-wrap gap-2"
+                >
+                  {subheading.map((tech, i) => (
+                    <span
+                      key={i}
+                      className={`px-3 py-1 rounded-md font-eb-garamond border border-black text-black ${tagSize}`}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </motion.div>
+              </div>
+            </div>
+            <ArrowRight aria-hidden="true" className="w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black" />
+          </div>
+        </TransitionLink>
+      ) : (
+        /* --- DESKTOP: FlipLink + hover --- */
+        <FlipLink
+          label={transitionLabel ?? title}
+          hovered={isHovered}
+          href={`/projects/${slug}`}
+          className="block w-full h-full"
+          hoverBackground
+          aria-labelledby={titleId}
+          hoverChildren={
             <div className={`h-full flex items-center justify-between ${px}`}>
               <div className={`text-left flex flex-col justify-center ${spacing}`}>
-                <div className={`font-title uppercase text-beige ${headingSize}`}>
-                  {hoverHeading}
-                </div>
-                <div className={`font-title text-beige ${subheadingSize}`}>
-                  {hoverSubheading}
-                </div>
+                <div className={`font-title uppercase text-beige ${headingSize}`}>{hoverHeading}</div>
+                <div className={`font-title text-beige ${subheadingSize}`}>{hoverSubheading}</div>
               </div>
               <motion.div
                 aria-hidden="true"
@@ -119,55 +155,44 @@ export const HoverLink = ({
                 transition={reduceMotion ? { duration: 0 } : { type: "spring" }}
                 className="relative z-10 p-2"
               >
-                <ArrowRight
-                  className={
-                    variant === "compact"
-                      ? "w-5 h-5 sm:w-6 sm:h-6 text-beige"
-                      : "w-7 h-7 xl:w-10 xl:h-10 text-beige"
-                  }
-                />
+                <ArrowRight className="w-7 h-7 xl:w-10 xl:h-10 text-beige" />
               </motion.div>
             </div>
-          )
-        }
-      >
-        <div className={`h-full flex items-center justify-between ${px}`}>
-          <div className={`text-left flex flex-col justify-center py-4 md:py-4 xl:py-0 ${spacing}`}>
-            <div className="overflow-hidden">
-              <motion.div
-                initial={{ y: "100%", opacity: 0 }}
-                animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
-                transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
-                className={`font-title uppercase text-black ${headingSize}`}
-              >
-                {/* Visuel : sur desktop tu montres `heading`, sur mobile `title` */}
-                {isMobile ? title : heading}
-              </motion.div>
-            </div>
-            <div className="overflow-hidden">
-              <motion.div
-                initial={{ y: "100%", opacity: 0 }}
-                animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
-                transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
-                className="flex flex-wrap gap-2"
-              >
-                {subheading.map((tech, i) => (
-                  <span
-                    key={i}
-                    className={`px-3 py-1 rounded-md font-eb-garamond border border-black text-black ${tagSize}`}
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </motion.div>
+          }
+        >
+          <div className={`h-full flex items-center justify-between ${px}`}>
+            <div className={`text-left flex flex-col justify-center py-4 md:py-4 xl:py-0 ${spacing}`}>
+              <div className="overflow-hidden">
+                <motion.div
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                  className={`font-title uppercase text-black ${headingSize}`}
+                >
+                  {heading}
+                </motion.div>
+              </div>
+              <div className="overflow-hidden">
+                <motion.div
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+                  className="flex flex-wrap gap-2"
+                >
+                  {subheading.map((tech, i) => (
+                    <span
+                      key={i}
+                      className={`px-3 py-1 rounded-md font-eb-garamond border border-black text-black ${tagSize}`}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </motion.div>
+              </div>
             </div>
           </div>
-
-          {isMobile && (
-            <ArrowRight aria-hidden="true" className="w-6 h-6 flex-shrink-0 lg:w-8 lg:h-8 text-black" />
-          )}
-        </div>
-      </FlipLink>
+        </FlipLink>
+      )}
 
       {!isMobile && isHovered && variant !== "compact" && !!imgSrc && (
         <motion.img
