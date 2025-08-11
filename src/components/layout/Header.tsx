@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 import FlipLink from '../animations/FlipLink'
 import { usePageTransition } from '../animations/PageTransition'
@@ -13,6 +13,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [isDarkBackground, setIsDarkBackground] = useState(true)
   const pathname = usePathname()
+  const router = useRouter()
   const { startTransition } = usePageTransition()
   const { isOpen, toggleMenu } = useMenuStore()
   const isHome = pathname === '/'
@@ -45,10 +46,18 @@ export default function Header() {
 
   const heroDisabled = isHome && isDarkBackground && !scrolled
 
+  const isTouch =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(pointer:coarse)').matches
+
   const handleHeroClick = () => {
     if (!isHome) {
       sessionStorage.setItem('scrollTo', 'top')
-      startTransition('/', 'ACCUEIL')
+      if (isTouch) {
+        router.push('/') 
+      } else {
+        startTransition('/', 'ACCUEIL') 
+      }
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
@@ -78,32 +87,29 @@ export default function Header() {
         Skip to main content
       </a>
 
+      {/* Mobile header */}
       <div className="relative flex items-center w-full min-w-0 px-6 py-4 xl:hidden overflow-hidden">
         <Link
-  href="/"
-  aria-label="Retour à l'accueil"
-  aria-disabled={heroDisabled}
-  tabIndex={heroDisabled ? -1 : 0}
-  onClick={(e) => {
-    if (heroDisabled) {
-      e.preventDefault()
-      return
-    }
-    // Si tu veux rester en SPA avec ta transition custom :
-    e.preventDefault()
-    handleHeroClick()
-  }}
-  className={`w-14 h-14 flex items-center justify-center flex-shrink-0 group ${transitionClass} ${
-    heroDisabled ? 'pointer-events-none cursor-default' : 'cursor-pointer'
-  }`}
->
-  <span
-    className={`font-title uppercase tracking-tight select-none ${textColorClass} ${transitionClass} text-[clamp(26px,6vw,38px)]`}
-    style={{ letterSpacing: '0.08em' }}
-  >
-    AL
-  </span>
-</Link>
+          href="/"
+          aria-label="Retour à l'accueil"
+          aria-disabled={heroDisabled}
+          tabIndex={heroDisabled ? -1 : 0}
+          onClick={(e) => {
+            
+            e.preventDefault()
+            if (!heroDisabled) handleHeroClick()
+          }}
+          className={`w-14 h-14 flex items-center justify-center flex-shrink-0 group ${transitionClass} ${
+            heroDisabled ? 'pointer-events-none cursor-default' : 'cursor-pointer'
+          }`}
+        >
+          <span
+            className={`font-title uppercase tracking-tight select-none ${textColorClass} ${transitionClass} text-[clamp(26px,6vw,38px)]`}
+            style={{ letterSpacing: '0.08em' }}
+          >
+            AL
+          </span>
+        </Link>
 
         <div
           className={`
@@ -128,32 +134,27 @@ export default function Header() {
         </button>
       </div>
 
+      {/* Desktop nav */}
       <nav
         aria-label="Navigation principale"
         className="hidden xl:grid grid-cols-3 items-center px-8 py-6"
       >
         <div className="flex justify-start">
-        <Link
-  href="/"
-  aria-label="Retour à l'accueil"
-  aria-disabled={heroDisabled}
-  tabIndex={heroDisabled ? -1 : 0}
-  onClick={(e) => {
-    // bloque si heroDisabled
-    if (heroDisabled) {
-      e.preventDefault()
-      return
-    }
-    // garde ta transition SPA custom
-    e.preventDefault()
-    handleHeroClick()
-  }}
-  className={`font-title uppercase ${textColorClass} ${transitionClass} ${
-    heroDisabled ? 'pointer-events-none cursor-default' : 'cursor-pointer'
-  } text-[clamp(28px,2vw,42px)]`}
->
-  Agathe Lejour
-</Link>
+          <Link
+            href="/"
+            aria-label="Retour à l'accueil"
+            aria-disabled={heroDisabled}
+            tabIndex={heroDisabled ? -1 : 0}
+            onClick={(e) => {
+              e.preventDefault()
+              if (!heroDisabled) handleHeroClick()
+            }}
+            className={`font-title uppercase ${textColorClass} ${transitionClass} ${
+              heroDisabled ? 'pointer-events-none cursor-default' : 'cursor-pointer'
+            } text-[clamp(28px,2vw,42px)]`}
+          >
+            Agathe Lejour
+          </Link>
         </div>
 
         <div
