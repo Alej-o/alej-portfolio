@@ -21,6 +21,7 @@ const ebGaramond = EB_Garamond({
 export const viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
@@ -45,7 +46,7 @@ export default function RootLayout({
       >
         <PageTransitionProvider>
           <Header />
-          <main id="main" className="flex-1 w-full relative" role="main">
+          <main id="main-content" className="flex-1 w-full relative" role="main">
             <SmoothScroll />
             {children}
           </main>

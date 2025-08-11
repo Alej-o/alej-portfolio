@@ -127,7 +127,12 @@ export default function MobileMenuOverlay() {
       {isOpen && (
         <motion.div
           ref={overlayRef}
-          className="fixed inset-0 z-[10000] bg-beige text-black flex flex-col min-h-screen"
+          className="
+            fixed inset-0 z-[10000] bg-beige text-black
+            flex flex-col
+            h-[100dvh]           /* plein écran réel mobile */
+            overflow-y-auto      /* scroll si contenu long */
+          "
           role="dialog"
           aria-modal="true"
           aria-label="Menu principal"
@@ -145,8 +150,7 @@ export default function MobileMenuOverlay() {
           >
             Fermer
           </button>
-
-          <div className="grow w-full pt-44 px-4">
+          <div className="w-full pt-44 px-4 pb-[max(2rem,env(safe-area-inset-bottom))]">
             <RevealText reveal={reveal} delay={0.08} className="font-eb-garamond pb-4 text-base md:text-lg">
               (Menu)
             </RevealText>
@@ -209,12 +213,15 @@ export default function MobileMenuOverlay() {
                 </RevealText>
               ))}
             </div>
-          </div>
-
-          <div className="flex justify-center mb-8 md:mb-10">
-            <RevealText reveal={reveal} delay={0.62} className="text-xl md:text-4xl text-center font-title uppercase">
-              Agathe Lejour – Portfolio 2025
-            </RevealText>
+            <div className="flex justify-center mt-8 md:mt-10">
+              <RevealText
+                reveal={reveal}
+                delay={0.62}
+                className="text-xl md:text-4xl text-center font-title uppercase"
+              >
+                Agathe Lejour – Portfolio 2025
+              </RevealText>
+            </div>
           </div>
         </motion.div>
       )}
